@@ -1,4 +1,4 @@
-package cz.muni.pa165.magic4.soccerrecords;
+package cz.muni.pa165.mamatoad.soccerrecords;
 
 /**
  * Hello world!
