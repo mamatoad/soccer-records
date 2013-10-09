@@ -1,5 +1,7 @@
-package cz.muni.fi.pa165.mamatoad.soccerrecords.models;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.player;
 
+import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
+import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +15,7 @@ import javax.persistence.ManyToOne;
  * 
  */
 @Entity
-public class Player {
+public class Player implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;

@@ -1,5 +1,9 @@
-package cz.muni.fi.pa165.mamatoad.soccerrecords.models;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.goal;
 
+import cz.muni.fi.pa165.mamatoad.soccerrecords.match.Match;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.player.Player;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
+import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +18,7 @@ import org.joda.time.LocalTime;
  * 
  */
 @Entity
-public class Goal {
+public class Goal implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;

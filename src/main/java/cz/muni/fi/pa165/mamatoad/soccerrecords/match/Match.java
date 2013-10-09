@@ -1,5 +1,8 @@
-package cz.muni.fi.pa165.mamatoad.soccerrecords.models;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.match;
 
+import cz.muni.fi.pa165.mamatoad.soccerrecords.goal.Goal;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -15,7 +18,7 @@ import org.joda.time.DateTime;
  * 
  */
 @Entity
-public class Match {
+public class Match implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
