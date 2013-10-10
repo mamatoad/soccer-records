@@ -18,21 +18,19 @@ public interface GoalDao {
      * Stores new goal into database.
      * 
      * @param goal to be created
-     * @return created goal
      * @exception IllegalArgumentException when goal is null
      * @exception IllegalEntityException when id of goal is not null or other attributes are null
      */
-    Goal createGoal(Goal goal)throws IllegalArgumentException, IllegalEntityException;
+    void createGoal(Goal goal)throws IllegalArgumentException, IllegalEntityException;
     
     /**
      * Updates gived goal in database.
      * 
      * @param goal to be updated
-     * @return updated goal
      * @exception IllegalArgumentException when goal is null
      * @exception IllegalEntityException when some goal attribute is null
      */
-    Goal updateGoal(Goal goal) throws IllegalArgumentException, IllegalEntityException;
+    void updateGoal(Goal goal) throws IllegalArgumentException, IllegalEntityException;
     
     /**
      * Deletes given goal in database.
