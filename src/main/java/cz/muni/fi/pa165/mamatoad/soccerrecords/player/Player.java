@@ -22,7 +22,7 @@ public class Player implements Serializable {
     private String name;
     @ManyToOne
     private Team team;
-    private Boolean active;
+    private boolean active;
 
     public Long getId() {
         return id;
