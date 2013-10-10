@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords.team;
 
+import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.List;
 
 /**
@@ -12,30 +13,30 @@ public interface TeamDao {
     /**
      * Creates new record with the given team
      * 
-     * @param team team to be created
+     * @param team team to be created, not null, without id
      * @return the created team
      */
-    Team createTeam(Team team);
+    void createTeam(Team team) throws IllegalEntityException;
     
     /**
      * Updates the record with the given team
      * 
-     * @param team team to be updated
+     * @param team team to be updated, not null
      * @return the updated team
      */
-    Team updateTeam(Team team);
+    void updateTeam(Team team) throws IllegalEntityException;
     
     /**
      * Deletes the record with the given team
      * 
-     * @param team team to be deleted
+     * @param team team to be deleted, not null
      */
-    void deleteTeam(Team team);
+    void deleteTeam(Team team) throws IllegalEntityException;
     
     /**
      * Retrieves the team with the given id
      * 
-     * @param id id of the requested team
+     * @param id id of the requested team, not null
      * @return the team with the given id
      */
     Team retrieveTeamById(Long id);
@@ -43,7 +44,7 @@ public interface TeamDao {
     /**
      * Retrieves the list of the teams with the given name
      * 
-     * @param name name of the requested team
+     * @param name name of the requested team, not null, not empty
      * @return the list of the teams with the given name
      */
     List<Team> retrieveTeamsByName(String name);
