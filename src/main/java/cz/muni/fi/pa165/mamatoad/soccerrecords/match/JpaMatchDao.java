@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 /**
@@ -22,14 +21,26 @@ public class JpaMatchDao implements MatchDao {
         this.entityManagerFactory = entityManagerFactory;
     }
     
+    private void checkMatch(Match match, boolean idShouldBeEqualNull) throws IllegalArgumentException, IllegalEntityException {
+        if (match == null) throw new IllegalArgumentException("match == null");
+        if ((match.getId() != null) && idShouldBeEqualNull) throw new IllegalEntityException("match.id != null");
+        if ((match.getId() == null) && !idShouldBeEqualNull) throw new IllegalEntityException("match.id == null");
+        if (match.getHomeTeam() == null) throw new IllegalEntityException("match.homeTeam == null");
+        if (match.getVisitingTeam() == null) throw new IllegalEntityException("match.visitingTeam == null");
+        if (match.getEventDate() == null) throw new IllegalEntityException("match.eventDate == null");
+        if (match.getGoals() == null) throw new IllegalEntityException("match.goals == null");
+    }
+    
+    private void checkIfMatchExists(Match match) throws IllegalEntityException {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        if (entityManager.find(Match.class, match.getId()) == null) {
+            throw new IllegalEntityException("this match does not exist");
+        }
+    }
+    
     @Override
-    public void createMatch(Match match) throws IllegalEntityException {
-        if (match == null) {
-            throw new IllegalArgumentException("match == null");
-        }
-        if (match.getId() != null) {
-            throw new IllegalEntityException("match.id must be null");
-        }
+    public void createMatch(Match match) throws IllegalArgumentException, IllegalEntityException {
+        checkMatch(match, true);
         
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
@@ -38,10 +49,10 @@ public class JpaMatchDao implements MatchDao {
     }
 
     @Override
-    public void updateMatch(Match match) {
-        if (match == null) {
-            throw new IllegalArgumentException("match == null");
-        }
+    public void updateMatch(Match match) throws IllegalArgumentException, IllegalEntityException {
+        checkMatch(match, false);
+        
+        checkIfMatchExists(match);
         
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
@@ -50,10 +61,10 @@ public class JpaMatchDao implements MatchDao {
     }
 
     @Override
-    public void deleteMatch(Match match) {
-        if (match == null) {
-            throw new IllegalArgumentException("match == null");
-        }
+    public void deleteMatch(Match match) throws IllegalArgumentException, IllegalEntityException {
+        checkMatch(match, false);
+        
+        checkIfMatchExists(match);
         
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
@@ -62,7 +73,7 @@ public class JpaMatchDao implements MatchDao {
     }
 
     @Override
-    public Match retrieveMatchById(Long id) {
+    public Match retrieveMatchById(Long id) throws IllegalArgumentException {
         if (id == null) {
             throw new IllegalArgumentException("id == null");
         }
@@ -74,7 +85,7 @@ public class JpaMatchDao implements MatchDao {
     }
 
     @Override
-    public List<Match> retrieveMatchesByTeam(Team team) {
+    public List<Match> retrieveMatchesByTeam(Team team) throws IllegalArgumentException, IllegalEntityException {
         if (team == null) {
             throw new IllegalArgumentException("team == null");
         }
@@ -88,7 +99,7 @@ public class JpaMatchDao implements MatchDao {
     }
 
     @Override
-    public List<Match> retrieveMatchesByEventDate(LocalDate eventDate) {
+    public List<Match> retrieveMatchesByEventDate(LocalDate eventDate) throws IllegalArgumentException {
         if (eventDate == null) {
             throw new IllegalArgumentException("eventDate == null");
         }
