@@ -3,7 +3,7 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords.match;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.List;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 /**
  * This interface provides create, retrieve, update and delete methods for the Match entity.
@@ -16,18 +16,16 @@ public interface MatchDao {
      * Creates new record for match
      * 
      * @param match match to be created
-     * @return created match with assigned id
      * @exception IllegalEntityException when id is not null
      */
-    Match createMatch(Match match) throws IllegalEntityException;
+    void createMatch(Match match) throws IllegalEntityException;
     
     /**
      * Updates match with match.id, sets values from object match
      * 
      * @param match match to update
-     * @return updated match
      */
-    Match updateMatch(Match match);
+    void updateMatch(Match match);
     
     /**
      * Deletes match
@@ -58,6 +56,6 @@ public interface MatchDao {
      * @param eventDate date when match is scheduled
      * @return list of matches for given date
      */
-    List<Match> retireveMatchesByDateTime(DateTime eventDate);
+    List<Match> retrieveMatchesByEventDate(LocalDate eventDate);
     
 }

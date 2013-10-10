@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 /**
  * This class represents entity Match
@@ -29,7 +29,7 @@ public class Match implements Serializable {
     @OneToOne
     private Team visitingTeam;
     
-    private DateTime eventDate;
+    private LocalDate eventDate;
     
     @OneToMany(mappedBy = "match")
     private List<Goal> goals;
@@ -58,11 +58,11 @@ public class Match implements Serializable {
         this.visitingTeam = visitingTeam;
     }
 
-    public DateTime getEventDate() {
+    public LocalDate getEventDate() {
         return eventDate;
     }
 
-    public void setEventDate(DateTime eventDate) {
+    public void setEventDate(LocalDate eventDate) {
         this.eventDate = eventDate;
     }
 

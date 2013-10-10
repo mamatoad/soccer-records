@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 /**
  * Implementation of interface MatchDao
@@ -22,7 +23,7 @@ public class JpaMatchDao implements MatchDao {
     }
     
     @Override
-    public Match createMatch(Match match) throws IllegalEntityException {
+    public void createMatch(Match match) throws IllegalEntityException {
         if (match == null) {
             throw new IllegalArgumentException("match == null");
         }
@@ -34,22 +35,18 @@ public class JpaMatchDao implements MatchDao {
         entityManager.getTransaction().begin();
         entityManager.persist(match);
         entityManager.getTransaction().commit();
-        
-        return match;
     }
 
     @Override
-    public Match updateMatch(Match match) {
+    public void updateMatch(Match match) {
         if (match == null) {
             throw new IllegalArgumentException("match == null");
         }
         
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        entityManager.persist(match);
+        entityManager.merge(match);
         entityManager.getTransaction().commit();
-        
-        return match;
     }
 
     @Override
@@ -91,7 +88,7 @@ public class JpaMatchDao implements MatchDao {
     }
 
     @Override
-    public List<Match> retireveMatchesByDateTime(DateTime eventDate) {
+    public List<Match> retrieveMatchesByEventDate(LocalDate eventDate) {
         if (eventDate == null) {
             throw new IllegalArgumentException("eventDate == null");
         }
