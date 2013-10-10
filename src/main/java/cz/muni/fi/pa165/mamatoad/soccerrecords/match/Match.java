@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import org.joda.time.LocalDate;
 
 /**
@@ -18,6 +19,7 @@ import org.joda.time.LocalDate;
  * 
  */
 @Entity
+@Table(name = "SoccerMatch")
 public class Match implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
