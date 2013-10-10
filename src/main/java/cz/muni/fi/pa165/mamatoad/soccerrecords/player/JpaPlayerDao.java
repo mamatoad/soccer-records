@@ -24,7 +24,7 @@ public class JpaPlayerDao implements PlayerDao {
     }
     
     @Override
-    public void create(Player player) throws IllegalEntityException {
+    public void createPlayer(Player player) throws IllegalEntityException {
         if (player == null)
             throw new IllegalArgumentException("player cannot be null");
         
@@ -34,6 +34,12 @@ public class JpaPlayerDao implements PlayerDao {
         if (player.getName() == null || player.getName().isEmpty())
             throw new IllegalEntityException("player.name cannot be null");
         
+        if ((player.getTeam() != null && player.getTeam().getId() == null))
+            throw new IllegalEntityException("player.team.id cannot be null");
+        
+        if (player.getTeam() != null && !teamExists(player.getTeam()))
+            throw new IllegalEntityException("team "+player.getTeam()+" doesn't exist");
+            
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(player);
@@ -42,7 +48,7 @@ public class JpaPlayerDao implements PlayerDao {
     }
 
     @Override
-    public void update(Player player) throws IllegalEntityException {
+    public void updatePlayer(Player player) throws IllegalEntityException {
         if (player == null)
             throw new IllegalArgumentException("player cannot be null");
         
@@ -51,6 +57,12 @@ public class JpaPlayerDao implements PlayerDao {
         
         if (player.getId() == null)
             throw new IllegalEntityException("player.id cannot be null");
+        
+        if ((player.getTeam() != null && player.getTeam().getId() == null))
+            throw new IllegalEntityException("player.team.id cannot be null");
+        
+        if (player.getTeam() != null && !teamExists(player.getTeam()))
+            throw new IllegalEntityException("team "+player.getTeam()+" doesn't exist");
         
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         
@@ -61,7 +73,7 @@ public class JpaPlayerDao implements PlayerDao {
     }
 
     @Override
-    public void delete(Player player) throws IllegalEntityException {
+    public void deletePlayer(Player player) throws IllegalEntityException {
         if (player == null)
             throw new IllegalArgumentException("player cannot be null");
         
@@ -109,6 +121,8 @@ public class JpaPlayerDao implements PlayerDao {
         if (team.getId() == null)
             throw new IllegalEntityException("team.id cannot be null");
         
+        if (!teamExists(team))
+            throw new IllegalEntityException("team "+team+" doesn't exist");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         
         TypedQuery<Player> query = entityManager.createQuery("Select p from Player p Where p.team=:team", Player.class).setParameter(":team", team);
@@ -125,5 +139,15 @@ public class JpaPlayerDao implements PlayerDao {
         List<Player> players = query.getResultList();
         
         return players;
+    }
+    
+    private boolean teamExists(Team team) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        
+        Long id = team.getId();
+        
+        Team teamInDb = entityManager.find(Team.class, id);
+        
+        return (teamInDb != null);
     }
 }

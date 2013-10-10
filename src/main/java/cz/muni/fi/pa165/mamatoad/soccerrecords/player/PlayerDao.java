@@ -16,8 +16,9 @@ public interface PlayerDao {
      * @return created player
      * @throws IllegalArgumentException if player is null
      * @throws IllegalEntityException if player.id is already set or player.name is not set
+     *                                or team is set but doesn't exist
      */
-    void create(Player player) throws IllegalEntityException, IllegalArgumentException;
+    void createPlayer(Player player) throws IllegalEntityException, IllegalArgumentException;
     
     /**
      * This method updates player
@@ -25,8 +26,9 @@ public interface PlayerDao {
      * @return updated player
      * @throws IllegalArgumentException if player is null
      * @throws IllegalEntityException if player.id or player.name is not set
+     *                                or team is set but doesn't exist
      */
-    void update(Player player) throws IllegalEntityException, IllegalArgumentException;
+    void updatePlayer(Player player) throws IllegalEntityException, IllegalArgumentException;
     
     /**
      * This method deletes player
@@ -34,7 +36,7 @@ public interface PlayerDao {
      * @throws IllegalArgumentException if player is null
      * @throws IllegalEntityException if player.id is not set
      */
-    void delete(Player player) throws IllegalEntityException, IllegalArgumentException;
+    void deletePlayer(Player player) throws IllegalEntityException, IllegalArgumentException;
     
     /**
      * This method retrieves player by his id
@@ -56,7 +58,8 @@ public interface PlayerDao {
      * This method retrieves player by team
      * @param team of player
      * @return list of players with given team
-     * 
+     * @throws IllegalEntityException if team is null
+     * @throws IllegalEntityException id team.id is null or if team doesn't exist
      */
     List<Player> retrievePlayersByTeam(Team team) throws IllegalEntityException, IllegalArgumentException;
     
@@ -65,7 +68,7 @@ public interface PlayerDao {
      * @param active - is player active?
      * @return list of players with given activity
      */
-    List<Player> retrievePlayersByActivity(boolean active) throws IllegalArgumentException;
+    List<Player> retrievePlayersByActivity(boolean active);
     
     
 }
