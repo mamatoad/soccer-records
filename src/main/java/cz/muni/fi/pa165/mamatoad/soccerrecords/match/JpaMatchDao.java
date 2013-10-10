@@ -57,9 +57,8 @@ public class JpaMatchDao implements MatchDao {
 
     @Override
     public Match retrieveMatchById(Long id) throws IllegalArgumentException {
-        if (id == null) {
+        if (id == null)
             throw new IllegalArgumentException("id == null");
-        }
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         return entityManager.find(Match.class, id);
@@ -67,10 +66,10 @@ public class JpaMatchDao implements MatchDao {
 
     @Override
     public List<Match> retrieveMatchesByTeam(Team team) throws IllegalArgumentException, IllegalEntityException {
-        if (team == null) {
+        if (team == null) 
             throw new IllegalArgumentException("team == null");
-        }
-        checkIfTeamExists(team, null);
+        if (team.getId() == null) 
+            throw new IllegalArgumentException("team.id == null (team is not in the db)");
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<Match> matches = entityManager.createQuery(
@@ -82,9 +81,8 @@ public class JpaMatchDao implements MatchDao {
 
     @Override
     public List<Match> retrieveMatchesByEventDate(LocalDate eventDate) throws IllegalArgumentException {
-        if (eventDate == null) {
+        if (eventDate == null)
             throw new IllegalArgumentException("eventDate == null");
-        }
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<Match> matches = entityManager.createQuery(
@@ -99,9 +97,12 @@ public class JpaMatchDao implements MatchDao {
         if ((match.getId() != null) && idShouldBeEqualNull) throw new IllegalEntityException("match.id != null");
         if ((match.getId() == null) && !idShouldBeEqualNull) throw new IllegalEntityException("match.id == null");
         if (match.getHomeTeam() == null) throw new IllegalEntityException("match.homeTeam == null");
-        checkIfTeamExists(match.getHomeTeam(), "home ");
+        if (match.getHomeTeam().getId() == null) 
+            throw new IllegalEntityException("match.homeTeam.id == null (homeTeam is not in the db)");
         if (match.getVisitingTeam() == null) throw new IllegalEntityException("match.visitingTeam == null");
-        checkIfTeamExists(match.getVisitingTeam(), "visiting ");
+        if (match.getVisitingTeam().getId() == null) 
+            throw new IllegalEntityException("match.visitingTeam.id == null (visitingTeam is not in the db)");
+        if (match.getHomeTeam().equals(match.getVisitingTeam())) throw new IllegalEntityException("match.visitingTeam == match.homeTeam");
         if (match.getEventDate() == null) throw new IllegalEntityException("match.eventDate == null");
         if (match.getGoals() == null) throw new IllegalEntityException("match.goals == null");
     }
@@ -109,14 +110,6 @@ public class JpaMatchDao implements MatchDao {
     private void checkIfMatchExists(Match match) throws IllegalEntityException {
         if (retrieveMatchById(match.getId()) == null) {
             throw new IllegalEntityException("Specified match does not exist " + match);
-        }
-    }
-    
-    private void checkIfTeamExists(Team team, String side) throws IllegalEntityException {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        
-        if (entityManager.find(Team.class, team.getId()) == null) {
-            throw new IllegalEntityException("Specified " + side + "team does not exist " + team);
         }
     }
 }

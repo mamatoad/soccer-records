@@ -17,7 +17,7 @@ public interface MatchDao {
      * 
      * @param match match to be created
      * @exception IllegalArgumentException when match is null
-     * @exception IllegalEntityException when id is not null or other attributes are null
+     * @exception IllegalEntityException when id is not null or other attributes are null or teams are equal
      */
     void createMatch(Match match) throws IllegalArgumentException, IllegalEntityException;
     
@@ -26,7 +26,7 @@ public interface MatchDao {
      * 
      * @param match match to update
      * @exception IllegalArgumentException when match is null
-     * @exception IllegalEntityException when some attributes are null or given match does not exist
+     * @exception IllegalEntityException when some attributes are null or given match does not exist or teams are equal
      */
     void updateMatch(Match match) throws IllegalArgumentException, IllegalEntityException;
     
