@@ -68,11 +68,12 @@ public class JpaGoalDao implements GoalDao {
 
         EntityManager em = factory.createEntityManager();
         
-        if(em.find(Goal.class, goal) == null){
+        if(em.find(Goal.class, goal.getId()) == null){
             throw new IllegalEntityException("Goal is not in database");
         }
-        
+        em.getTransaction().begin();
         em.merge(goal);
+        em.getTransaction().commit();
     }
 
     @Override
