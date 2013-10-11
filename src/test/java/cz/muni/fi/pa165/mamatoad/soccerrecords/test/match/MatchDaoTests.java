@@ -249,13 +249,14 @@ public class MatchDaoTests {
        
        matchDao.createMatch(match);
        Long id = match.getId();
-       List<Goal> goals = new ArrayList<>();
-       goals.add(goal);
-       match.setGoals(goals);
-       matchDao.updateMatch(match);
-        
-       Assert.assertEquals("goals didn't update correctly", goals, entityManagerFactory.createEntityManager().find(Match.class, id).getGoals());
-    }
+       EntityManager m = entityManagerFactory.createEntityManager();
+       Goal g = m.find(Goal.class, goal.getId());
+       m.getTransaction().begin();
+       g.setMatch(match);
+       m.getTransaction().commit();
+             
+       Assert.assertTrue("goals didn't update correctly", entityManagerFactory.createEntityManager().find(Match.class, id).getGoals().contains(goal));
+    } 
     
     @Test
     public void update_validEventDate_UpdatesEventDate() throws IllegalArgumentException, IllegalEntityException{
