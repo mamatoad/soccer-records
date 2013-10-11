@@ -51,7 +51,8 @@ public class JpaMatchDao implements MatchDao {
         
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        entityManager.remove(match);
+        Match target = entityManager.merge(match);
+        entityManager.remove(target);
         entityManager.getTransaction().commit();
     }
 
@@ -86,7 +87,7 @@ public class JpaMatchDao implements MatchDao {
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<Match> matches = entityManager.createQuery(
-                "SELECT m FROM Match m WHERE m.eventdate = :eventDate", Match.class);
+                "SELECT m FROM Match m WHERE m.eventDate = :eventDate", Match.class);
         matches.setParameter("eventDate", eventDate);
 
         return matches.getResultList();
@@ -102,7 +103,8 @@ public class JpaMatchDao implements MatchDao {
         if (match.getVisitingTeam() == null) throw new IllegalEntityException("match.visitingTeam == null");
         if (match.getVisitingTeam().getId() == null) 
             throw new IllegalEntityException("match.visitingTeam.id == null (visitingTeam is not in the db)");
-        if (match.getHomeTeam().equals(match.getVisitingTeam())) throw new IllegalEntityException("match.visitingTeam == match.homeTeam");
+        if (match.getHomeTeam().equals(match.getVisitingTeam())) 
+            throw new IllegalEntityException("match.visitingTeam == match.homeTeam");
         if (match.getEventDate() == null) throw new IllegalEntityException("match.eventDate == null");
         if (match.getGoals() == null) throw new IllegalEntityException("match.goals == null");
     }
