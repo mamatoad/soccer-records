@@ -109,8 +109,8 @@ public class JpaPlayerDao implements PlayerDao {
         
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         
-        TypedQuery<Player> query = entityManager.createQuery("Select p from Player p Where p.name=:name", Player.class).setParameter(":name", name);
-        Player player = query.getSingleResult();
+        TypedQuery<Player> query = entityManager.createQuery("Select p from Player p Where p.name=:name", Player.class).setParameter("name", name);
+        
         List<Player> players = query.getResultList();
         
         return players;
@@ -124,9 +124,11 @@ public class JpaPlayerDao implements PlayerDao {
         if (team.getId() == null)
             throw new IllegalEntityException("team.id cannot be null");
         
+        if (team.getId() != null && !teamExists(team))
+            throw new IllegalEntityException("team " + team + " doesn't exist");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         
-        TypedQuery<Player> query = entityManager.createQuery("Select p from Player p Where p.team=:team", Player.class).setParameter(":team", team);
+        TypedQuery<Player> query = entityManager.createQuery("Select p from Player p Where p.team=:team", Player.class).setParameter("team", team);
         List<Player> players = query.getResultList();
         
         return players;
@@ -136,10 +138,22 @@ public class JpaPlayerDao implements PlayerDao {
     public List<Player> retrievePlayersByActivity(boolean active) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         
-        TypedQuery<Player> query = entityManager.createQuery("Select p from Player p Where p.active=:active", Player.class).setParameter(":active", active);
+        TypedQuery<Player> query = entityManager.createQuery("Select p from Player p Where p.active=:active", Player.class).setParameter("active", active);
         List<Player> players = query.getResultList();
         
         return players;
     }
+    
+    private boolean teamExists(Team team) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        
+        Long id = team.getId();
+        
+        Team teamInDb = entityManager.find(Team.class, id);
+        
+        return (teamInDb != null);
+    }
+    
+    
     
 }
