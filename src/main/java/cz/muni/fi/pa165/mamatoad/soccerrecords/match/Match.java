@@ -3,8 +3,10 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords.match;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.goal.Goal;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,6 +38,10 @@ public class Match implements Serializable {
     @OneToMany(mappedBy = "match")
     private List<Goal> goals;
 
+    public Match() {
+        goals = new ArrayList<>();
+    }
+    
     public Long getId() {
         return id;
     }
@@ -70,10 +76,6 @@ public class Match implements Serializable {
 
     public List<Goal> getGoals() {
         return goals;
-    }
-
-    public void setGoals(List<Goal> goals) {
-        this.goals = goals;
     }
 
     @Override

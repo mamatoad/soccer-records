@@ -100,14 +100,12 @@ public class GoalDaoTests {
         match = new Match();
         match.setHomeTeam(team);
         match.setVisitingTeam(otherTeam);
-        match.setGoals(new ArrayList<Goal>());
         match.setEventDate(LocalDate.now());
         manager.persist(match);
         
         otherMatch = new Match();
         otherMatch.setHomeTeam(otherTeam);
         otherMatch.setVisitingTeam(team);
-        otherMatch.setGoals(new ArrayList<Goal>());
         otherMatch.setEventDate(LocalDate.now());
         manager.persist(otherMatch);
         

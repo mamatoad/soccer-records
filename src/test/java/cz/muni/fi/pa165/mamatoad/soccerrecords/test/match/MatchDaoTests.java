@@ -86,7 +86,6 @@ public class MatchDaoTests {
         match = new Match();
         match.setHomeTeam(team);
         match.setVisitingTeam(otherTeam);
-        match.setGoals(new ArrayList<Goal>());
         match.setEventDate(LocalDate.now());
               
     }
@@ -136,12 +135,6 @@ public class MatchDaoTests {
     }
     
     @Test(expected = IllegalEntityException.class)
-     public void create_nullMatchGoals_ThrowsIllegalEntityException() throws IllegalArgumentException, IllegalEntityException{
-        match.setGoals(null);
-        matchDao.createMatch(match);
-    }
-    
-    @Test(expected = IllegalEntityException.class)
      public void create_nullMatchEventDate_ThrowsIllegalEntityException() throws IllegalArgumentException, IllegalEntityException{
         match.setEventDate(null);
         matchDao.createMatch(match);
@@ -187,12 +180,6 @@ public class MatchDaoTests {
     @Test(expected = IllegalEntityException.class)
      public void update_nullMatchVisitingTeam_ThrowsIllegalEntityException() throws IllegalArgumentException, IllegalEntityException{
         match.setVisitingTeam(null);
-        matchDao.updateMatch(match);
-    }
-    
-    @Test(expected = IllegalEntityException.class)
-     public void update_nullMatchGoals_ThrowsIllegalEntityException() throws IllegalArgumentException, IllegalEntityException{
-        match.setGoals(null);
         matchDao.updateMatch(match);
     }
     
