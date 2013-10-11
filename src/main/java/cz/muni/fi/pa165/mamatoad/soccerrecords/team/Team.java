@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class Team implements Serializable {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -74,18 +75,6 @@ public class Team implements Serializable {
     @Override
     public String toString() {
         return "Team{" + "id=" + id + ", name=" + name + '}';
-    }
-    
-    public boolean isValid(boolean stored) {
-        if (stored && id == null) {
-            return false;
-        }
-        
-        if (name == null || name.isEmpty()) {
-            return false;
-        }
-        
-        return true;
     }
     
 }

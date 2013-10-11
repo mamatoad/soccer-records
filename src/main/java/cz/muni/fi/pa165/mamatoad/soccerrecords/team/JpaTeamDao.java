@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pa165.mamatoad.soccerrecords.team;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
@@ -29,8 +25,12 @@ public class JpaTeamDao implements TeamDao {
             throw new IllegalArgumentException("team is null");
         }
         
-        if (team.isValid(false)) {
-            throw new IllegalEntityException("team.id is not null or team.name is null");
+        if (team.getId() != null) {
+            throw new IllegalEntityException("team.id is not null");
+        }
+        
+        if (team.getName() == null || team.getName().isEmpty()) {
+            throw new IllegalEntityException("team.name is null or empty");
         }
         
         EntityManager em = emf.createEntityManager();
@@ -45,14 +45,22 @@ public class JpaTeamDao implements TeamDao {
             throw new IllegalArgumentException("team is null");
         }
         
-        if (team.isValid(true)) {
-            throw new IllegalEntityException("team.id or team.name is null");
+        if (team.getId() == null) {
+            throw new IllegalEntityException("team.id is null");
         }
         
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.merge(team);
-        em.getTransaction().commit();
+        if (team.getName() == null || team.getName().isEmpty()) {
+            throw new IllegalEntityException("team.name is null or empty");
+        }
+        
+        try {
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.merge(team);
+            em.getTransaction().commit();
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalEntityException(ex);
+        }
     }
 
     @Override
@@ -61,14 +69,22 @@ public class JpaTeamDao implements TeamDao {
             throw new IllegalArgumentException("team is null");
         }
         
-        if (team.isValid(true)) {
-            throw new IllegalEntityException("team.id or team.name is null");
+        if (team.getId() == null) {
+            throw new IllegalEntityException("team.id is null");
         }
         
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.remove(team);
-        em.getTransaction().commit();
+        if (team.getName() == null || team.getName().isEmpty()) {
+            throw new IllegalEntityException("team.name is null or empty");
+        }
+        
+        try {
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.remove(team);
+            em.getTransaction().commit();
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalEntityException(ex);
+        }
     }
 
     @Override
