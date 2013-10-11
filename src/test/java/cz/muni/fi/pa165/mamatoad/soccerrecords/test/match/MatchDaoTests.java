@@ -39,7 +39,6 @@ public class MatchDaoTests {
     private Team team;
     private Team otherTeam;
     private Team thirdTeam;
-    
     @BeforeClass 
     public static void setupDbProperties(){
         
@@ -77,6 +76,9 @@ public class MatchDaoTests {
         thirdTeam.setName("FC Noobs");
         thirdTeam.setPlayers(new ArrayList<Player>());
         manager.persist(thirdTeam);
+        // create Goal
+        goal = new Goal();
+        manager.persist(goal);
         
         manager.getTransaction().commit();
         // create Match
@@ -246,12 +248,13 @@ public class MatchDaoTests {
     public void update_validGoals_UpdatesGoals() throws IllegalArgumentException, IllegalEntityException{
        
        matchDao.createMatch(match);
+       Long id = match.getId();
        List<Goal> goals = new ArrayList<>();
-       goals.add(new Goal());
+       goals.add(goal);
        match.setGoals(goals);
        matchDao.updateMatch(match);
-       
-       Assert.assertEquals("goals didn't update correctly", goals, entityManagerFactory.createEntityManager().find(Match.class, match.getId()).getGoals());
+        
+       Assert.assertEquals("goals didn't update correctly", goals, entityManagerFactory.createEntityManager().find(Match.class, id).getGoals());
     }
     
     @Test
