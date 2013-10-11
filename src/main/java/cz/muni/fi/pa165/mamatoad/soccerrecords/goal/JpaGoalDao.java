@@ -31,11 +31,12 @@ public class JpaGoalDao implements GoalDao {
             throw new IllegalArgumentException("Parameter goal is null");
         }
         
-        StringBuilder builder = new StringBuilder("These parameters are null: ");
+        StringBuilder builder = new StringBuilder("These parameters are wrong: ");
         
         boolean throwEx = validateGoal(goal, builder);
         if(goal.getId() != null){
             builder.append("\n Id should be null.");
+            throwEx = true;
         }
         if(throwEx){
             throw new IllegalEntityException(builder.toString());
@@ -54,11 +55,12 @@ public class JpaGoalDao implements GoalDao {
             throw new IllegalArgumentException("Parameter goal is null");
         }
         
-        StringBuilder builder = new StringBuilder("These parameters are null: ");
+        StringBuilder builder = new StringBuilder("These parameters are wrong: ");
         
         boolean throwEx = validateGoal(goal, builder);
         if(goal.getId() == null){
             builder.append("id ");
+            throwEx = true;
         }
         if(throwEx){
             throw new IllegalEntityException(builder.toString());
@@ -84,12 +86,13 @@ public class JpaGoalDao implements GoalDao {
 
         EntityManager em = factory.createEntityManager();
         
-        if(em.find(Goal.class, goal) == null){
+        if(em.find(Goal.class, goal.getId()) == null){
             throw new IllegalEntityException("Goal is not in database");
         }
         
         em.getTransaction().begin();
-        em.remove(goal);
+        Goal toRemove = em.merge(goal);
+        em.remove(toRemove);
         em.getTransaction().commit();
     }
 
@@ -188,15 +191,15 @@ public class JpaGoalDao implements GoalDao {
     static private boolean validateGoal(Goal goal, StringBuilder builder){
         boolean throwEx = false;
         
-        if(goal.getMatch() == null) {
+        if(goal.getMatch() == null || goal.getMatch().getId() == null) {
             builder.append("match ");
             throwEx = true;
         }
-        if(goal.getPlayer() == null){
+        if(goal.getPlayer() == null || goal.getPlayer().getId() == null){
             builder.append("player ");
             throwEx = true;
         }
-        if(goal.getTeam() == null){
+        if(goal.getTeam() == null || goal.getTeam().getId() == null){
             builder.append("team ");
             throwEx = true;
         }
