@@ -7,10 +7,16 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.match.Match;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.player.Player;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -26,8 +32,15 @@ import org.junit.Test;
 public class GoalDaoTests {
     private static EntityManagerFactory emf;
     private static GoalDao goalDao;
-    private static Goal goal;
     private static Map<String, String> properties;
+    
+    private Match match;
+    private Match otherMatch;
+    private Player player;
+    private Player otherPlayer;
+    private Team team;
+    private Team otherTeam;
+    private Goal goal;
     
     public GoalDaoTests() {
         
@@ -40,28 +53,8 @@ public class GoalDaoTests {
         properties.put("hibernate.connection.driver_class",
             "org.apache.derby.jdbc.ClientDriver");
 	properties.put("hibernate.connection.url",
-            "jdbc:derby://localhost:1527/memory:MatchTestsDB;create=true");
+            "jdbc:derby://localhost:1527/memory:GoalTestsDB;create=true");
 	properties.put("hibernate.hbm2ddl.auto", "create-drop");
-        
-        emf = Persistence.createEntityManagerFactory("pa165", properties);
-        
-        goalDao = new JpaGoalDao(emf);
-        
-        goal = new Goal();
-        
-        Match match = new Match();
-        match.setId(Long.MIN_VALUE);
-        goal.setMatch(match);
-        
-        Player player = new Player();
-        player.setId(Long.MIN_VALUE);
-        goal.setPlayer(player);
-        
-        goal.setShootingTime(LocalTime.MIDNIGHT);
-        
-        Team team = new Team();
-        team.setId(Long.MIN_VALUE);
-        goal.setTeam(team);
     }
     
     @AfterClass
@@ -71,12 +64,67 @@ public class GoalDaoTests {
     
     @Before
     public void setUp() {
+        emf = Persistence.createEntityManagerFactory("pa165", properties);
         
+        goalDao = new JpaGoalDao(emf);
+        
+        EntityManager manager = emf.createEntityManager();
+        
+        manager.getTransaction().begin();
+        
+        // create Teams
+        team = new Team();
+        team.setName("FC 1");
+        team.setPlayers(new ArrayList<Player>());
+        manager.persist(team);
+        
+        otherTeam = new Team();
+        otherTeam.setName("FC 2");
+        otherTeam.setPlayers(new ArrayList<Player>());
+        manager.persist(otherTeam);
+
+        // create Player
+        player = new Player();
+        player.setName("Player 1");
+        player.setActive(true);
+        player.setTeam(team);
+        manager.persist(player);
+        
+        otherPlayer = new Player();
+        otherPlayer.setName("Player 2");
+        otherPlayer.setActive(true);
+        otherPlayer.setTeam(otherTeam);
+        manager.persist(otherPlayer);
+        
+        // create Match
+        match = new Match();
+        match.setHomeTeam(team);
+        match.setVisitingTeam(otherTeam);
+        match.setGoals(new ArrayList<Goal>());
+        match.setEventDate(LocalDate.now());
+        manager.persist(match);
+        
+        otherMatch = new Match();
+        otherMatch.setHomeTeam(otherTeam);
+        otherMatch.setVisitingTeam(team);
+        otherMatch.setGoals(new ArrayList<Goal>());
+        otherMatch.setEventDate(LocalDate.now());
+        manager.persist(otherMatch);
+        
+        manager.getTransaction().commit();
+        
+        //prepare goal
+        
+        goal = new Goal();
+        
+        goal.setMatch(match);        
+        goal.setPlayer(player);        
+        goal.setShootingTime(LocalTime.MIDNIGHT);        
+        goal.setTeam(team);
     }
     
     @After
     public void tearDown() {
-
     }
     
     //createGoal tests
@@ -136,7 +184,7 @@ public class GoalDaoTests {
     @Test
     public void createGoal_ValidGoal_CreatesGoal() throws IllegalArgumentException, IllegalEntityException {        
         goalDao.createGoal(goal);
-        Assert.assertNotNull(goal.getId());
+        Assert.assertNotNull("Id was not assigned.", goal.getId());
     }
     
     //updateGoal tests
@@ -208,25 +256,48 @@ public class GoalDaoTests {
     }
     
     @Test
-    public void updateGoal_ValidGoal_UpdatesGoal() throws IllegalArgumentException, IllegalEntityException {        
+    public void updateGoal_ChangeTeam_UpdatesGoal() throws IllegalArgumentException, IllegalEntityException {        
         goalDao.createGoal(goal);
         
-        Goal goal2 = goal;
+        goal.setTeam(otherTeam);
+        goalDao.updateGoal(goal);
         
-        Match match = new Match();
-        goal2.setMatch(match);
-        Player player = new Player();
-        goal2.setPlayer(player);
-        goal2.setShootingTime(LocalTime.MIDNIGHT);
-        Team team = new Team();
-        goal2.setTeam(team);
-        goalDao.updateGoal(goal2);
+        Assert.assertEquals(
+                "Team didn't update.", emf.createEntityManager().find(Goal.class, goal.getId()).getTeam(), otherTeam);
+    }
+    
+    @Test
+    public void updateGoal_ChangePlayer_UpdatesGoal() throws IllegalArgumentException, IllegalEntityException {        
+        goalDao.createGoal(goal);
         
-        Assert.assertEquals(goal2.getId(), goal.getId());
-        Assert.assertEquals(goal2.getMatch(), match);
-        Assert.assertEquals(goal2.getPlayer(), player);
-        Assert.assertEquals(goal2.getShootingTime(), LocalTime.MIDNIGHT);
-        Assert.assertEquals(goal2.getTeam(), team);
+        goal.setPlayer(otherPlayer);
+        goalDao.updateGoal(goal);
+        
+        Assert.assertEquals(
+                "Player didn't update.", emf.createEntityManager().find(Goal.class, goal.getId()).getPlayer(), otherPlayer);
+    }
+    
+    @Test
+    public void updateGoal_ChangeMatch_UpdatesGoal() throws IllegalArgumentException, IllegalEntityException {        
+        goalDao.createGoal(goal);
+        
+        goal.setMatch(otherMatch);
+        goalDao.updateGoal(goal);
+        
+        Assert.assertEquals(
+                "Match didn't update.", emf.createEntityManager().find(Goal.class, goal.getId()).getMatch(), otherMatch);
+    }
+    
+    @Test
+    public void updateGoal_ChangeShootingTime_UpdatesGoal() throws IllegalArgumentException, IllegalEntityException {        
+        goalDao.createGoal(goal);
+        
+        LocalTime newTime = LocalTime.now();
+        goal.setShootingTime(newTime);
+        goalDao.updateGoal(goal);
+        
+        Assert.assertEquals(
+                "Time didn't update.", emf.createEntityManager().find(Goal.class, goal.getId()).getShootingTime(), newTime);
     }
     
     //deleteGoal tests
@@ -234,7 +305,7 @@ public class GoalDaoTests {
     public void deleteGoal_GoalIsNull_ThrowIllegalArgumentException() throws IllegalArgumentException, IllegalEntityException { 
         goalDao.deleteGoal(null);
     }
-    
+
     @Test(expected = IllegalEntityException.class)
     public void deleteGoal_GoalDoesNotExist_ThrowIllegalEntityException() throws IllegalArgumentException, IllegalEntityException { 
         goal.setId(Long.MAX_VALUE);
@@ -262,13 +333,141 @@ public class GoalDaoTests {
     @Test
     public void retrieveGoalById_GoalDoesNotExist_ReturnNull() throws IllegalArgumentException, IllegalEntityException { 
         Goal result = goalDao.retrieveGoalById(Long.MAX_VALUE);
-        Assert.assertNull(result);
+        Assert.assertNull("Null expected.", result);
     }
     
     @Test
     public void retrieveGoalById_GoalExists_ReturnGoal() throws IllegalArgumentException, IllegalEntityException { 
         goalDao.createGoal(goal);
         Goal result = goalDao.retrieveGoalById(goal.getId());
-        Assert.assertTrue(goal.equals(result));
+        Assert.assertTrue("The correct goal wasn't retrieved.", goal.equals(result));
+    }
+    
+    //retrieveGoalsByMatch tests
+    @Test(expected = IllegalArgumentException.class)
+    public void retrieveGoalsByMatch_MatchIsNull_ThrowIllegalArgumentException() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.retrieveGoalsByMatch(null);
+    }
+    
+    @Test(expected = IllegalEntityException.class)
+    public void retrieveGoalsByMatch_MatchIdIsNull_IllegalEntityException() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.retrieveGoalsByMatch(new Match());
+    }
+    
+    @Test
+    public void retrieveGoalsByMatch_MatchExists_ReturnGoals() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.createGoal(goal);
+        List<Goal> result = goalDao.retrieveGoalsByMatch(match);
+        Assert.assertNotNull("List of goals was null.", result);
+        Assert.assertFalse("List of goals was empty.", result.isEmpty());
+    }
+    
+    @Test
+    public void retrieveGoalsByMatch_MatchHasNoGoals_ReturnEmptyList() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.createGoal(goal);
+        List<Goal> result = goalDao.retrieveGoalsByMatch(otherMatch);
+        Assert.assertNotNull("List of goals was null.", result);
+        Assert.assertTrue("List of goals was not empty.", result.isEmpty());
+    }
+    
+    //retrieveGoalsByMatchAndTeam
+    @Test(expected = IllegalArgumentException.class)
+    public void retrieveGoalsByMatchAndTeam_MatchIsNull_ThrowIllegalArgumentException() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.retrieveGoalsByMatchAndTeam(null, team);
+    }
+    
+    @Test(expected = IllegalEntityException.class)
+    public void retrieveGoalsByMatchAndTeam_MatchIdIsNull_IllegalEntityException() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.retrieveGoalsByMatchAndTeam(new Match(), team);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void retrieveGoalsByMatchAndTeam_TeamIsNull_ThrowIllegalArgumentException() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.retrieveGoalsByMatchAndTeam(match, null);
+    }
+    
+    @Test(expected = IllegalEntityException.class)
+    public void retrieveGoalsByMatchAndTeam_TeamIdIsNull_IllegalEntityException() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.retrieveGoalsByMatchAndTeam(match, new Team());
+    }
+    
+    @Test
+    public void retrieveGoalsByMatchAndTeam_ValidSearch_RetrieveGoals() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.createGoal(goal);
+        List<Goal> result = goalDao.retrieveGoalsByMatchAndTeam(match, team);
+        Assert.assertNotNull("List of goals was null.", result);
+        Assert.assertTrue("List does not contain the goal.", result.contains(goal));
+    }
+    
+    //retrieveGoalsByPlayer tests
+    @Test(expected = IllegalArgumentException.class)
+    public void retrieveGoalsByPlayer_PlayerIsNull_ThrowIllegalArgumentException() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.retrieveGoalsByPlayer(null);
+    }
+    
+    @Test(expected = IllegalEntityException.class)
+    public void retrieveGoalsByPlayer_PlayerIdIsNull_IllegalEntityException() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.retrieveGoalsByPlayer(new Player());
+    }
+    
+    @Test
+    public void retrieveGoalsByPlayer_PlayerExists_ReturnGoals() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.createGoal(goal);
+        List<Goal> result = goalDao.retrieveGoalsByPlayer(player);
+        Assert.assertNotNull("List of goals was null.", result);
+        Assert.assertTrue("List does not contain the goal.", result.contains(goal));
+    }
+    
+    @Test
+    public void retrieveGoalsByPlayer_PlayerHasNoGoals_ReturnEmptyGoals() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.createGoal(goal);
+        List<Goal> result = goalDao.retrieveGoalsByPlayer(otherPlayer);
+        Assert.assertNotNull("List of goals was null.", result);
+        Assert.assertTrue("List of goals was not empty.", result.isEmpty());
+    }
+    
+    //retrieveGoalsByMatchAndPlayer tests
+    @Test(expected = IllegalArgumentException.class)
+    public void retrieveGoalsByMatchAndPlayer_PlayerIsNull_ThrowIllegalArgumentException() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.retrieveGoalsByMatchAndPlayer(match, null);
+    }
+    
+    @Test(expected = IllegalEntityException.class)
+    public void retrieveGoalsByMatchAndPlayer_PlayerIdIsNull_IllegalEntityException() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.retrieveGoalsByMatchAndPlayer(match, new Player());
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void retrieveGoalsByMatchAndPlayer_MatchIsNull_ThrowIllegalArgumentException() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.retrieveGoalsByMatchAndPlayer(null, player);
+    }
+    
+    @Test(expected = IllegalEntityException.class)
+    public void retrieveGoalsByMatchAndPlayer_MatchIdIsNull_IllegalEntityException() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.retrieveGoalsByMatchAndPlayer(new Match(), player);
+    }
+    
+    @Test
+    public void retrieveGoalsByMatchAndPlayer_Valid_ReturnGoals() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.createGoal(goal);
+        List<Goal> result = goalDao.retrieveGoalsByMatchAndPlayer(match, player);
+        Assert.assertNotNull("List of goals was null.", result);
+        Assert.assertTrue("List does not contain the goal.", result.contains(goal));
+    }
+    
+    @Test
+    public void retrieveGoalsByMatchAndPlayer_PlayerHasNoGoalsInTheMatch_ReturnEmptyGoals() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.createGoal(goal);
+        List<Goal> result = goalDao.retrieveGoalsByMatchAndPlayer(otherMatch, player);
+        Assert.assertNotNull("List of goals was null.", result);
+        Assert.assertTrue("List of goals was not empty.", result.isEmpty());
+    }
+    
+    @Test
+    public void retrieveGoalsByMatchAndPlayer_PlayerHasNoGoals_ReturnEmptyGoals() throws IllegalArgumentException, IllegalEntityException { 
+        goalDao.createGoal(goal);
+        List<Goal> result = goalDao.retrieveGoalsByMatchAndPlayer(otherMatch, otherPlayer);
+        Assert.assertNotNull("List of goals was null.", result);
+        Assert.assertTrue("List of goals was not empty.", result.isEmpty());
     }
 }
