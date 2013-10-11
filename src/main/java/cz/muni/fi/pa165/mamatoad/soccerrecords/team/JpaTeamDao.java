@@ -29,8 +29,8 @@ public class JpaTeamDao implements TeamDao {
             throw new IllegalArgumentException("team is null");
         }
         
-        if (team.getId() != null) {
-            throw new IllegalEntityException("id already assigned");
+        if (team.isValid(false)) {
+            throw new IllegalEntityException("team.id is not null or team.name is null");
         }
         
         EntityManager em = emf.createEntityManager();
@@ -45,8 +45,8 @@ public class JpaTeamDao implements TeamDao {
             throw new IllegalArgumentException("team is null");
         }
         
-        if (team.getId() == null) {
-            throw new IllegalEntityException("id not assigned");
+        if (team.isValid(true)) {
+            throw new IllegalEntityException("team.id or team.name is null");
         }
         
         EntityManager em = emf.createEntityManager();
@@ -61,8 +61,8 @@ public class JpaTeamDao implements TeamDao {
             throw new IllegalArgumentException("team is null");
         }
         
-        if (team.getId() == null) {
-            throw new IllegalEntityException("id not assigned");
+        if (team.isValid(true)) {
+            throw new IllegalEntityException("team.id or team.name is null");
         }
         
         EntityManager em = emf.createEntityManager();
@@ -83,12 +83,8 @@ public class JpaTeamDao implements TeamDao {
 
     @Override
     public List<Team> retrieveTeamsByName(String name) {
-        if (name == null) {
-            throw new IllegalArgumentException("name is null");
-        }
-        
-        if (name.isEmpty()) {
-            throw new IllegalArgumentException("name is empty");
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("name is null or empty");
         }
         
         EntityManager em = emf.createEntityManager();

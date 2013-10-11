@@ -76,5 +76,16 @@ public class Team implements Serializable {
         return "Team{" + "id=" + id + ", name=" + name + '}';
     }
     
+    public boolean isValid(boolean stored) {
+        if (stored && id == null) {
+            return false;
+        }
+        
+        if (name == null || name.isEmpty()) {
+            return false;
+        }
+        
+        return true;
+    }
     
 }
