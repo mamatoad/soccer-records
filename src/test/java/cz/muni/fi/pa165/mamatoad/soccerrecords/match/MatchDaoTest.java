@@ -1,16 +1,12 @@
-package cz.muni.fi.pa165.mamatoad.soccerrecords.test.match;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.match;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.goal.Goal;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.match.JpaMatchDao;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.match.Match;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.match.MatchDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.player.Player;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -29,7 +25,7 @@ import org.junit.Assert;
  * @author Maros Klimovsky
  */
 
-public class MatchDaoTests {
+public class MatchDaoTest {
     private MatchDao matchDao;
     private static Map<String,String> properties = new HashMap<>();
     private static EntityManagerFactory entityManagerFactory;

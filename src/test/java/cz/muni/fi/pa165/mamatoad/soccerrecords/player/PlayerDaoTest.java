@@ -1,8 +1,5 @@
-package cz.muni.fi.pa165.mamatoad.soccerrecords.test.player;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.player;
 
-import cz.muni.fi.pa165.mamatoad.soccerrecords.player.JpaPlayerDao;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.player.Player;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.player.PlayerDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.HashMap;
@@ -23,7 +20,7 @@ import org.junit.Test;
  *
  * @author livthomas
  */
-public class PlayerDaoTests {
+public class PlayerDaoTest {
     
     private static String persistanceName = "pa165";
     private static Map<String,String> properties = new HashMap<>();

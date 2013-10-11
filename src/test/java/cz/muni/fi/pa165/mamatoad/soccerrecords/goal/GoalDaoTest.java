@@ -1,14 +1,9 @@
-package cz.muni.fi.pa165.mamatoad.soccerrecords.test.goal;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.goal;
 
-import cz.muni.fi.pa165.mamatoad.soccerrecords.goal.Goal;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.goal.GoalDao;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.goal.JpaGoalDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.match.Match;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.player.Player;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +24,7 @@ import org.junit.Test;
  *
  * @author Matus Nemec
  */
-public class GoalDaoTests {
+public class GoalDaoTest {
     private static EntityManagerFactory emf;
     private static GoalDao goalDao;
     private static Map<String, String> properties;
@@ -42,7 +37,7 @@ public class GoalDaoTests {
     private Team otherTeam;
     private Goal goal;
     
-    public GoalDaoTests() {
+    public GoalDaoTest() {
         
     }
     

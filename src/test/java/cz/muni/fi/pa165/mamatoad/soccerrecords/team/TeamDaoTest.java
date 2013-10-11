@@ -2,12 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.mamatoad.soccerrecords.test.team;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.team;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.player.Player;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.team.JpaTeamDao;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.team.TeamDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +16,6 @@ import javax.persistence.Persistence;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -29,7 +25,7 @@ import org.junit.Test;
  *
  * @author Adriana Smijakova
  */
-public class TeamDaoTests {
+public class TeamDaoTest {
     
     private static Map<String,String> properties;
     private static String persistanceName = "pa165";
@@ -38,7 +34,7 @@ public class TeamDaoTests {
     
     private Team testTeam;
     
-    public TeamDaoTests() {
+    public TeamDaoTest() {
     }
     
     @BeforeClass
