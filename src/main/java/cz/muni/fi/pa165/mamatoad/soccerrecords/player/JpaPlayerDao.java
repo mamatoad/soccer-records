@@ -84,7 +84,8 @@ public class JpaPlayerDao implements PlayerDao {
            throw new IllegalEntityException("player doesn't exist");
         
         entityManager.getTransaction().begin();
-        entityManager.remove(player);
+        Player target = entityManager.merge(player);
+        entityManager.remove(target);
         entityManager.getTransaction().commit();
         
     }
