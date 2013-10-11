@@ -53,6 +53,10 @@ public class JpaTeamDao implements TeamDao {
             throw new IllegalEntityException("team.name is null or empty");
         }
         
+        if (retrieveTeamById(team.getId()) == null) {
+            throw new IllegalEntityException("team does not exist");
+        }
+        
         try {
             EntityManager em = emf.createEntityManager();
             em.getTransaction().begin();
@@ -77,10 +81,14 @@ public class JpaTeamDao implements TeamDao {
             throw new IllegalEntityException("team.name is null or empty");
         }
         
+        if (retrieveTeamById(team.getId()) == null) {
+            throw new IllegalEntityException("team does not exist");
+        }
+        
         try {
             EntityManager em = emf.createEntityManager();
             em.getTransaction().begin();
-            em.remove(team);
+            em.remove(em.merge(team));
             em.getTransaction().commit();
         } catch (IllegalArgumentException ex) {
             throw new IllegalEntityException(ex);
