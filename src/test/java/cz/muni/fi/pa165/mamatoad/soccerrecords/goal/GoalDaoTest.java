@@ -54,7 +54,7 @@ public class GoalDaoTest {
     
     @AfterClass
     public static void tearDownClass() {
-        emf.close();
+        
     }
     
     @Before
@@ -118,6 +118,7 @@ public class GoalDaoTest {
     
     @After
     public void tearDown() {
+        emf.close();
     }
     
     //createGoal tests
