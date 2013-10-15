@@ -33,8 +33,8 @@ public class PlayerDaoTest {
 
     @BeforeClass
     public static void setUpClass() {
-        properties.put("hibernate.connection.driver_class", "org.apache.derby.jdbc.ClientDriver");
-        properties.put("hibernate.connection.url", "jdbc:derby://localhost:1527/memory:PlayerTestsDB;create=true");
+        properties.put("hibernate.connection.driver_class", "org.apache.derby.jdbc.EmbeddedDriver");
+        properties.put("hibernate.connection.url", "jdbc:derby:memory:PlayerTestsDB;create=true");
         properties.put("hibernate.hbm2ddl.auto", "create-drop");
     }
     

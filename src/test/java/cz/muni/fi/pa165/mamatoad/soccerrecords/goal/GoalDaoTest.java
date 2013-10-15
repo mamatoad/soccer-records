@@ -46,9 +46,9 @@ public class GoalDaoTest {
         properties = new HashMap<>();
         
         properties.put("hibernate.connection.driver_class",
-            "org.apache.derby.jdbc.ClientDriver");
+            "org.apache.derby.jdbc.EmbeddedDriver");
 	properties.put("hibernate.connection.url",
-            "jdbc:derby://localhost:1527/memory:GoalTestsDB;create=true");
+            "jdbc:derby:memory:GoalTestsDB;create=true");
 	properties.put("hibernate.hbm2ddl.auto", "create-drop");
     }
     

@@ -38,8 +38,8 @@ public class MatchDaoTest {
     @BeforeClass 
     public static void setupDbProperties(){
         
-          properties.put("hibernate.connection.driver_class", "org.apache.derby.jdbc.ClientDriver");
-          properties.put("hibernate.connection.url", "jdbc:derby://localhost:1527/memory:MatchTestsDB;create=true");
+          properties.put("hibernate.connection.driver_class", "org.apache.derby.jdbc.EmbeddedDriver");
+          properties.put("hibernate.connection.url", "jdbc:derby:memory:MatchTestsDB;create=true");
           properties.put("hibernate.hbm2ddl.auto", "create-drop");
           
     }
