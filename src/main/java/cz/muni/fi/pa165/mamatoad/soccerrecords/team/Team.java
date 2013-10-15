@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 /**
  * This class represents entity Team
  * 
+ * @author Maros Klimovsky
  */
 @Entity
 public class Team implements Serializable {

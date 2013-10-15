@@ -18,7 +18,7 @@ import org.junit.Test;
 /**
  * Tests for Player DAO
  *
- * @author livthomas
+ * @author Tomas Livora
  */
 public class PlayerDaoTest {
     

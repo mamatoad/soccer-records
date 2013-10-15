@@ -16,6 +16,7 @@ import org.joda.time.LocalTime;
 /**
  * This class represents entity Goal
  * 
+ * @author Maros Klimovsky
  */
 @Entity
 public class Goal implements Serializable {

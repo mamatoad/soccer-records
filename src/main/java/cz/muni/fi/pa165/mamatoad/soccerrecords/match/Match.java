@@ -19,6 +19,7 @@ import org.joda.time.LocalDate;
 /**
  * This class represents entity Match
  * 
+ * @author Maros Klimovsky
  */
 @Entity
 @Table(name = "SoccerMatch")

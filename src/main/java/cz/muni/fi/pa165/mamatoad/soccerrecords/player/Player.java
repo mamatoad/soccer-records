@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 /**
  * This class represents entity Player
  * 
+ * @author Maros Klimovsky
  */
 @Entity
 public class Player implements Serializable {
