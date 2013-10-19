@@ -14,7 +14,6 @@ public interface TeamDao {
      * Creates new record with the given team
      * 
      * @param team team to be created, not null, without id
-     * @return the created team
      * @throws IllegalArgumentException if the team is null
      * @throws IllegalEntityException if the team.id is not null or team.name is null
      */
@@ -24,7 +23,6 @@ public interface TeamDao {
      * Updates the record with the given team
      * 
      * @param team team to be updated, not null
-     * @return the updated team
      * @throws IllegalArgumentException if the team is null
      * @throws IllegalEntityException if the team.id or team.name is null
      */
@@ -56,5 +54,12 @@ public interface TeamDao {
      * @throws IllegalArgumentException if the name is null or empty
      */
     List<Team> retrieveTeamsByName(String name);
+    
+    /**
+     * Retrieves the list of all teams
+     * 
+     * @return the lost of all teams
+     */
+    List<Team> retrieveAllTeams();
     
 }

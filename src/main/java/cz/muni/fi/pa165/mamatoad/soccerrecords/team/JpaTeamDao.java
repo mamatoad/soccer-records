@@ -116,5 +116,12 @@ public class JpaTeamDao implements TeamDao {
                 .setParameter("name", name);
         return query.getResultList();
     }
+
+    @Override
+    public List<Team> retrieveAllTeams() {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Team> query = em.createQuery("SELECT t FROM Team t", Team.class);
+        return query.getResultList();
+    }
     
 }
