@@ -2,19 +2,28 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords.team;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.orm.jpa.JpaSystemException;
 
 /**
  * Class implementing Team DAO using JPA
  * 
  * @author Tomas Livora
  */
+@Named("teamDao")
 public class JpaTeamDao implements TeamDao {
 
     private EntityManagerFactory emf;
 
+    @Inject
     public JpaTeamDao(EntityManagerFactory emf) {
         this.emf = emf;
     }
@@ -33,10 +42,18 @@ public class JpaTeamDao implements TeamDao {
             throw new IllegalEntityException("team.name is null or empty");
         }
         
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(team);
-        em.getTransaction().commit();
+        try {
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.persist(team);
+            em.getTransaction().commit();
+        } catch (IllegalArgumentException | IllegalStateException ex) {
+            Logger.getLogger(JpaTeamDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new InvalidDataAccessApiUsageException("", ex);
+        } catch (PersistenceException ex) {
+            Logger.getLogger(JpaTeamDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new JpaSystemException(ex);
+        }
     }
 
     @Override
@@ -62,8 +79,12 @@ public class JpaTeamDao implements TeamDao {
             em.getTransaction().begin();
             em.merge(team);
             em.getTransaction().commit();
-        } catch (IllegalArgumentException ex) {
-            throw new IllegalEntityException(ex);
+        } catch (IllegalArgumentException | IllegalStateException ex) {
+            Logger.getLogger(JpaTeamDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new InvalidDataAccessApiUsageException("", ex);
+        } catch (PersistenceException ex) {
+            Logger.getLogger(JpaTeamDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new JpaSystemException(ex);
         }
     }
 
@@ -90,8 +111,12 @@ public class JpaTeamDao implements TeamDao {
             em.getTransaction().begin();
             em.remove(em.merge(team));
             em.getTransaction().commit();
-        } catch (IllegalArgumentException ex) {
-            throw new IllegalEntityException(ex);
+        } catch (IllegalArgumentException | IllegalStateException ex) {
+            Logger.getLogger(JpaTeamDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new InvalidDataAccessApiUsageException("", ex);
+        } catch (PersistenceException ex) {
+            Logger.getLogger(JpaTeamDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new JpaSystemException(ex);
         }
     }
 
@@ -101,8 +126,13 @@ public class JpaTeamDao implements TeamDao {
             throw new IllegalArgumentException("id is null");
         }
         
-        EntityManager em = emf.createEntityManager();
-        return em.find(Team.class, id);
+        try {
+            EntityManager em = emf.createEntityManager();
+            return em.find(Team.class, id);
+        } catch (IllegalArgumentException | IllegalStateException ex) {
+            Logger.getLogger(JpaTeamDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new InvalidDataAccessApiUsageException("", ex);
+        }
     }
 
     @Override
@@ -111,17 +141,33 @@ public class JpaTeamDao implements TeamDao {
             throw new IllegalArgumentException("name is null or empty");
         }
         
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<Team> query = em.createQuery("SELECT t FROM Team t WHERE name = :name", Team.class)
-                .setParameter("name", name);
-        return query.getResultList();
+        try {
+            EntityManager em = emf.createEntityManager();
+            TypedQuery<Team> query = em.createQuery("SELECT t FROM Team t WHERE name = :name", Team.class)
+                    .setParameter("name", name);
+            return query.getResultList();
+        } catch (IllegalArgumentException | IllegalStateException ex) {
+            Logger.getLogger(JpaTeamDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new InvalidDataAccessApiUsageException("", ex);
+        } catch (PersistenceException ex) {
+            Logger.getLogger(JpaTeamDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new JpaSystemException(ex);
+        }
     }
 
     @Override
     public List<Team> retrieveAllTeams() {
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<Team> query = em.createQuery("SELECT t FROM Team t", Team.class);
-        return query.getResultList();
+        try {
+            EntityManager em = emf.createEntityManager();
+            TypedQuery<Team> query = em.createQuery("SELECT t FROM Team t", Team.class);
+            return query.getResultList();
+        } catch (IllegalArgumentException | IllegalStateException ex) {
+            Logger.getLogger(JpaTeamDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new InvalidDataAccessApiUsageException("", ex);
+        } catch (PersistenceException ex) {
+            Logger.getLogger(JpaTeamDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new JpaSystemException(ex);
+        }
     }
     
 }
