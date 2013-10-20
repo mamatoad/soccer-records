@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords.goal;
 
+import java.util.List;
+
 /**
  * Interface for managing goals
  * 
@@ -27,5 +29,13 @@ public interface GoalManager {
      * @param goalDetail 
      */
     void remove(GoalDetail goalDetail);
+    
+    /**
+     * Returns list of all goals from the match with the given id
+     * 
+     * @param matchId id of the match
+     * @return list of all goals from the match with the given id
+     */
+    List<GoalDetail> getGoalsByMatchId(Long matchId);
     
 }

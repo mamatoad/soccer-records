@@ -1,9 +1,12 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords.goal;
 
+import cz.muni.fi.pa165.mamatoad.soccerrecords.match.Match;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.match.MatchDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.player.PlayerDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.team.TeamDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
@@ -54,6 +57,21 @@ public class GoalManagerImpl implements GoalManager {
             goalDao.deleteGoal(goalDetailToGoal(goal));
         } catch (IllegalArgumentException | IllegalEntityException | DataAccessException ex) {
             Logger.getLogger(GoalManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public List<GoalDetail> getGoalsByMatchId(Long matchId) {
+        try {
+            List<GoalDetail> goals = new ArrayList<>();
+            Match match = matchDao.retrieveMatchById(matchId);
+            for (Goal goal : goalDao.retrieveGoalsByMatch(match)) {
+                goals.add(goalToGoalDetail(goal));
+            }
+            return goals;
+        } catch (IllegalArgumentException | IllegalEntityException | DataAccessException ex) {
+            Logger.getLogger(GoalManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
     }
     
