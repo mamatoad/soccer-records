@@ -4,14 +4,10 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.match.Match;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.match.MatchDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.player.PlayerDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.team.TeamDao;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.springframework.dao.DataAccessException;
 
 /**
  *
@@ -35,44 +31,27 @@ public class GoalServiceImpl implements GoalService {
 
     @Override
     public void add(GoalTO goal) {        
-        try {
-            goalDao.createGoal(convertToEntity(goal));
-        } catch (IllegalArgumentException | IllegalEntityException | DataAccessException ex) {
-            Logger.getLogger(GoalServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        goalDao.createGoal(convertToEntity(goal));
     }
 
     @Override
     public void update(GoalTO goal) {
-        try {
-            goalDao.updateGoal(convertToEntity(goal));
-        } catch (IllegalArgumentException | IllegalEntityException | DataAccessException ex) {
-            Logger.getLogger(GoalServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        goalDao.updateGoal(convertToEntity(goal));
     }
 
     @Override
     public void remove(GoalTO goal) {
-        try {
-            goalDao.deleteGoal(convertToEntity(goal));
-        } catch (IllegalArgumentException | IllegalEntityException | DataAccessException ex) {
-            Logger.getLogger(GoalServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        goalDao.deleteGoal(convertToEntity(goal));
     }
 
     @Override
     public List<GoalTO> getGoalsByMatchId(Long matchId) {
-        try {
-            List<GoalTO> goals = new ArrayList<>();
-            Match match = matchDao.retrieveMatchById(matchId);
-            for (Goal goal : goalDao.retrieveGoalsByMatch(match)) {
-                goals.add(convertToTransferObject(goal));
-            }
-            return goals;
-        } catch (IllegalArgumentException | IllegalEntityException | DataAccessException ex) {
-            Logger.getLogger(GoalServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+        List<GoalTO> goals = new ArrayList<>();
+        Match match = matchDao.retrieveMatchById(matchId);
+        for (Goal goal : goalDao.retrieveGoalsByMatch(match)) {
+            goals.add(convertToTransferObject(goal));
         }
+        return goals;
     }
     
     private static GoalTO convertToTransferObject(Goal goal) {

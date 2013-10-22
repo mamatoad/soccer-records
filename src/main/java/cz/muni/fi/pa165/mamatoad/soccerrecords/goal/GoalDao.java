@@ -13,7 +13,6 @@ import java.util.List;
  */
 public interface GoalDao {
     
-    
     /**
      * Stores new goal into database.
      * 
@@ -21,7 +20,7 @@ public interface GoalDao {
      * @exception IllegalArgumentException when goal is null
      * @exception IllegalEntityException when id of goal is not null or other attributes are null
      */
-    void createGoal(Goal goal)throws IllegalArgumentException, IllegalEntityException;
+    void createGoal(Goal goal);
     
     /**
      * Updates gived goal in database.
@@ -30,7 +29,7 @@ public interface GoalDao {
      * @exception IllegalArgumentException when goal is null
      * @exception IllegalEntityException when some goal attribute is null
      */
-    void updateGoal(Goal goal) throws IllegalArgumentException, IllegalEntityException;
+    void updateGoal(Goal goal);
     
     /**
      * Deletes given goal in database.
@@ -39,7 +38,7 @@ public interface GoalDao {
      * @exception  IllegalArgumentException when goal is null
      * @exception IllegalEntityException when goal has null id or does not exist in the database
      */
-    void deleteGoal(Goal goal) throws IllegalArgumentException, IllegalEntityException;
+    void deleteGoal(Goal goal);
     
     /**
      * Retrieves goal with given id.
@@ -48,7 +47,7 @@ public interface GoalDao {
      * @return goal with given id or null if such goal does not exist
      * @exception IllegalArgumentException when id is null
      */
-    Goal retrieveGoalById(Long id) throws IllegalArgumentException;
+    Goal retrieveGoalById(Long id);
     
     /**
      * Retrieves goals in given match.
@@ -58,7 +57,7 @@ public interface GoalDao {
      * @exception IllegalArgumentException when match is null
      * @exception IllegalEntityException when match id is null
      */
-    List<Goal> retrieveGoalsByMatch(Match match) throws IllegalArgumentException, IllegalEntityException;
+    List<Goal> retrieveGoalsByMatch(Match match);
     
     /**
      * Retrieves goals in given match shot by given team.
@@ -69,7 +68,7 @@ public interface GoalDao {
      * @exception  IllegalArgumentException when match or team is null
      * @exception IllegalEntityException when match or team id is null
      */
-    List<Goal> retrieveGoalsByMatchAndTeam(Match match, Team team) throws IllegalArgumentException, IllegalEntityException;
+    List<Goal> retrieveGoalsByMatchAndTeam(Match match, Team team);
     
     /**
      * Retrieves goals shot by given player
@@ -79,7 +78,7 @@ public interface GoalDao {
      * @exception IllegalArgumentException when player is null
      * @exception IllegalEntityException when player id is null
      */
-    List<Goal> retrieveGoalsByPlayer(Player player) throws IllegalArgumentException, IllegalEntityException;
+    List<Goal> retrieveGoalsByPlayer(Player player);
     
     /**
      * Retrieves goals shot in given match by given player
@@ -90,6 +89,6 @@ public interface GoalDao {
      * @exception IllegalArgumentException when match or player is null
      * @exception IllegalEntityException when match or player id is null
      */
-    List<Goal> retrieveGoalsByMatchAndPlayer(Match match, Player player) throws IllegalArgumentException, IllegalEntityException;
+    List<Goal> retrieveGoalsByMatchAndPlayer(Match match, Player player);
     
 }

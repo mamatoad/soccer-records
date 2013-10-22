@@ -15,14 +15,14 @@ import javax.persistence.TypedQuery;
  */
 public class JpaGoalDao implements GoalDao {
 
-    private EntityManagerFactory factory;
+    private final EntityManagerFactory factory;
 
     public JpaGoalDao(EntityManagerFactory factory) {
         this.factory = factory;
     }
 
     @Override
-    public void createGoal(Goal goal) throws IllegalArgumentException, IllegalEntityException {
+    public void createGoal(Goal goal) {
         if (goal == null) {
             throw new IllegalArgumentException("Parameter goal is null");
         }
@@ -46,7 +46,7 @@ public class JpaGoalDao implements GoalDao {
     }
 
     @Override
-    public void updateGoal(Goal goal) throws IllegalArgumentException, IllegalEntityException {
+    public void updateGoal(Goal goal) {
         if (goal == null) {
             throw new IllegalArgumentException("Parameter goal is null");
         }
@@ -73,7 +73,7 @@ public class JpaGoalDao implements GoalDao {
     }
 
     @Override
-    public void deleteGoal(Goal goal) throws IllegalArgumentException, IllegalEntityException {
+    public void deleteGoal(Goal goal) {
         if (goal == null) {
             throw new IllegalArgumentException("Parameter goal is null");
         }
@@ -94,7 +94,7 @@ public class JpaGoalDao implements GoalDao {
     }
 
     @Override
-    public Goal retrieveGoalById(Long id) throws IllegalArgumentException {
+    public Goal retrieveGoalById(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("Parameter goal is null");
         }
@@ -106,7 +106,7 @@ public class JpaGoalDao implements GoalDao {
     }
 
     @Override
-    public List<Goal> retrieveGoalsByMatch(Match match) throws IllegalArgumentException, IllegalEntityException {
+    public List<Goal> retrieveGoalsByMatch(Match match) {
         if (match == null) {
             throw new IllegalArgumentException("Parameter goal is null");
         }
@@ -122,7 +122,7 @@ public class JpaGoalDao implements GoalDao {
     }
 
     @Override
-    public List<Goal> retrieveGoalsByMatchAndTeam(Match match, Team team) throws IllegalArgumentException, IllegalEntityException {
+    public List<Goal> retrieveGoalsByMatchAndTeam(Match match, Team team) {
         if (match == null) {
             throw new IllegalArgumentException("Parameter goal is null");
         }
@@ -146,7 +146,7 @@ public class JpaGoalDao implements GoalDao {
     }
 
     @Override
-    public List<Goal> retrieveGoalsByPlayer(Player player) throws IllegalArgumentException, IllegalEntityException {
+    public List<Goal> retrieveGoalsByPlayer(Player player) {
         if (player == null) {
             throw new IllegalArgumentException("Parameter player is null");
         }
@@ -162,7 +162,7 @@ public class JpaGoalDao implements GoalDao {
     }
 
     @Override
-    public List<Goal> retrieveGoalsByMatchAndPlayer(Match match, Player player) throws IllegalArgumentException, IllegalEntityException {
+    public List<Goal> retrieveGoalsByMatchAndPlayer(Match match, Player player) {
        if (match == null) {
             throw new IllegalArgumentException("Parameter goal is null");
         }
@@ -185,7 +185,7 @@ public class JpaGoalDao implements GoalDao {
         return goals.getResultList();
     }
     
-    static private boolean validateGoal(Goal goal, StringBuilder builder){
+    static private boolean validateGoal(Goal goal, StringBuilder builder) {
         boolean throwEx = false;
         
         if(goal.getMatch() == null || goal.getMatch().getId() == null) {
