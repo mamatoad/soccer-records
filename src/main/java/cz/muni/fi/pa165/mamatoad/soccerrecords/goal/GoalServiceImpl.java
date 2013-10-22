@@ -17,16 +17,16 @@ import org.springframework.dao.DataAccessException;
  *
  * @author Tomas Livora
  */
-@Named("goalManager")
-public class GoalManagerImpl implements GoalManager {
+@Named("goalService")
+public class GoalServiceImpl implements GoalService {
     
-    private GoalDao goalDao;
-    private MatchDao matchDao;
-    private PlayerDao playerDao;
-    private TeamDao teamDao;
+    private final GoalDao goalDao;
+    private final MatchDao matchDao;
+    private final PlayerDao playerDao;
+    private final TeamDao teamDao;
 
     @Inject
-    public GoalManagerImpl(GoalDao goalDao, MatchDao matchDao, PlayerDao playerDao, TeamDao teamDao) {
+    public GoalServiceImpl(GoalDao goalDao, MatchDao matchDao, PlayerDao playerDao, TeamDao teamDao) {
         this.goalDao = goalDao;
         this.matchDao = matchDao;
         this.playerDao = playerDao;
@@ -34,59 +34,59 @@ public class GoalManagerImpl implements GoalManager {
     }
 
     @Override
-    public void add(GoalDetail goal) {        
+    public void add(GoalTO goal) {        
         try {
-            goalDao.createGoal(goalDetailToGoal(goal));
+            goalDao.createGoal(convertToEntity(goal));
         } catch (IllegalArgumentException | IllegalEntityException | DataAccessException ex) {
-            Logger.getLogger(GoalManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GoalServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
-    public void update(GoalDetail goal) {
+    public void update(GoalTO goal) {
         try {
-            goalDao.updateGoal(goalDetailToGoal(goal));
+            goalDao.updateGoal(convertToEntity(goal));
         } catch (IllegalArgumentException | IllegalEntityException | DataAccessException ex) {
-            Logger.getLogger(GoalManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GoalServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
-    public void remove(GoalDetail goal) {
+    public void remove(GoalTO goal) {
         try {
-            goalDao.deleteGoal(goalDetailToGoal(goal));
+            goalDao.deleteGoal(convertToEntity(goal));
         } catch (IllegalArgumentException | IllegalEntityException | DataAccessException ex) {
-            Logger.getLogger(GoalManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GoalServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
-    public List<GoalDetail> getGoalsByMatchId(Long matchId) {
+    public List<GoalTO> getGoalsByMatchId(Long matchId) {
         try {
-            List<GoalDetail> goals = new ArrayList<>();
+            List<GoalTO> goals = new ArrayList<>();
             Match match = matchDao.retrieveMatchById(matchId);
             for (Goal goal : goalDao.retrieveGoalsByMatch(match)) {
-                goals.add(goalToGoalDetail(goal));
+                goals.add(convertToTransferObject(goal));
             }
             return goals;
         } catch (IllegalArgumentException | IllegalEntityException | DataAccessException ex) {
-            Logger.getLogger(GoalManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GoalServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
     
-    private static GoalDetail goalToGoalDetail(Goal goal) {
-        return new GoalDetail(goal.getId(), goal.getMatch().getId(), goal.getPlayer().getId(),
+    private static GoalTO convertToTransferObject(Goal goal) {
+        return new GoalTO(goal.getId(), goal.getMatch().getId(), goal.getPlayer().getId(),
                 goal.getPlayer().getName(), goal.getTeam().getId(), goal.getTeam().getName(), goal.getShootingTime());
     }
     
-    private Goal goalDetailToGoal(GoalDetail goalDetail) {
+    private Goal convertToEntity(GoalTO goalTO) {
         Goal goal = new Goal();
-        goal.setId(goalDetail.getGoalId());
-        goal.setMatch(matchDao.retrieveMatchById(goalDetail.getMatchId()));
-        goal.setPlayer(playerDao.retrievePlayerById(goalDetail.getPlayerId()));
-        goal.setTeam(teamDao.retrieveTeamById(goalDetail.getTeamId()));
-        goal.setShootingTime(goalDetail.getTime());
+        goal.setId(goalTO.getGoalId());
+        goal.setMatch(matchDao.retrieveMatchById(goalTO.getMatchId()));
+        goal.setPlayer(playerDao.retrievePlayerById(goalTO.getPlayerId()));
+        goal.setTeam(teamDao.retrieveTeamById(goalTO.getTeamId()));
+        goal.setShootingTime(goalTO.getTime());
         return goal;
     }
 

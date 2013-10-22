@@ -7,28 +7,28 @@ import java.util.List;
  * 
  * @author Tomas Livora
  */
-public interface GoalManager {
+public interface GoalService {
 
     /**
      * Adds the given goal to the persistent storage
      * 
-     * @param goalDetail 
+     * @param goal the goal being added
      */
-    void add(GoalDetail goalDetail);
+    void add(GoalTO goal);
     
     /**
      * Updates the given goal in the persistent storage
      * 
-     * @param goalDetail 
+     * @param goal the goal being updated
      */
-    void update(GoalDetail goalDetail);
+    void update(GoalTO goal);
     
     /**
      * Removes the given goal from the persistent storage
      * 
-     * @param goalDetail 
+     * @param goal the goal being removed
      */
-    void remove(GoalDetail goalDetail);
+    void remove(GoalTO goal);
     
     /**
      * Returns list of all goals from the match with the given id
@@ -36,6 +36,6 @@ public interface GoalManager {
      * @param matchId id of the match
      * @return list of all goals from the match with the given id
      */
-    List<GoalDetail> getGoalsByMatchId(Long matchId);
+    List<GoalTO> getGoalsByMatchId(Long matchId);
     
 }

@@ -7,7 +7,7 @@ import org.joda.time.LocalTime;
  *
  * @author Tomas Livora
  */
-public class GoalDetail {
+public class GoalTO {
     
     private Long goalId;
     private Long matchId;
@@ -17,9 +17,10 @@ public class GoalDetail {
     private String playerName;
     private LocalTime time;
 
-    public GoalDetail() {}
+    public GoalTO() {}
 
-    public GoalDetail(Long goalId, Long matchId, Long teamId, String teamName, Long playerId, String playerName, LocalTime time) {
+    public GoalTO(Long goalId, Long matchId, Long teamId, String teamName, Long playerId, String playerName,
+            LocalTime time) {
         this.goalId = goalId;
         this.matchId = matchId;
         this.teamId = teamId;
@@ -100,16 +101,14 @@ public class GoalDetail {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final GoalDetail other = (GoalDetail) obj;
-        if (!Objects.equals(this.goalId, other.goalId)) {
-            return false;
-        }
-        return true;
+        final GoalTO other = (GoalTO) obj;
+        return Objects.equals(this.goalId, other.goalId);
     }
 
     @Override
     public String toString() {
-        return "GoalDetail{" + "goalId=" + goalId + ", matchId=" + matchId + ", teamId=" + teamId + ", teamName=" + teamName + ", playerId=" + playerId + ", playerName=" + playerName + ", time=" + time + '}';
+        return "GoalDetail{" + "goalId=" + goalId + ", matchId=" + matchId + ", teamId=" + teamId + ", teamName=" 
+                + teamName + ", playerId=" + playerId + ", playerName=" + playerName + ", time=" + time + '}';
     }
 
 }
