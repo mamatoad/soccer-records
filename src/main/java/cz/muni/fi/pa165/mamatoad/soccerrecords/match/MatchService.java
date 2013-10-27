@@ -37,8 +37,15 @@ public interface MatchService {
      * Returns list of goals shot in match
      * 
      * @param match match where the goals were shot
-     * @return list of all goals shot in this match
+     * @return list of all goalTO shot in this match
      */
     public List<GoalTO> getGoals(MatchTO match);
     
+    /**
+     * Returns list of matches with given team id
+     * 
+     * @param teamId if of the team
+     * @return list of matchTO where played team with given id
+     */
+    public List<MatchTO> getMatchesByTeamId(Long teamId);
 }
