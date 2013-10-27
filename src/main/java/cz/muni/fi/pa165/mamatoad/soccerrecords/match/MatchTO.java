@@ -16,37 +16,34 @@ import org.joda.time.LocalDate;
 public class MatchTO {
     
     private Long matchId;
+    
     private Long homeTeamId;
     private String homeTeamName;
+    private int homeTeamScore;
+    
     private Long visitingTeamId;
     private String visitingTeamName;
+    private int visitingTeamScore;
+    
     private LocalDate eventDate;
-    //derivated
-    private boolean drawGame;
-    private Long winnerId;
-    private Long looserId;
-    private Long homeTeamScore;
-    private Long visitingTeamScore;
-
+    private Long winnerTeamId;
+    
     public MatchTO(){
     }
 
-    public MatchTO(Long matchId, String homeTeamName, Long homeTeamId,  Long visitingTeamId, String visitingTeamName,
-            LocalDate eventDate, boolean drawGame, Long winnerId, Long looserId, Long homeTeamScore, 
-            Long visitingTeamScore) {
+    public MatchTO(Long matchId, Long homeTeamId, String homeTeamName, int homeTeamScore, Long visitingTeamId,
+            String visitingTeamName, int visitingTeamScore, LocalDate eventDate, Long winnerTeamId) {
         this.matchId = matchId;
         this.homeTeamId = homeTeamId;
         this.homeTeamName = homeTeamName;
+        this.homeTeamScore = homeTeamScore;
         this.visitingTeamId = visitingTeamId;
         this.visitingTeamName = visitingTeamName;
-        this.eventDate = eventDate;
-        this.drawGame = drawGame;
-        this.winnerId = winnerId;
-        this.looserId = looserId;
-        this.homeTeamScore = homeTeamScore;
         this.visitingTeamScore = visitingTeamScore;
+        this.eventDate = eventDate;
+        this.winnerTeamId = winnerTeamId;
     }
-    
+
     public Long getMatchId() {
         return matchId;
     }
@@ -59,6 +56,10 @@ public class MatchTO {
         return homeTeamName;
     }
 
+    public int getHomeTeamScore() {
+        return homeTeamScore;
+    }
+
     public Long getVisitingTeamId() {
         return visitingTeamId;
     }
@@ -67,28 +68,16 @@ public class MatchTO {
         return visitingTeamName;
     }
 
+    public int getVisitingTeamScore() {
+        return visitingTeamScore;
+    }
+
     public LocalDate getEventDate() {
         return eventDate;
     }
 
-    public boolean isDrawGame() {
-        return drawGame;
-    }
-
-    public Long getWinnerId() {
-        return winnerId;
-    }
-
-    public Long getLooserId() {
-        return looserId;
-    }
-
-    public Long getHomeTeamScore() {
-        return homeTeamScore;
-    }
-
-    public Long getVisitingTeamScore() {
-        return visitingTeamScore;
+    public Long getWinnerTeamId() {
+        return winnerTeamId;
     }
 
     public void setMatchId(Long matchId) {
@@ -103,6 +92,10 @@ public class MatchTO {
         this.homeTeamName = homeTeamName;
     }
 
+    public void setHomeTeamScore(int homeTeamScore) {
+        this.homeTeamScore = homeTeamScore;
+    }
+
     public void setVisitingTeamId(Long visitingTeamId) {
         this.visitingTeamId = visitingTeamId;
     }
@@ -111,34 +104,22 @@ public class MatchTO {
         this.visitingTeamName = visitingTeamName;
     }
 
+    public void setVisitingTeamScore(int visitingTeamScore) {
+        this.visitingTeamScore = visitingTeamScore;
+    }
+
     public void setEventDate(LocalDate eventDate) {
         this.eventDate = eventDate;
     }
 
-    public void setDrawGame(boolean drawGame) {
-        this.drawGame = drawGame;
-    }
-
-    public void setWinnerId(Long winnerId) {
-        this.winnerId = winnerId;
-    }
-
-    public void setLooserId(Long looserId) {
-        this.looserId = looserId;
-    }
-
-    public void setHomeTeamScore(Long homeTeamScore) {
-        this.homeTeamScore = homeTeamScore;
-    }
-
-    public void setVisitingTeamScore(Long visitingTeamScore) {
-        this.visitingTeamScore = visitingTeamScore;
+    public void setWinnerTeamId(Long winnerTeamId) {
+        this.winnerTeamId = winnerTeamId;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 17 * hash + Objects.hashCode(this.matchId);
+        int hash = 5;
+        hash = 83 * hash + Objects.hashCode(this.matchId);
         return hash;
     }
 
@@ -159,12 +140,8 @@ public class MatchTO {
 
     @Override
     public String toString() {
-        return "MatchTO{" + "matchId=" + matchId + ", homeTeamId=" + homeTeamId + ", homeTeamName=" + homeTeamName +
-                ", visitingTeamId=" + visitingTeamId + ", visitingTeamName=" + visitingTeamName + ", eventDate=" + 
-                eventDate + ", drawGame=" + drawGame + ", winnerId=" + winnerId + ", looserId=" + looserId + 
-                ", homeTeamScore=" + homeTeamScore + ", visitingTeamScore=" + visitingTeamScore + '}';
+        return "MatchTO{" + "matchId=" + matchId + ", homeTeamId=" + homeTeamId + ", homeTeamName=" + homeTeamName + ", homeTeamScore=" + homeTeamScore + ", visitingTeamId=" + visitingTeamId + ", visitingTeamName=" + visitingTeamName + ", visitingTeamScore=" + visitingTeamScore + ", eventDate=" + eventDate + ", winnerTeamId=" + winnerTeamId + '}';
     }
 
-   
-
+    
  }
