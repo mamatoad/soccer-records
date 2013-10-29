@@ -8,15 +8,19 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Adriana Smijakova
  */
+@Repository("goalDao")
 public class JpaGoalDao implements GoalDao {
 
     private final EntityManagerFactory factory;
 
+    @Autowired
     public JpaGoalDao(EntityManagerFactory factory) {
         this.factory = factory;
     }

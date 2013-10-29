@@ -6,14 +6,16 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.player.PlayerDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.team.TeamDao;
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Inject;
-import javax.inject.Named;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Tomas Livora
  */
-@Named("goalService")
+@Transactional
+@Service("goalService")
 public class GoalServiceImpl implements GoalService {
     
     private final GoalDao goalDao;
@@ -21,7 +23,7 @@ public class GoalServiceImpl implements GoalService {
     private final PlayerDao playerDao;
     private final TeamDao teamDao;
 
-    @Inject
+    @Autowired
     public GoalServiceImpl(GoalDao goalDao, MatchDao matchDao, PlayerDao playerDao, TeamDao teamDao) {
         this.goalDao = goalDao;
         this.matchDao = matchDao;
