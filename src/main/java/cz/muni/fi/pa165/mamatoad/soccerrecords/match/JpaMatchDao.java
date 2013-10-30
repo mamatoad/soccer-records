@@ -5,16 +5,20 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityExcep
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.joda.time.LocalDate;
+import org.springframework.stereotype.Repository;
 
 /**
  * Implementation of interface MatchDao
  * 
  * @author Matus Nemec
  */
+@Repository("matchDao")
 public class JpaMatchDao implements MatchDao {
-
+   
+    @PersistenceContext
     private EntityManagerFactory entityManagerFactory;
 
     public JpaMatchDao(EntityManagerFactory entityManagerFactory) {
