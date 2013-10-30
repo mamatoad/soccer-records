@@ -66,4 +66,12 @@ public interface MatchDao {
      * @exception IllegalArgumentException when eventDate is null
      */
     List<Match> retrieveMatchesByEventDate(LocalDate eventDate) throws IllegalArgumentException;
+    
+    
+    /**
+     * Retrieves all matches
+     *  
+     * @return list of all matches
+     */
+    List<Match> retrieveAllMatches();
 }

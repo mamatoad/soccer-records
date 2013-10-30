@@ -4,7 +4,6 @@
  */
 package cz.muni.fi.pa165.mamatoad.soccerrecords.match;
 
-import cz.muni.fi.pa165.mamatoad.soccerrecords.goal.GoalTO;
 import java.util.List;
 
 /**
@@ -40,4 +39,11 @@ public interface MatchService {
      * @return list of matchTO where played team with given id
      */
     public List<MatchTO> getMatchesByTeamId(Long teamId);
+    
+    /**
+     * Returns all matches
+     * 
+     * @return list of matches
+     */
+    public List<MatchTO> getAllMatches();
 }

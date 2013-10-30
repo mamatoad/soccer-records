@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords.match;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -97,6 +98,15 @@ public class JpaMatchDao implements MatchDao {
         return matches.getResultList();
     }
     
+    
+    @Override
+    public List<Match> retrieveAllMatches() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        TypedQuery<Match> matches = entityManager.createQuery(
+                "SELECT m FROM Match", Match.class);
+        return matches.getResultList();
+    }
+    
     private void checkMatch(Match match, boolean idShouldBeEqualNull) throws IllegalArgumentException, IllegalEntityException {
         if (match == null) throw new IllegalArgumentException("match == null");
         if ((match.getId() != null) && idShouldBeEqualNull) throw new IllegalEntityException("match.id != null");
@@ -118,4 +128,5 @@ public class JpaMatchDao implements MatchDao {
             throw new IllegalEntityException("Specified match does not exist " + match);
         }
     }
+
 }

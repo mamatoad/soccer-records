@@ -76,6 +76,17 @@ public class MatchServiceImpl implements MatchService{
         return matchesTO;
     }
     
+    @Transactional
+    @Override
+    public List<MatchTO> getAllMatches() {
+        List<Match> matches = matchDao.retrieveAllMatches();
+        List<MatchTO> matchesTO = new ArrayList<>();
+        for(Match m:matches){
+          matchesTO.add(toTO(m));
+        }
+        return matchesTO;
+    }
+    
     private Match toEntity(MatchTO matchTO){
         if(matchTO.getMatchId() != null){
             return matchDao.retrieveMatchById(matchTO.getMatchId());
@@ -114,5 +125,6 @@ public class MatchServiceImpl implements MatchService{
                 winnerTeam
                 );
     }
+
 
 }
