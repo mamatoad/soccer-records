@@ -70,5 +70,9 @@ public interface PlayerDao {
      */
     List<Player> retrievePlayersByActivity(boolean active);
     
-    
+    /**
+     * This method retrieves all players
+     * @return list of all players
+     */
+    List<Player> retrieveAllPlayers();
 }

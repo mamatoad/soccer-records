@@ -148,6 +148,16 @@ public class JpaPlayerDao implements PlayerDao {
         return players;
     }
     
+    @Override
+    public List<Player> retrieveAllPlayers() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        
+        TypedQuery<Player> query = entityManager.createQuery("Select p from Player p", Player.class);
+        List<Player> players = query.getResultList();
+        
+        return players;
+    }
+    
     private boolean teamExists(Team team) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         
@@ -157,7 +167,5 @@ public class JpaPlayerDao implements PlayerDao {
         
         return (teamInDb != null);
     }
-    
-    
     
 }
