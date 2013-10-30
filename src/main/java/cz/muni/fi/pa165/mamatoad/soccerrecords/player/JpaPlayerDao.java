@@ -6,16 +6,20 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  * JPA implementation of PlayerDao interface.
  * This interface provides create, retrieve, update and delete methods for work with Player entity.
  * @author Maros Klimovsky
  */
+@Repository("playerDao")
 public class JpaPlayerDao implements PlayerDao {
 
     private EntityManagerFactory entityManagerFactory;
     
+    @Autowired
     public JpaPlayerDao(EntityManagerFactory entityManagerFactory) {
         if(entityManagerFactory == null)
             throw new IllegalArgumentException("entityManagerFactory cannot be null");

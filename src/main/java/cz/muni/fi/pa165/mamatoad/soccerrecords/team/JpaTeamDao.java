@@ -4,26 +4,27 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityExcep
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Inject;
-import javax.inject.Named;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.orm.jpa.JpaSystemException;
+import org.springframework.stereotype.Repository;
 
 /**
  * Class implementing Team DAO using JPA
  * 
  * @author Tomas Livora
  */
-@Named("teamDao")
+@Repository("teamDao")
 public class JpaTeamDao implements TeamDao {
 
     private EntityManagerFactory emf;
 
-    @Inject
+    @Autowired
     public JpaTeamDao(EntityManagerFactory emf) {
         this.emf = emf;
     }
