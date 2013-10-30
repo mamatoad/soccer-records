@@ -32,22 +32,38 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public void add(GoalTO goal) {        
+    public void add(GoalTO goal) {
+        if (goal == null) {
+            throw new IllegalArgumentException("goal is null");
+        }
+        
         goalDao.createGoal(convertToEntity(goal));
     }
 
     @Override
     public void update(GoalTO goal) {
+        if (goal == null) {
+            throw new IllegalArgumentException("goal is null");
+        }
+        
         goalDao.updateGoal(convertToEntity(goal));
     }
 
     @Override
     public void remove(GoalTO goal) {
+        if (goal == null) {
+            throw new IllegalArgumentException("goal is null");
+        }
+        
         goalDao.deleteGoal(convertToEntity(goal));
     }
 
     @Override
     public List<GoalTO> getGoalsByMatchId(Long matchId) {
+        if (matchId == null) {
+            throw new IllegalArgumentException("matchId is null");
+        }
+        
         List<GoalTO> goals = new ArrayList<>();
         Match match = matchDao.retrieveMatchById(matchId);
         for (Goal goal : goalDao.retrieveGoalsByMatch(match)) {

@@ -13,6 +13,7 @@ public interface GoalService {
      * Adds the given goal to the persistent storage
      * 
      * @param goal the goal being added
+     * @throws IllegalArgumentException if goal is null
      */
     void add(GoalTO goal);
     
@@ -20,6 +21,7 @@ public interface GoalService {
      * Updates the given goal in the persistent storage
      * 
      * @param goal the goal being updated
+     * @throws IllegalArgumentException if goal is null
      */
     void update(GoalTO goal);
     
@@ -27,6 +29,7 @@ public interface GoalService {
      * Removes the given goal from the persistent storage
      * 
      * @param goal the goal being removed
+     * @throws IllegalArgumentException if goal is null
      */
     void remove(GoalTO goal);
     
@@ -35,6 +38,7 @@ public interface GoalService {
      * 
      * @param matchId id of the match
      * @return list of all goals from the match with the given id
+     * @throws IllegalArgumentException if matchId is null
      */
     List<GoalTO> getGoalsByMatchId(Long matchId);
     
