@@ -22,6 +22,10 @@ public class TeamServiceImpl implements TeamService{
     private MatchDao matchDao;
     private TeamDao teamDao;
     
+    public TeamServiceImpl(){
+    
+    }
+    
     @Autowired
     public TeamServiceImpl(PlayerDao playerDao, MatchDao matchDao, TeamDao teamDao){
         this.playerDao = playerDao;
@@ -76,7 +80,7 @@ public class TeamServiceImpl implements TeamService{
         team.setId(teamTo.getTeamId());
         team.setName(teamTo.getTeamName());
         team.setPlayers(playerDao.retrievePlayersByTeam(team));
-        return null;
+        return team;
         
     }
     
