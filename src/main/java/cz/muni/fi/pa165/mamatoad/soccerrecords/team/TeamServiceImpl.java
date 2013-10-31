@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Maros Klimovsky
  */
 @Transactional
-@Service("goalService")
+@Service("teamService")
 public class TeamServiceImpl implements TeamService{
 
     private PlayerDao playerDao;
