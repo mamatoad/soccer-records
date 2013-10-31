@@ -73,8 +73,8 @@ public class GoalServiceImpl implements GoalService {
     }
     
     private static GoalTO convertToTransferObject(Goal goal) {
-        return new GoalTO(goal.getId(), goal.getMatch().getId(), goal.getPlayer().getId(),
-                goal.getPlayer().getName(), goal.getTeam().getId(), goal.getTeam().getName(), goal.getShootingTime());
+        return new GoalTO(goal.getId(), goal.getMatch().getId(), goal.getTeam().getId(), goal.getTeam().getName(), 
+                goal.getPlayer().getId(), goal.getPlayer().getName(), goal.getShootingTime());
     }
     
     private Goal convertToEntity(GoalTO goalTO) {

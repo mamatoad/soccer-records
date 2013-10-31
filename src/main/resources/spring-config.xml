@@ -12,37 +12,37 @@ http://www.springframework.org/schema/tx
 http://www.springframework.org/schema/tx/spring-tx.xsd"
 >
 
-  <context:component-scan base-package="cz.muni.fi.pa165.mamatoad.soccerrecords"/>
-  <context:annotation-config/>
+    <context:component-scan base-package="cz.muni.fi.pa165.mamatoad.soccerrecords"/>
+    <context:annotation-config/>
  
-  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-    <property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver" />
-    <property name="url" value="jdbc:derby://localhost:1527/pa165" />
-    <property name="username" value="pa165" />
-    <property name="password" value="pa165" />
-  </bean>
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver" />
+        <property name="url" value="jdbc:derby://localhost:1527/pa165" />
+        <property name="username" value="pa165" />
+        <property name="password" value="pa165" />
+    </bean>
   
-  <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-    <property name="dataSource" ref="dataSource" />
-    <property name="packagesToScan" value="cz.muni.fi.pa165.mamatoad.soccerrecords" />
-    <property name="jpaVendorAdapter">
-      <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
-    </property>
-    <property name="jpaProperties">
-      <props>
-        <!--<prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>-->
-        <prop key="hibernate.hbm2ddl.auto">update</prop>
-      </props>
-    </property>
-  </bean>
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan" value="cz.muni.fi.pa165.mamatoad.soccerrecords" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <!--<prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>-->
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+    </bean>
  
-  <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-    <property name="entityManagerFactory" ref="entityManagerFactory" />
-  </bean>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
   
-  <tx:annotation-driven transaction-manager="transactionManager" />
+    <tx:annotation-driven transaction-manager="transactionManager" />
  
-  <bean id="persistenceExceptionTranslationPostProcessor" 
-        class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+    <bean id="persistenceExceptionTranslationPostProcessor" 
+          class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
 </beans>
