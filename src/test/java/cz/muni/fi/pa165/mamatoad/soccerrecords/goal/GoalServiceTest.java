@@ -176,11 +176,13 @@ public class GoalServiceTest {
     
     @Test
     public void getGoalsByMatchId_validId_returnsGoal(){
-        when(goalDao.retrieveGoalsByMatch(match)).thenAnswer(new Answer<Goal>() {
+        when(goalDao.retrieveGoalsByMatch(match)).thenAnswer(new Answer<List<Goal>>() {
              @Override
-             public Goal answer(InvocationOnMock invocation) throws Throwable {
+             public List<Goal> answer(InvocationOnMock invocation) throws Throwable {
                       goal.setId(5L);
-                      return goal;
+                      List<Goal> goals = new ArrayList<>();
+                      goals.add(goal);
+                      return goals;
                    }
                });
         List<GoalTO> retrievedGoalTOList = goalService.getGoalsByMatchId(match.getId());
