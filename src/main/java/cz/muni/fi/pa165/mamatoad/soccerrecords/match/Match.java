@@ -78,6 +78,12 @@ public class Match implements Serializable {
     public List<Goal> getGoals() {
         return goals;
     }
+    
+    @Deprecated
+    // only for mocking in tests
+    public void setGoals(List<Goal> goals) {
+        this.goals = goals;
+    }
 
     @Override
     public int hashCode() {

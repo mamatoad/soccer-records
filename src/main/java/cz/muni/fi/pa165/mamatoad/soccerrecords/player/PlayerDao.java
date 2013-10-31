@@ -18,7 +18,7 @@ public interface PlayerDao {
      * @throws IllegalEntityException if player.id is already set or player.name is not set
      *                                or team is set but doesn't exist
      */
-    void createPlayer(Player player) throws IllegalEntityException, IllegalArgumentException;
+    void createPlayer(Player player);
     
     /**
      * This method updates player
@@ -28,7 +28,7 @@ public interface PlayerDao {
      * @throws IllegalEntityException if player.id or player.name is not set
      *                                or team is set but doesn't exist
      */
-    void updatePlayer(Player player) throws IllegalEntityException, IllegalArgumentException;
+    void updatePlayer(Player player);
     
     /**
      * This method deletes player
@@ -36,7 +36,7 @@ public interface PlayerDao {
      * @throws IllegalArgumentException if player is null
      * @throws IllegalEntityException if player.id is not set
      */
-    void deletePlayer(Player player) throws IllegalEntityException, IllegalArgumentException;
+    void deletePlayer(Player player);
     
     /**
      * This method retrieves player by his id
@@ -44,7 +44,7 @@ public interface PlayerDao {
      * @return player with given id or null if not found
      * @throws IllegalArgumentException if id is null
      */
-    Player retrievePlayerById(Long id) throws IllegalArgumentException;
+    Player retrievePlayerById(Long id);
     
     /**
      * This method retrieves player by name
@@ -52,7 +52,7 @@ public interface PlayerDao {
      * @return list of players with given name
      * @throws IllegalArgumentException if name is not set
      */
-    List<Player> retrievePlayersByName(String name) throws IllegalArgumentException;
+    List<Player> retrievePlayersByName(String name);
     
     /**
      * This method retrieves player by team
@@ -61,7 +61,7 @@ public interface PlayerDao {
      * @throws IllegalEntityException if team is null
      * @throws IllegalEntityException id team.id is null or if team doesn't exist
      */
-    List<Player> retrievePlayersByTeam(Team team) throws IllegalEntityException, IllegalArgumentException;
+    List<Player> retrievePlayersByTeam(Team team);
     
     /**
      * This method retrieves player by activity

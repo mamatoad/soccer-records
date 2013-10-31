@@ -79,7 +79,11 @@ public class PlayerServiceImpl implements PlayerService {
         Player player = new Player();
         player.setId(playerTO.getPlayerId());
         player.setName(playerTO.getPlayerName());
-        player.setTeam(teamDao.retrieveTeamById(playerTO.getTeamId()));
+        if (playerTO.getTeamId() == null) {
+            player.setTeam(null); 
+        } else {
+            player.setTeam(teamDao.retrieveTeamById(playerTO.getTeamId()));
+        }
         player.setActive(playerTO.isPlayerActive());
         return player;
     }
@@ -88,8 +92,14 @@ public class PlayerServiceImpl implements PlayerService {
         PlayerTO playerTO = new PlayerTO();
         playerTO.setPlayerId(player.getId());
         playerTO.setPlayerName(player.getName());
-        playerTO.setTeamId(player.getTeam().getId());
-        playerTO.setTeamName(player.getTeam().getName());
+        if (player.getTeam() == null) {
+            playerTO.setTeamId(null);
+            playerTO.setTeamName(null);
+        } else {
+            playerTO.setTeamId(player.getTeam().getId());
+            playerTO.setTeamName(player.getTeam().getName());
+        }
+        
         playerTO.setPlayerActive(player.getActive()); 
         playerTO.setPlayerGoalsScored(new Long(goalDao.retrieveGoalsByPlayer(player).size()));
         return playerTO;

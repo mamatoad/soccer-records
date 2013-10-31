@@ -44,9 +44,11 @@ public class TeamServiceTest {
     Match match1;
     Match match2;
     Match match3;
+    List<Match> matches;
     List<Goal> goals1;
     List<Goal> goals2;
     List<Goal> goals3;
+    List<Team> teams;
 
     @Before
     public void setup() {
@@ -60,7 +62,7 @@ public class TeamServiceTest {
         // first team
         
         team = new Team();
-        team.setId(123L);
+        team.setId(1L);
         team.setName("Test FC");
 
         players = new ArrayList<>();
@@ -82,7 +84,7 @@ public class TeamServiceTest {
         // second team
         
         otherTeam = new Team();
-        otherTeam.setId(123L);
+        otherTeam.setId(2L);
         otherTeam.setName("Test FC");
 
         otherPlayers = new ArrayList<>();
@@ -100,6 +102,10 @@ public class TeamServiceTest {
         otherPlayers.add(player4);
 
         otherTeam.setPlayers(otherPlayers);
+        
+        teams = new ArrayList<>();
+        teams.add(team);
+        teams.add(otherTeam);
         
         // matches
         
@@ -123,6 +129,11 @@ public class TeamServiceTest {
         match3.setEventDate(LocalDate.now());
         match3.setHomeTeam(otherTeam);
         match3.setVisitingTeam(team);
+        
+        matches = new ArrayList<>();
+        matches.add(match1);
+        matches.add(match2);
+        matches.add(match3);
         
         // goals
         goals1 = new ArrayList<>();
@@ -151,6 +162,10 @@ public class TeamServiceTest {
         goals3.add(makeGoal(555550L, match3, player3, LocalTime.now().plusMinutes(15), otherTeam));
         goals3.add(makeGoal(666660L, match3, player4, LocalTime.now().plusMinutes(50), otherTeam));
         
+        match1.setGoals(goals1);
+        match2.setGoals(goals2);
+        match3.setGoals(goals3);
+        
         // team TOs
         
         teamTO = new TeamTO();
@@ -170,11 +185,18 @@ public class TeamServiceTest {
         otherTeamTO.setNumberOfTies(1);
         otherTeamTO.setNumberOfGoalsShot(8);
         otherTeamTO.setNumberOfGoalsRecieved(7);
-
-        when(teamDao.retrieveTeamById(123L)).thenAnswer(new Answer<Team>() {
+        
+        when(teamDao.retrieveTeamById(team.getId())).thenAnswer(new Answer<Team>() {
             @Override
             public Team answer(InvocationOnMock invocation) throws Throwable {
                 return team;
+            }
+        });
+        
+        when(teamDao.retrieveTeamById(otherTeam.getId())).thenAnswer(new Answer<Team>() {
+            @Override
+            public Team answer(InvocationOnMock invocation) throws Throwable {
+                return otherTeam;
             }
         });
         
@@ -192,24 +214,24 @@ public class TeamServiceTest {
             }
         });
         
-        when(goalDao.retrieveGoalsByMatch(match1)).thenAnswer(new Answer<List<Goal>>() {
+        when(matchDao.retrieveMatchesByTeam(team)).thenAnswer(new Answer<List<Match>>() {
             @Override
-            public List<Goal> answer(InvocationOnMock invocation) throws Throwable {
-                return goals1;
+            public List<Match> answer(InvocationOnMock invocation) throws Throwable {
+                return matches;
+            }
+        });
+
+        when(matchDao.retrieveMatchesByTeam(otherTeam)).thenAnswer(new Answer<List<Match>>() {
+            @Override
+            public List<Match> answer(InvocationOnMock invocation) throws Throwable {
+                return matches;
             }
         });
         
-        when(goalDao.retrieveGoalsByMatch(match2)).thenAnswer(new Answer<List<Goal>>() {
+        when(teamDao.retrieveAllTeams()).thenAnswer(new Answer<List<Team>>() {
             @Override
-            public List<Goal> answer(InvocationOnMock invocation) throws Throwable {
-                return goals2;
-            }
-        });
-        
-        when(goalDao.retrieveGoalsByMatch(match3)).thenAnswer(new Answer<List<Goal>>() {
-            @Override
-            public List<Goal> answer(InvocationOnMock invocation) throws Throwable {
-                return goals3;
+            public List<Team> answer(InvocationOnMock invocation) throws Throwable {
+                return teams;
             }
         });
     }
@@ -231,6 +253,15 @@ public class TeamServiceTest {
 
     @Test
     public void update_validTeamTO_updatesTeam() {
+        team.setName("A very new name");
+        teamTO.setTeamName(team.getName());
+        
+        teamService.update(teamTO);
+        
+        ArgumentCaptor<Team> argument = ArgumentCaptor.forClass(Team.class);
+        verify(teamDao).updateTeam(argument.capture());
+        Assert.assertNotNull(argument.getValue());
+        equalsTeam(team, argument.getValue());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -240,6 +271,12 @@ public class TeamServiceTest {
 
     @Test
     public void remove_validTeamTO_removesTeam() {
+        teamService.remove(otherTeamTO);
+        
+        ArgumentCaptor<Team> argument = ArgumentCaptor.forClass(Team.class);
+        verify(teamDao).deleteTeam(argument.capture());
+        Assert.assertNotNull(argument.getValue());
+        equalsTeam(otherTeam, argument.getValue());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -263,6 +300,9 @@ public class TeamServiceTest {
 
     @Test
     public void getAllTeams_noArguments_retrievesTeams() {
+        List<TeamTO> retrievedTeams = teamService.getAllTeams();
+        equalsTeamTO(teamTO, retrievedTeams.get(0));
+        equalsTeamTO(otherTeamTO, retrievedTeams.get(1));
     }
 
     private void equalsTeam(Team expected, Team actual) {

@@ -28,7 +28,7 @@ public class JpaPlayerDao implements PlayerDao {
     }
     
     @Override
-    public void createPlayer(Player player) throws IllegalEntityException {
+    public void createPlayer(Player player) {
         if (player == null)
             throw new IllegalArgumentException("player cannot be null");
         
@@ -50,7 +50,7 @@ public class JpaPlayerDao implements PlayerDao {
     }
 
     @Override
-    public void updatePlayer(Player player) throws IllegalEntityException {
+    public void updatePlayer(Player player) {
         if (player == null)
             throw new IllegalArgumentException("player cannot be null");
         
@@ -75,7 +75,7 @@ public class JpaPlayerDao implements PlayerDao {
     }
     
     @Override
-    public void deletePlayer(Player player) throws IllegalEntityException {
+    public void deletePlayer(Player player) {
         if (player == null)
             throw new IllegalArgumentException("player cannot be null");
         
@@ -121,7 +121,7 @@ public class JpaPlayerDao implements PlayerDao {
     }
 
     @Override
-    public List<Player> retrievePlayersByTeam(Team team) throws IllegalEntityException {
+    public List<Player> retrievePlayersByTeam(Team team) {
         if (team == null)
             throw new IllegalArgumentException("team cannot be null");
         
