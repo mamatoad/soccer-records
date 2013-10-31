@@ -10,18 +10,21 @@ public interface PlayerService {
     /**
      * This method adds new player.
      * @param playerTO 
+     * @exception IllegalArgumentException if playerTO is null
      */
     public void add(PlayerTO playerTO);
     
     /**
      * This method updates given player.
-     * @param playerTO 
+     * @param playerTO
+     * @exception IllegalArgumentException if playerTO is null
      */
     public void update(PlayerTO playerTO);
     
     /**
      * This method deletes given player.
      * @param playerTO 
+     * @exception IllegalArgumentException if playerTO is null
      */
     public void remove(PlayerTO playerTO);
     
@@ -29,6 +32,7 @@ public interface PlayerService {
      * This method returns player by id.
      * @param id
      * @return PlayerTO with given id
+     * @exception IllegalArgumentException if id is null
      */
     public PlayerTO getPlayerById(Long id);
     
@@ -36,6 +40,7 @@ public interface PlayerService {
      * This method returns players by team id.
      * @param id ID of team
      * @return List<PlayerTO> list of all players for given team
+     * @exception IllegalArgumentException if id is null
      */
     public List<PlayerTO> getPlayersByTeamId(Long id);
     
