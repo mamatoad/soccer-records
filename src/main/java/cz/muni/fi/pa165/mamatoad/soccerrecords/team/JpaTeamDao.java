@@ -25,7 +25,7 @@ public class JpaTeamDao implements TeamDao {
     }
 
     @Override
-    public void createTeam(Team team) throws IllegalEntityException {
+    public void createTeam(Team team) {
         if (team == null) {
             throw new IllegalArgumentException("team is null");
         }
@@ -45,7 +45,7 @@ public class JpaTeamDao implements TeamDao {
     }
 
     @Override
-    public void updateTeam(Team team) throws IllegalEntityException {
+    public void updateTeam(Team team) {
         if (team == null) {
             throw new IllegalArgumentException("team is null");
         }
@@ -69,7 +69,7 @@ public class JpaTeamDao implements TeamDao {
     }
 
     @Override
-    public void deleteTeam(Team team) throws IllegalEntityException {
+    public void deleteTeam(Team team) {
         if (team == null) {
             throw new IllegalArgumentException("team is null");
         }

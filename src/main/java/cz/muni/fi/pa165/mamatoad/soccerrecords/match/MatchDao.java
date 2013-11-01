@@ -19,7 +19,7 @@ public interface MatchDao {
      * @exception IllegalArgumentException when match is null
      * @exception IllegalEntityException when id is not null or other attributes are null or teams are equal
      */
-    void createMatch(Match match) throws IllegalArgumentException, IllegalEntityException;
+    void createMatch(Match match);
     
     /**
      * Updates match with match.id, sets values from object match
@@ -28,7 +28,7 @@ public interface MatchDao {
      * @exception IllegalArgumentException when match is null
      * @exception IllegalEntityException when some attributes are null or given match does not exist or teams are equal
      */
-    void updateMatch(Match match) throws IllegalArgumentException, IllegalEntityException;
+    void updateMatch(Match match);
     
     /**
      * Deletes match
@@ -37,7 +37,7 @@ public interface MatchDao {
      * @exception IllegalArgumentException when match is null
      * @exception IllegalEntityException if given match does not exist
      */
-    void deleteMatch(Match match) throws IllegalArgumentException, IllegalEntityException;
+    void deleteMatch(Match match);
     
     /**
      * Retrieves match by its id
@@ -46,7 +46,7 @@ public interface MatchDao {
      * @return match with given id or null if such match does not exist
      * @exception IllegalArgumentException when id is null
      */
-    Match retrieveMatchById(Long id) throws IllegalArgumentException;
+    Match retrieveMatchById(Long id);
     
     /**
      * Retrieves matches played by given team
@@ -56,7 +56,7 @@ public interface MatchDao {
      * @exception IllegalArgumentException when team is null
      * @exception IllegalEntityException when team id is null or given team does not exist
      */
-    List<Match> retrieveMatchesByTeam(Team team) throws IllegalArgumentException, IllegalEntityException;
+    List<Match> retrieveMatchesByTeam(Team team);
     
     /**
      * Retrieves matches for given date
@@ -65,7 +65,7 @@ public interface MatchDao {
      * @return list of matches for given date
      * @exception IllegalArgumentException when eventDate is null
      */
-    List<Match> retrieveMatchesByEventDate(LocalDate eventDate) throws IllegalArgumentException;
+    List<Match> retrieveMatchesByEventDate(LocalDate eventDate);
     
     
     /**

@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords.team;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.goal.Goal;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.goal.GoalDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.match.Match;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.match.MatchDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.player.Player;
@@ -35,8 +34,6 @@ public class TeamServiceTest {
     private MatchDao matchDao;
     @Mock
     private TeamDao teamDao;
-    @Mock
-    private GoalDao goalDao;
     @Autowired
     @InjectMocks
     private TeamService teamService = new TeamServiceImpl();

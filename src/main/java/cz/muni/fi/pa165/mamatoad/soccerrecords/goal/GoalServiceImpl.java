@@ -14,23 +14,19 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Tomas Livora
  */
-@Transactional
+
 @Service("goalService")
 public class GoalServiceImpl implements GoalService {
-    
-    private final GoalDao goalDao;
-    private final MatchDao matchDao;
-    private final PlayerDao playerDao;
-    private final TeamDao teamDao;
-
     @Autowired
-    public GoalServiceImpl(GoalDao goalDao, MatchDao matchDao, PlayerDao playerDao, TeamDao teamDao) {
-        this.goalDao = goalDao;
-        this.matchDao = matchDao;
-        this.playerDao = playerDao;
-        this.teamDao = teamDao;
-    }
+    private GoalDao goalDao;
+    @Autowired
+    private MatchDao matchDao;
+    @Autowired
+    private PlayerDao playerDao;
+    @Autowired
+    private TeamDao teamDao;
 
+    @Transactional
     @Override
     public void add(GoalTO goal) {
         if (goal == null) {
@@ -40,6 +36,7 @@ public class GoalServiceImpl implements GoalService {
         goalDao.createGoal(convertToEntity(goal));
     }
 
+    @Transactional
     @Override
     public void update(GoalTO goal) {
         if (goal == null) {
@@ -49,6 +46,7 @@ public class GoalServiceImpl implements GoalService {
         goalDao.updateGoal(convertToEntity(goal));
     }
 
+    @Transactional
     @Override
     public void remove(GoalTO goal) {
         if (goal == null) {
@@ -58,6 +56,7 @@ public class GoalServiceImpl implements GoalService {
         goalDao.deleteGoal(convertToEntity(goal));
     }
 
+    @Transactional
     @Override
     public List<GoalTO> getGoalsByMatchId(Long matchId) {
         if (matchId == null) {

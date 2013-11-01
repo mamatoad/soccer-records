@@ -12,24 +12,18 @@ import org.springframework.transaction.annotation.Transactional;
  * Player management implementation.
  * @author Matus Nemec
  */
-@Transactional
+
 @Service("playerService")
 public class PlayerServiceImpl implements PlayerService {
 
+    @Autowired
     private PlayerDao playerDao;
+    @Autowired
     private TeamDao teamDao;
+    @Autowired
     private GoalDao goalDao;
 
-    @Autowired
-    public PlayerServiceImpl(PlayerDao playerDao, TeamDao teamDao, GoalDao goalDao) {
-        if(playerDao == null || teamDao == null || goalDao == null){
-            throw new IllegalArgumentException("Argument cannot be null.");
-        }
-        this.playerDao = playerDao;
-        this.teamDao = teamDao;
-        this.goalDao = goalDao;
-    }
-    
+    @Transactional
     @Override
     public void add(PlayerTO playerTO) {
         if (playerTO == null) {
@@ -38,6 +32,7 @@ public class PlayerServiceImpl implements PlayerService {
         playerDao.createPlayer(convertToEntity(playerTO));
     }
 
+    @Transactional
     @Override
     public void update(PlayerTO playerTO) {
         if (playerTO == null) {
@@ -46,6 +41,7 @@ public class PlayerServiceImpl implements PlayerService {
         playerDao.updatePlayer(convertToEntity(playerTO));
     }
 
+    @Transactional
     @Override
     public void remove(PlayerTO playerTO) {
         if (playerTO == null) {
@@ -54,6 +50,7 @@ public class PlayerServiceImpl implements PlayerService {
         playerDao.deletePlayer(convertToEntity(playerTO));
     }
 
+    @Transactional
     @Override
     public PlayerTO getPlayerById(Long id) {
         if (id == null) {
@@ -62,6 +59,7 @@ public class PlayerServiceImpl implements PlayerService {
         return convertToTransferObject(playerDao.retrievePlayerById(id));
     }
 
+    @Transactional
     @Override
     public List<PlayerTO> getPlayersByTeamId(Long id) {
         if (id == null) {
@@ -70,6 +68,7 @@ public class PlayerServiceImpl implements PlayerService {
         return convertToListOfTransferObjects(playerDao.retrievePlayersByTeam(teamDao.retrieveTeamById(id)));
     }
 
+    @Transactional
     @Override
     public List<PlayerTO> getAllPlayers() {
         return convertToListOfTransferObjects(playerDao.retrieveAllPlayers());

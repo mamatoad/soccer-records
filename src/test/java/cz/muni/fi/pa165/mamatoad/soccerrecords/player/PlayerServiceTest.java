@@ -16,22 +16,32 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
 import org.mockito.invocation.InvocationOnMock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author Adriana Smijakova
  */
+@RunWith(MockitoJUnitRunner.class)
 public class PlayerServiceTest {
     
-    private PlayerService playerService;
+    @Autowired
+    @InjectMocks
+    private PlayerService playerService = new PlayerServiceImpl();
+    @Mock
     private PlayerDao playerDao;
+    @Mock
     private TeamDao teamDao;
+    @Mock
     private GoalDao goalDao;
     private PlayerTO playerTo;
     private PlayerTO playerTo2;
@@ -51,10 +61,10 @@ public class PlayerServiceTest {
     
     @Before
     public void setUp() {
-        playerDao = mock(PlayerDao.class);
-        teamDao = mock(TeamDao.class);
-        goalDao = mock(GoalDao.class);
-        playerService = new PlayerServiceImpl(playerDao, teamDao, goalDao);
+        //playerDao = mock(PlayerDao.class);
+        //teamDao = mock(TeamDao.class);
+        //goalDao = mock(GoalDao.class);
+        //playerService = new PlayerServiceImpl(playerDao, teamDao, goalDao);
         
         playerTo2 = new PlayerTO(50L,"José" , true, 1L, 12L, "Zero");
         playerTo = new PlayerTO(2L, "Pedro", true, 0L, 12L, "Zero");
@@ -66,7 +76,7 @@ public class PlayerServiceTest {
         team = new Team();
         team.setId(12L);
         team.setName("Zero");
-        
+       
         when(goalDao.retrieveGoalsByPlayer(convertToEntity(playerTo2))).thenAnswer(new Answer<List<Goal>>() {
              @Override
              public List<Goal> answer(InvocationOnMock invocation) throws Throwable {

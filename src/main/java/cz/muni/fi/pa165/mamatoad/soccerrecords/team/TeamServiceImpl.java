@@ -14,25 +14,17 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Maros Klimovsky
  */
-@Transactional
+
 @Service("teamService")
 public class TeamServiceImpl implements TeamService{
-
-    private PlayerDao playerDao;
-    private MatchDao matchDao;
-    private TeamDao teamDao;
-    
-    public TeamServiceImpl(){
-    
-    }
-    
     @Autowired
-    public TeamServiceImpl(PlayerDao playerDao, MatchDao matchDao, TeamDao teamDao){
-        this.playerDao = playerDao;
-        this.matchDao = matchDao;
-        this.teamDao = teamDao;
-    }
-    
+    private PlayerDao playerDao;
+    @Autowired
+    private MatchDao matchDao;
+    @Autowired
+    private TeamDao teamDao;
+        
+    @Transactional
     @Override
     public void add(TeamTO teamTO) {
         if(teamTO == null)
@@ -41,6 +33,7 @@ public class TeamServiceImpl implements TeamService{
         teamDao.createTeam(convertToEntity(teamTO));
     }
 
+    @Transactional
     @Override
     public void update(TeamTO teamTO) {
         if (teamTO == null)
@@ -49,6 +42,7 @@ public class TeamServiceImpl implements TeamService{
         teamDao.updateTeam(convertToEntity(teamTO));
     }
 
+    @Transactional
     @Override
     public void remove(TeamTO teamTO) {
         if (teamTO == null)
@@ -57,6 +51,7 @@ public class TeamServiceImpl implements TeamService{
         teamDao.deleteTeam(convertToEntity(teamTO));
     }
 
+    @Transactional
     @Override
     public List<TeamTO> getAllTeams() {
         List<TeamTO> teams = new ArrayList<>();
@@ -67,6 +62,7 @@ public class TeamServiceImpl implements TeamService{
         return teams;
     }
 
+    @Transactional
     @Override
     public TeamTO getTeamById(Long id) {
         if (id == null)

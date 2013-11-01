@@ -18,22 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Adriana Smijakova
  */
 
-@Service
+@Service("matchService")
 public class MatchServiceImpl implements MatchService{
-
-    private final GoalDao goalDao;
-    private final MatchDao matchDao;
-    private final TeamDao teamDao;
-
     @Autowired
-    public MatchServiceImpl(GoalDao goalDao, MatchDao matchDao, TeamDao teamDao) {
-        if(goalDao==null || matchDao==null ||teamDao==null){
-            throw new IllegalArgumentException("Dao objects cannot be null");
-        }
-        this.goalDao = goalDao;
-        this.matchDao = matchDao;
-        this.teamDao = teamDao;
-    }
+    private GoalDao goalDao;
+    @Autowired
+    private MatchDao matchDao;
+    @Autowired
+    private TeamDao teamDao;
     
     @Transactional
     @Override

@@ -14,24 +14,34 @@ import org.joda.time.LocalTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
 import org.mockito.invocation.InvocationOnMock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author Maros Klimovsky
  */
-
+@RunWith(MockitoJUnitRunner.class)
 public class GoalServiceTest {
-
+    @Mock
     private GoalDao goalDao;
+    @Mock
     private PlayerDao playerDao;
+    @Mock
     private MatchDao matchDao;
+    @Mock
     private TeamDao teamDao;
-    private GoalService goalService;
+    @Autowired
+    @InjectMocks
+    private GoalService goalService = new GoalServiceImpl();
     private Match match;
     private Team team;
     private Team otherTeam;
@@ -41,12 +51,7 @@ public class GoalServiceTest {
     
     @Before
     public void setup(){
-        goalDao = mock(GoalDao.class);
-        playerDao = mock(PlayerDao.class);
-        matchDao = mock(MatchDao.class);
-        teamDao = mock(TeamDao.class);
-        goalService = new GoalServiceImpl(goalDao,matchDao,playerDao,teamDao);
-        
+       
         team = new Team();
         team.setId(13L);
         team.setName("Balerinas");
@@ -84,31 +89,14 @@ public class GoalServiceTest {
         goalTo.setTime(goal.getShootingTime());
         
         
-        when(teamDao.retrieveTeamById(13L)).thenAnswer(new Answer<Team>() {
-             @Override
-             public Team answer(InvocationOnMock invocation) throws Throwable {
-                      return team;
-                   }
-               });
-        when(teamDao.retrieveTeamById(66L)).thenAnswer(new Answer<Team>() {
-             @Override
-             public Team answer(InvocationOnMock invocation) throws Throwable {
-                      return otherTeam;
-                   }
-               });
-        when(matchDao.retrieveMatchById(96L)).thenAnswer(new Answer<Match>() {
-             @Override
-             public Match answer(InvocationOnMock invocation) throws Throwable {
-                      return match;
-                   }
-               });
+        stub(teamDao.retrieveTeamById(13L)).toReturn(team);
+
+        stub(teamDao.retrieveTeamById(66L)).toReturn(otherTeam);
+
+        stub(matchDao.retrieveMatchById(96L)).toReturn(match);
         
-        when(playerDao.retrievePlayerById(254L)).thenAnswer(new Answer<Player>() {
-             @Override
-             public Player answer(InvocationOnMock invocation) throws Throwable {
-                      return player;
-                   }
-               });
+        stub(playerDao.retrievePlayerById(254L)).toReturn(player);
+
         when(goalDao.retrieveGoalById(5L)).thenAnswer(new Answer<Goal>() {
              @Override
              public Goal answer(InvocationOnMock invocation) throws Throwable {
@@ -116,9 +104,6 @@ public class GoalServiceTest {
                       return goal;
                    }
                });
-        
-        
-        
     }
     
     @Test(expected = IllegalArgumentException.class)

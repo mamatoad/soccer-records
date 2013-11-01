@@ -19,7 +19,7 @@ public interface TeamDao {
      * @throws IllegalEntityException if the team.id is not null or team.name is null
      * @throws DataAccessException if the operation fails
      */
-    void createTeam(Team team) throws IllegalEntityException;
+    void createTeam(Team team);
     
     /**
      * Updates the record with the given team
@@ -29,7 +29,7 @@ public interface TeamDao {
      * @throws IllegalEntityException if the team.id or team.name is null
      * @throws DataAccessException if the operation fails
      */
-    void updateTeam(Team team) throws IllegalEntityException;
+    void updateTeam(Team team);
     
     /**
      * Deletes the record with the given team
@@ -39,7 +39,7 @@ public interface TeamDao {
      * @throws IllegalEntityException if the team.id or team.name is null
      * @throws DataAccessException if the operation fails
      */
-    void deleteTeam(Team team) throws IllegalEntityException;
+    void deleteTeam(Team team);
     
     /**
      * Retrieves the team with the given id

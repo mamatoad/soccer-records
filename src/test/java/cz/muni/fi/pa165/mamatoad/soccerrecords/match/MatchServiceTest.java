@@ -9,37 +9,40 @@ import org.joda.time.LocalDate;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.stub;
 import static org.mockito.Mockito.when;
 import org.mockito.invocation.InvocationOnMock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Tests for Match service
  *
  * @author Tomas Livora
  */
+@RunWith(MockitoJUnitRunner.class)
 public class MatchServiceTest {
-
+    @Mock
     private GoalDao goalDao;
+    @Mock
     private MatchDao matchDao;
+    @Mock
     private TeamDao teamDao;
-
-    private MatchService matchService;
+    @Autowired
+    @InjectMocks
+    private MatchService matchService = new MatchServiceImpl();
 
     private Match match;
     private MatchTO matchTo;
 
     @Before
     public void setUp() {
-        goalDao = mock(GoalDao.class);
-        matchDao = mock(MatchDao.class);
-        teamDao = mock(TeamDao.class);
-
-        matchService = new MatchServiceImpl(goalDao, matchDao, teamDao);
-
         Long matchId = 1L;
         Long homeTeamId = 1L;
         Long visitingTeamId = 2L;
@@ -71,26 +74,12 @@ public class MatchServiceTest {
         matchTo.setVisitingTeamScore(0);
         matchTo.setWinnerTeamId(null);
 
-        when(matchDao.retrieveMatchById(matchId)).thenAnswer(new Answer<Match>() {
-            @Override
-            public Match answer(InvocationOnMock invocation) throws Throwable {
-                return match;
-            }
-        });
+        stub(matchDao.retrieveMatchById(matchId)).toReturn(match);
 
-        when(teamDao.retrieveTeamById(homeTeamId)).thenAnswer(new Answer<Team>() {
-            @Override
-            public Team answer(InvocationOnMock invocation) throws Throwable {
-                return homeTeam;
-            }
-        });
 
-        when(teamDao.retrieveTeamById(visitingTeamId)).thenAnswer(new Answer<Team>() {
-            @Override
-            public Team answer(InvocationOnMock invocation) throws Throwable {
-                return visitingTeam;
-            }
-        });
+        stub(teamDao.retrieveTeamById(homeTeamId)).toReturn(homeTeam);
+
+        stub(teamDao.retrieveTeamById(visitingTeamId)).toReturn(visitingTeam);
 
         when(matchDao.retrieveMatchesByTeam(homeTeam)).thenAnswer(new Answer<List<Match>>() {
             @Override

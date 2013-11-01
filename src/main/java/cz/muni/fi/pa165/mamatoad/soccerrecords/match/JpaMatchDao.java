@@ -28,7 +28,7 @@ public class JpaMatchDao implements MatchDao {
     }
     
     @Override
-    public void createMatch(Match match) throws IllegalArgumentException, IllegalEntityException {
+    public void createMatch(Match match) {
         checkMatch(match, true);
         
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -38,7 +38,7 @@ public class JpaMatchDao implements MatchDao {
     }
 
     @Override
-    public void updateMatch(Match match) throws IllegalArgumentException, IllegalEntityException {
+    public void updateMatch(Match match) {
         checkMatch(match, false);
         
         checkIfMatchExists(match);
@@ -50,7 +50,7 @@ public class JpaMatchDao implements MatchDao {
     }
 
     @Override
-    public void deleteMatch(Match match) throws IllegalArgumentException, IllegalEntityException {
+    public void deleteMatch(Match match) {
         checkMatch(match, false);
         
         checkIfMatchExists(match);
@@ -63,7 +63,7 @@ public class JpaMatchDao implements MatchDao {
     }
 
     @Override
-    public Match retrieveMatchById(Long id) throws IllegalArgumentException {
+    public Match retrieveMatchById(Long id) {
         if (id == null)
             throw new IllegalArgumentException("id == null");
 
@@ -72,7 +72,7 @@ public class JpaMatchDao implements MatchDao {
     }
 
     @Override
-    public List<Match> retrieveMatchesByTeam(Team team) throws IllegalArgumentException, IllegalEntityException {
+    public List<Match> retrieveMatchesByTeam(Team team) {
         if (team == null) 
             throw new IllegalArgumentException("team == null");
         if (team.getId() == null) 
@@ -87,7 +87,7 @@ public class JpaMatchDao implements MatchDao {
     }
 
     @Override
-    public List<Match> retrieveMatchesByEventDate(LocalDate eventDate) throws IllegalArgumentException {
+    public List<Match> retrieveMatchesByEventDate(LocalDate eventDate) {
         if (eventDate == null)
             throw new IllegalArgumentException("eventDate == null");
 
@@ -108,7 +108,7 @@ public class JpaMatchDao implements MatchDao {
         return matches.getResultList();
     }
     
-    private void checkMatch(Match match, boolean idShouldBeEqualNull) throws IllegalArgumentException, IllegalEntityException {
+    private void checkMatch(Match match, boolean idShouldBeEqualNull) {
         if (match == null) throw new IllegalArgumentException("match == null");
         if ((match.getId() != null) && idShouldBeEqualNull) throw new IllegalEntityException("match.id != null");
         if ((match.getId() == null) && !idShouldBeEqualNull) throw new IllegalEntityException("match.id == null");
@@ -124,7 +124,7 @@ public class JpaMatchDao implements MatchDao {
         if (match.getGoals() == null) throw new IllegalEntityException("match.goals == null");
     }
     
-    private void checkIfMatchExists(Match match) throws IllegalEntityException {
+    private void checkIfMatchExists(Match match) {
         if (retrieveMatchById(match.getId()) == null) {
             throw new IllegalEntityException("Specified match does not exist " + match);
         }
