@@ -19,9 +19,12 @@ import org.springframework.stereotype.Repository;
 public class JpaGoalDao implements GoalDao {
 
     private final EntityManagerFactory factory;
-
+    
     @Autowired
     public JpaGoalDao(EntityManagerFactory factory) {
+        if(factory == null)
+            throw new IllegalArgumentException("entityManagerFactory cannot be null");
+        
         this.factory = factory;
     }
 
@@ -100,7 +103,7 @@ public class JpaGoalDao implements GoalDao {
     @Override
     public Goal retrieveGoalById(Long id) {
         if (id == null) {
-            throw new IllegalArgumentException("Parameter goal is null");
+            throw new IllegalArgumentException("Parameter id is null");
         }
 
         EntityManager em = factory.createEntityManager();

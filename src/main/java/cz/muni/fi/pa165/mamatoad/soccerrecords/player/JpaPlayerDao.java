@@ -20,10 +20,9 @@ public class JpaPlayerDao implements PlayerDao {
     private EntityManagerFactory entityManagerFactory;
     
     @Autowired
-    public JpaPlayerDao(EntityManagerFactory entityManagerFactory) {
+    public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
         if(entityManagerFactory == null)
             throw new IllegalArgumentException("entityManagerFactory cannot be null");
-        
         this.entityManagerFactory = entityManagerFactory;
     }
     

@@ -21,6 +21,8 @@ public class JpaTeamDao implements TeamDao {
 
     @Autowired
     public JpaTeamDao(EntityManagerFactory emf) {
+        if(emf == null)
+            throw new IllegalArgumentException("entityManagerFactory cannot be null");
         this.emf = emf;
     }
 

@@ -5,7 +5,6 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityExcep
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +18,12 @@ import org.springframework.stereotype.Repository;
 @Repository("matchDao")
 public class JpaMatchDao implements MatchDao {
    
-    @PersistenceContext
-    private EntityManagerFactory entityManagerFactory;
+    private final EntityManagerFactory entityManagerFactory;
 
     @Autowired
     public JpaMatchDao(EntityManagerFactory entityManagerFactory) {
+        if(entityManagerFactory == null)
+            throw new IllegalArgumentException("entityManagerFactory cannot be null");
         this.entityManagerFactory = entityManagerFactory;
     }
     
