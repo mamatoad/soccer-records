@@ -5,7 +5,7 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityExcep
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,8 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TeamDaoTest {
     
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
+    @PersistenceContext
+    private EntityManager em;
+    
     @Autowired
     private TeamDao teamDao;
     
@@ -126,7 +127,6 @@ public class TeamDaoTest {
         
         teamDao.updateTeam(testTeam);
         
-        EntityManager em = entityManagerFactory.createEntityManager();
         Team actualTeam = em.find(Team.class, testTeam.getId());
         
         Assert.assertEquals("Team was not updated", testTeam, actualTeam);
@@ -151,7 +151,6 @@ public class TeamDaoTest {
         teamDao.createTeam(testTeam);
         Long id = testTeam.getId();
         teamDao.deleteTeam(testTeam);
-        EntityManager em = entityManagerFactory.createEntityManager();
         Assert.assertNull(em.find(Team.class, id));
     }
     

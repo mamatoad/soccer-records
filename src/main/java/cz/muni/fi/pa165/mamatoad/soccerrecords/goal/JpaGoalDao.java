@@ -6,9 +6,8 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -17,16 +16,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("goalDao")
 public class JpaGoalDao implements GoalDao {
-
-    private final EntityManagerFactory factory;
     
-    @Autowired
-    public JpaGoalDao(EntityManagerFactory factory) {
-        if(factory == null)
-            throw new IllegalArgumentException("entityManagerFactory cannot be null");
-        
-        this.factory = factory;
-    }
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
     public void createGoal(Goal goal) {
@@ -45,11 +37,7 @@ public class JpaGoalDao implements GoalDao {
             throw new IllegalEntityException(builder.toString());
         }
 
-        EntityManager em = factory.createEntityManager();
-        
-        em.getTransaction().begin();
         em.persist(goal);
-        em.getTransaction().commit();
     }
 
     @Override
@@ -69,14 +57,11 @@ public class JpaGoalDao implements GoalDao {
             throw new IllegalEntityException(builder.toString());
         }
 
-        EntityManager em = factory.createEntityManager();
-        
         if(em.find(Goal.class, goal.getId()) == null){
             throw new IllegalEntityException("Goal is not in database");
         }
-        em.getTransaction().begin();
+        
         em.merge(goal);
-        em.getTransaction().commit();
     }
 
     @Override
@@ -88,16 +73,12 @@ public class JpaGoalDao implements GoalDao {
             throw new IllegalEntityException("Goal id is null");
         }
 
-        EntityManager em = factory.createEntityManager();
-        
         if(em.find(Goal.class, goal.getId()) == null){
             throw new IllegalEntityException("Goal is not in database");
         }
         
-        em.getTransaction().begin();
         Goal toRemove = em.merge(goal);
         em.remove(toRemove);
-        em.getTransaction().commit();
     }
 
     @Override
@@ -106,7 +87,6 @@ public class JpaGoalDao implements GoalDao {
             throw new IllegalArgumentException("Parameter id is null");
         }
 
-        EntityManager em = factory.createEntityManager();
         Goal goal = em.find(Goal.class, id);
 
         return goal;
@@ -121,7 +101,6 @@ public class JpaGoalDao implements GoalDao {
             throw new IllegalEntityException("Id of match is null");
         }
 
-        EntityManager em = factory.createEntityManager();
         TypedQuery<Goal> goals = em.createQuery(
                 "SELECT g FROM Goal g WHERE g.match = :match", Goal.class).setParameter("match", match);
 
@@ -143,7 +122,6 @@ public class JpaGoalDao implements GoalDao {
             throw new IllegalEntityException("Team id is null");
         }
 
-        EntityManager em = factory.createEntityManager();
         TypedQuery<Goal> goals = em.createQuery(
                 "SELECT g FROM Goal g WHERE g.match = :match AND g.team = :team", Goal.class);
         goals.setParameter("match", match);
@@ -161,7 +139,6 @@ public class JpaGoalDao implements GoalDao {
             throw new IllegalEntityException("Player id is null");
         }
 
-        EntityManager em = factory.createEntityManager();
         TypedQuery<Goal> goals = em.createQuery(
                 "SELECT g FROM Goal g WHERE g.player = :player", Goal.class).setParameter("player", player);
 
@@ -183,7 +160,6 @@ public class JpaGoalDao implements GoalDao {
             throw new IllegalEntityException("Player id is null");
         }
 
-        EntityManager em = factory.createEntityManager();
         TypedQuery<Goal> goals = em.createQuery(
                 "SELECT g FROM Goal g WHERE g.match = :match AND g.player = :player", Goal.class);
         goals.setParameter("match", match);
