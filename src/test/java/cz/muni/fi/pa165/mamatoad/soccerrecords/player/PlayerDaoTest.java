@@ -4,7 +4,7 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,23 +24,27 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(locations = {"classpath:springConfigTest.xml"})
 @Transactional
 public class PlayerDaoTest {
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
+    
+    @PersistenceContext
+    private EntityManager em;
+    
     @Autowired
     private PlayerDao playerDao;
     
     private Player player;
     private Player player2;
+    
+    private static final String PLAYER_NAME = "John Doe";
         
     @Before
     public void setUp() {
         player = new Player();
-        player.setName("John Doe");
+        player.setName(PLAYER_NAME);
         player.setTeam(null);
         player.setActive(true);
         
         player2 = new Player();
-        player2.setName("John Doe");
+        player2.setName(PLAYER_NAME);
         player2.setTeam(null);
         player2.setActive(true);
     }
@@ -54,7 +58,6 @@ public class PlayerDaoTest {
     
     @Test
     public void createPlayer_playerIdNull_idAssigned() {
-        player.setName("Jill Doe");
         playerDao.createPlayer(player);
         assertNotNull(player.getId());
     }
@@ -113,7 +116,6 @@ public class PlayerDaoTest {
     
     @Test
     public void updatePlayer_playerNameChanged_valueStored() {
-        player.setName("Joshua Doe");
         playerDao.createPlayer(player);
         String name = "John Van Doe";
         player.setName(name);
@@ -125,7 +127,6 @@ public class PlayerDaoTest {
     
     @Test
     public void updatePlayer_playerActiveChanged_valueStored() {
-        player.setName("George Doe");
         playerDao.createPlayer(player);
         player.setActive(false);
         playerDao.updatePlayer(player);
@@ -177,7 +178,6 @@ public class PlayerDaoTest {
     
     @Test
     public void retrievePlayerById_existingId_playerFound() {
-        player.setName("Peter Doe");
         playerDao.createPlayer(player);
         Long id = player.getId();
         assertNotNull(playerDao.retrievePlayerById(id));
@@ -197,15 +197,14 @@ public class PlayerDaoTest {
     
     @Test
     public void retrievePlayersByName_nameNotExist_playerNotFound() {
-        assertTrue(playerDao.retrievePlayersByName("Joshua Dow").isEmpty());
+        assertTrue(playerDao.retrievePlayersByName(PLAYER_NAME).isEmpty());
     }
     
     @Test
     public void retrievePlayersByName_nameExist_playerFound() {
-        player.setName("Richard Doe");
         playerDao.createPlayer(player);
         Long id = player.getId();
-        List<Player> players = playerDao.retrievePlayersByName("Richard Doe");
+        List<Player> players = playerDao.retrievePlayersByName(PLAYER_NAME);
         assertFalse(players.isEmpty());
         assertEquals(1, players.size());
         assertEquals(id, players.get(0).getId());
@@ -213,13 +212,11 @@ public class PlayerDaoTest {
     
     @Test
     public void retrievePlayersByName_twoPlayersWithSameName_playersFound() {
-        player.setName("Richard Dow");
         playerDao.createPlayer(player);
-        player2.setName("Richard Dow");
         playerDao.createPlayer(player2);
         Long id = player.getId();
         Long id2 = player2.getId();
-        List<Player> players = playerDao.retrievePlayersByName("Richard Dow");
+        List<Player> players = playerDao.retrievePlayersByName(PLAYER_NAME);
         assertFalse(players.isEmpty());
         assertEquals(2, players.size());
     }
@@ -248,11 +245,7 @@ public class PlayerDaoTest {
         Team team = new Team();
         team.setName("FCB");
         
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
         em.persist(team);
-        em.getTransaction().commit();
-        em.close();
         
         List<Player> players = playerDao.retrievePlayersByTeam(team);
         assertTrue(players.isEmpty());
@@ -263,14 +256,9 @@ public class PlayerDaoTest {
         Team team = new Team();
         team.setName("FCB");
         
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
         em.persist(team);
-        em.getTransaction().commit();
-        em.close();
         
         player.setTeam(team);
-        player.setName("James Doe");
         playerDao.createPlayer(player);
         Long id = player.getId();
         
@@ -284,7 +272,6 @@ public class PlayerDaoTest {
     
     @Test
     public void retrievePlayersByActivity_findActivePlayer_playerFound() {
-        player.setName("Peter Dow");
         playerDao.createPlayer(player);
         Long id = player.getId();
         List<Player> players = playerDao.retrievePlayersByActivity(true);

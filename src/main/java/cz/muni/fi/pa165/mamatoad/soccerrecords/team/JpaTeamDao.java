@@ -4,9 +4,8 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityExcep
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,15 +15,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("teamDao")
 public class JpaTeamDao implements TeamDao {
-
-    private final EntityManagerFactory emf;
-
-    @Autowired
-    public JpaTeamDao(EntityManagerFactory emf) {
-        if(emf == null)
-            throw new IllegalArgumentException("entityManagerFactory cannot be null");
-        this.emf = emf;
-    }
+    
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
     public void createTeam(Team team) {
@@ -40,10 +33,7 @@ public class JpaTeamDao implements TeamDao {
             throw new IllegalEntityException("team.name is null or empty");
         }
 
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         em.persist(team);
-        em.getTransaction().commit();
     }
 
     @Override
@@ -64,10 +54,7 @@ public class JpaTeamDao implements TeamDao {
             throw new IllegalEntityException("team does not exist");
         }
 
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         em.merge(team);
-        em.getTransaction().commit();
     }
 
     @Override
@@ -88,10 +75,7 @@ public class JpaTeamDao implements TeamDao {
             throw new IllegalEntityException("team does not exist");
         }
 
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         em.remove(em.merge(team));
-        em.getTransaction().commit();
     }
 
     @Override
@@ -100,7 +84,6 @@ public class JpaTeamDao implements TeamDao {
             throw new IllegalArgumentException("id is null");
         }
 
-        EntityManager em = emf.createEntityManager();
         return em.find(Team.class, id);
     }
 
@@ -110,7 +93,6 @@ public class JpaTeamDao implements TeamDao {
             throw new IllegalArgumentException("name is null or empty");
         }
 
-        EntityManager em = emf.createEntityManager();
         TypedQuery<Team> query = em.createQuery("SELECT t FROM Team t WHERE name = :name", Team.class)
                 .setParameter("name", name);
         return query.getResultList();
@@ -118,7 +100,6 @@ public class JpaTeamDao implements TeamDao {
 
     @Override
     public List<Team> retrieveAllTeams() {
-        EntityManager em = emf.createEntityManager();
         TypedQuery<Team> query = em.createQuery("SELECT t FROM Team t", Team.class);
         return query.getResultList();
     }

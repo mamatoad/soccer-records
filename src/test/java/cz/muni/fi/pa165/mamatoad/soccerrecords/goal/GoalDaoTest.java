@@ -7,7 +7,7 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityExcep
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.junit.Assert;
@@ -28,8 +28,10 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(locations = {"classpath:springConfigTest.xml"})
 @Transactional
 public class GoalDaoTest {
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
+    
+    @PersistenceContext
+    private EntityManager em;
+    
     @Autowired
     private GoalDao goalDao;
     
@@ -43,51 +45,44 @@ public class GoalDaoTest {
     
     @Before
     public void setUp() {
-        EntityManager manager = entityManagerFactory.createEntityManager();
-        
-        manager.getTransaction().begin();
-        
         // create Teams
         team = new Team();
         team.setName("FC 1");
         team.setPlayers(new ArrayList<Player>());
-        manager.persist(team);
+        em.persist(team);
         
         otherTeam = new Team();
         otherTeam.setName("FC 2");
         otherTeam.setPlayers(new ArrayList<Player>());
-        manager.persist(otherTeam);
+        em.persist(otherTeam);
 
         // create Player
         player = new Player();
         player.setName("Player 1");
         player.setActive(true);
         player.setTeam(team);
-        manager.persist(player);
+        em.persist(player);
         
         otherPlayer = new Player();
         otherPlayer.setName("Player 2");
         otherPlayer.setActive(true);
         otherPlayer.setTeam(otherTeam);
-        manager.persist(otherPlayer);
+        em.persist(otherPlayer);
         
         // create Match
         match = new Match();
         match.setHomeTeam(team);
         match.setVisitingTeam(otherTeam);
         match.setEventDate(LocalDate.now());
-        manager.persist(match);
+        em.persist(match);
         
         otherMatch = new Match();
         otherMatch.setHomeTeam(otherTeam);
         otherMatch.setVisitingTeam(team);
         otherMatch.setEventDate(LocalDate.now());
-        manager.persist(otherMatch);
-        
-        manager.getTransaction().commit();
+        em.persist(otherMatch);
         
         //prepare goal
-        
         goal = new Goal();
         
         goal.setMatch(match);        
@@ -237,8 +232,7 @@ public class GoalDaoTest {
         goal.setTeam(otherTeam);
         goalDao.updateGoal(goal);
         
-        Assert.assertEquals(
-               "Team didn't update.", entityManagerFactory.createEntityManager().find(Goal.class, goal.getId()).getTeam(), otherTeam);
+        Assert.assertEquals("Team didn't update.", em.find(Goal.class, goal.getId()).getTeam(), otherTeam);
     }
     
     @Test
@@ -248,8 +242,7 @@ public class GoalDaoTest {
         goal.setPlayer(otherPlayer);
         goalDao.updateGoal(goal);
         
-        Assert.assertEquals(
-                "Player didn't update.", entityManagerFactory.createEntityManager().find(Goal.class, goal.getId()).getPlayer(), otherPlayer);
+        Assert.assertEquals("Player didn't update.", em.find(Goal.class, goal.getId()).getPlayer(), otherPlayer);
     }
     
     @Test
@@ -259,8 +252,7 @@ public class GoalDaoTest {
         goal.setMatch(otherMatch);
         goalDao.updateGoal(goal);
         
-        Assert.assertEquals(
-                "Match didn't update.", entityManagerFactory.createEntityManager().find(Goal.class, goal.getId()).getMatch(), otherMatch);
+        Assert.assertEquals("Match didn't update.", em.find(Goal.class, goal.getId()).getMatch(), otherMatch);
     }
     
     @Test
@@ -271,8 +263,7 @@ public class GoalDaoTest {
         goal.setShootingTime(newTime);
         goalDao.updateGoal(goal);
         
-        Assert.assertEquals(
-                "Time didn't update.", entityManagerFactory.createEntityManager().find(Goal.class, goal.getId()).getShootingTime(), newTime);
+        Assert.assertEquals("Time didn't update.", em.find(Goal.class, goal.getId()).getShootingTime(), newTime);
     }
     
     //deleteGoal tests
