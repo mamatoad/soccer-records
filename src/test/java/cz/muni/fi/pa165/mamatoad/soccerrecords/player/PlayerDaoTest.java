@@ -4,7 +4,7 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,8 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(locations = {"classpath:springConfigTest.xml"})
 @Transactional
 public class PlayerDaoTest {
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
+    
+    @PersistenceContext
+    private EntityManager em;
+    
     @Autowired
     private PlayerDao playerDao;
     
@@ -248,11 +250,7 @@ public class PlayerDaoTest {
         Team team = new Team();
         team.setName("FCB");
         
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
         em.persist(team);
-        em.getTransaction().commit();
-        em.close();
         
         List<Player> players = playerDao.retrievePlayersByTeam(team);
         assertTrue(players.isEmpty());
@@ -263,11 +261,7 @@ public class PlayerDaoTest {
         Team team = new Team();
         team.setName("FCB");
         
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
         em.persist(team);
-        em.getTransaction().commit();
-        em.close();
         
         player.setTeam(team);
         player.setName("James Doe");

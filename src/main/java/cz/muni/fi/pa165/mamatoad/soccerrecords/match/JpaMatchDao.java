@@ -4,10 +4,9 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.joda.time.LocalDate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -17,24 +16,15 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("matchDao")
 public class JpaMatchDao implements MatchDao {
-   
-    private final EntityManagerFactory entityManagerFactory;
-
-    @Autowired
-    public JpaMatchDao(EntityManagerFactory entityManagerFactory) {
-        if(entityManagerFactory == null)
-            throw new IllegalArgumentException("entityManagerFactory cannot be null");
-        this.entityManagerFactory = entityManagerFactory;
-    }
+    
+    @PersistenceContext
+    private EntityManager em;
     
     @Override
     public void createMatch(Match match) {
         checkMatch(match, true);
         
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.persist(match);
-        entityManager.getTransaction().commit();
+        em.persist(match);
     }
 
     @Override
@@ -43,10 +33,7 @@ public class JpaMatchDao implements MatchDao {
         
         checkIfMatchExists(match);
         
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.merge(match);
-        entityManager.getTransaction().commit();
+        em.merge(match);
     }
 
     @Override
@@ -55,11 +42,8 @@ public class JpaMatchDao implements MatchDao {
         
         checkIfMatchExists(match);
         
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        Match target = entityManager.merge(match);
-        entityManager.remove(target);
-        entityManager.getTransaction().commit();
+        Match target = em.merge(match);
+        em.remove(target);
     }
 
     @Override
@@ -67,8 +51,7 @@ public class JpaMatchDao implements MatchDao {
         if (id == null)
             throw new IllegalArgumentException("id == null");
 
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        return entityManager.find(Match.class, id);
+        return em.find(Match.class, id);
     }
 
     @Override
@@ -78,8 +61,7 @@ public class JpaMatchDao implements MatchDao {
         if (team.getId() == null) 
             throw new IllegalArgumentException("team.id == null (team is not in the db)");
 
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        TypedQuery<Match> matches = entityManager.createQuery(
+        TypedQuery<Match> matches = em.createQuery(
                 "SELECT m FROM Match m WHERE m.homeTeam = :team OR m.visitingTeam = :team", Match.class);
         matches.setParameter("team", team);
 
@@ -91,8 +73,7 @@ public class JpaMatchDao implements MatchDao {
         if (eventDate == null)
             throw new IllegalArgumentException("eventDate == null");
 
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        TypedQuery<Match> matches = entityManager.createQuery(
+        TypedQuery<Match> matches = em.createQuery(
                 "SELECT m FROM Match m WHERE m.eventDate = :eventDate", Match.class);
         matches.setParameter("eventDate", eventDate);
 
@@ -102,8 +83,7 @@ public class JpaMatchDao implements MatchDao {
     
     @Override
     public List<Match> retrieveAllMatches() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        TypedQuery<Match> matches = entityManager.createQuery(
+        TypedQuery<Match> matches = em.createQuery(
                 "SELECT m FROM Match", Match.class);
         return matches.getResultList();
     }
