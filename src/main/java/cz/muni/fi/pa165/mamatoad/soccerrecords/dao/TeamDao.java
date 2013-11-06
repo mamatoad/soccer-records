@@ -1,5 +1,6 @@
-package cz.muni.fi.pa165.mamatoad.soccerrecords.team;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.dao;
 
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.List;
 import org.springframework.dao.DataAccessException;

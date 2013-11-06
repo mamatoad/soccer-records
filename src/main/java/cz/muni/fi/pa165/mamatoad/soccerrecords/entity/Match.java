@@ -1,7 +1,6 @@
-package cz.muni.fi.pa165.mamatoad.soccerrecords.match;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.entity;
 
-import cz.muni.fi.pa165.mamatoad.soccerrecords.goal.Goal;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Goal;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,29 +1,30 @@
-package cz.muni.fi.pa165.mamatoad.soccerrecords.player;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.entity;
 
-import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
+import javax.persistence.OneToMany;
 
 /**
- * This class represents entity Player
+ * This class represents entity Team
  * 
  * @author Maros Klimovsky
  */
 @Entity
-public class Player implements Serializable {
+public class Team implements Serializable {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    
     private String name;
-    @ManyToOne
-    private Team team;
-    private boolean active;
+    
+    @OneToMany(mappedBy = "team")
+    private List<Player> players;
 
     public Long getId() {
         return id;
@@ -41,26 +42,18 @@ public class Player implements Serializable {
         this.name = name;
     }
 
-    public Team getTeam() {
-        return team;
+    public List<Player> getPlayers() {
+        return players;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 67 * hash + Objects.hashCode(this.id);
+        int hash = 5;
+        hash = 83 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -72,7 +65,7 @@ public class Player implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Player other = (Player) obj;
+        final Team other = (Team) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
@@ -81,9 +74,7 @@ public class Player implements Serializable {
 
     @Override
     public String toString() {
-        return "Player{" + "id=" + id + ", name=" + name + ", team=" + team + ", active=" + active + '}';
+        return "Team{" + "id=" + id + ", name=" + name + '}';
     }
-    
-    
     
 }

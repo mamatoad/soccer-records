@@ -1,7 +1,11 @@
-package cz.muni.fi.pa165.mamatoad.soccerrecords.player;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.service.impl;
 
-import cz.muni.fi.pa165.mamatoad.soccerrecords.goal.GoalDao;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.team.TeamDao;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.service.PlayerService;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.PlayerDao;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Player;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.GoalDao;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.TeamDao;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.PlayerTO;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

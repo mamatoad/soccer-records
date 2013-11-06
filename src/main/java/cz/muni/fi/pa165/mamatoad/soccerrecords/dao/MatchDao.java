@@ -1,6 +1,7 @@
-package cz.muni.fi.pa165.mamatoad.soccerrecords.match;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.dao;
 
-import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Match;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.List;
 import org.joda.time.LocalDate;

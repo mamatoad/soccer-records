@@ -1,5 +1,6 @@
-package cz.muni.fi.pa165.mamatoad.soccerrecords.goal;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.service;
 
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.GoalTO;
 import java.util.List;
 
 /**

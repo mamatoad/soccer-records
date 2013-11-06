@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.mamatoad.soccerrecords.match;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.service;
 
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.MatchTO;
 import java.util.List;
 
 /**

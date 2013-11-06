@@ -4,10 +4,15 @@
  */
 package cz.muni.fi.pa165.mamatoad.soccerrecords.player;
 
-import cz.muni.fi.pa165.mamatoad.soccerrecords.goal.Goal;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.goal.GoalDao;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.team.TeamDao;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.PlayerTO;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.service.impl.PlayerServiceImpl;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.service.PlayerService;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.PlayerDao;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Player;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Goal;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.GoalDao;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Team;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.TeamDao;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;

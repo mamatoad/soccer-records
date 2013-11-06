@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.mamatoad.soccerrecords.goal;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.dto;
 
 import java.util.Objects;
 import org.joda.time.LocalTime;

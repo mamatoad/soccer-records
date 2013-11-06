@@ -2,11 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.mamatoad.soccerrecords.match;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.service.impl;
 
-import cz.muni.fi.pa165.mamatoad.soccerrecords.goal.GoalDao;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.team.TeamDao;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.service.MatchService;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.MatchDao;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Match;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.GoalDao;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.MatchTO;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Team;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.TeamDao;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

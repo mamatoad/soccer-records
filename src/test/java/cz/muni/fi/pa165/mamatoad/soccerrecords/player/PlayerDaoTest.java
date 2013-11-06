@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords.player;
 
-import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.PlayerDao;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Player;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;

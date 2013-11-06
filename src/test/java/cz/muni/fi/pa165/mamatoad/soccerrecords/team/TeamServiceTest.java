@@ -1,10 +1,15 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords.team;
 
-import cz.muni.fi.pa165.mamatoad.soccerrecords.goal.Goal;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.match.Match;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.match.MatchDao;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.player.Player;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.player.PlayerDao;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.TeamTO;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.service.impl.TeamServiceImpl;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.service.TeamService;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.TeamDao;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Team;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Goal;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Match;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.MatchDao;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Player;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.PlayerDao;
 import java.util.ArrayList;
 import java.util.List;
 import org.joda.time.LocalDate;

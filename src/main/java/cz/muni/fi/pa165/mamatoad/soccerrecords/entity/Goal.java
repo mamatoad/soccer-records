@@ -1,8 +1,5 @@
-package cz.muni.fi.pa165.mamatoad.soccerrecords.goal;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.entity;
 
-import cz.muni.fi.pa165.mamatoad.soccerrecords.match.Match;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.player.Player;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.team.Team;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Entity;

@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.mamatoad.soccerrecords.player;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.dto;
 
 import java.util.Objects;
 
