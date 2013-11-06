@@ -5,7 +5,6 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Match;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Goal;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Player;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Team;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.persistence.EntityManager;
@@ -95,45 +94,45 @@ public class MatchDaoTest {
 
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void create_matchWithId_Throws() {
         match.setId(Long.MIN_VALUE);
         matchDao.createMatch(match);
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void create_nullMatchHomeTeam_ThrowsIllegalEntityException() {
         match.setHomeTeam(null);
         matchDao.createMatch(match);
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void create_nullMatchVisitingTeam_ThrowsIllegalEntityException() {
         match.setVisitingTeam(null);
         matchDao.createMatch(match);
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void create_nullMatchEventDate_ThrowsIllegalEntityException() {
         match.setEventDate(null);
         matchDao.createMatch(match);
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void create_matchHomeTeamNullId_ThrowsIllegalEntityException() {
         Team testTeam = new Team();
         match.setHomeTeam(testTeam);
         matchDao.createMatch(match);
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void create_matchVisitingTeamNullId_ThrowsIllegalEntityException() {
         Team testTeam = new Team();
         match.setVisitingTeam(testTeam);
         matchDao.createMatch(match);
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void create_matchTeamPlayingAgainstItself_ThrowsIllegalEntityException() {
         match.setVisitingTeam(match.getHomeTeam());
         matchDao.createMatch(match);
@@ -145,44 +144,44 @@ public class MatchDaoTest {
         matchDao.updateMatch(match);
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void update_matchNullId_ThrowsIllegalEntityException() {
         matchDao.updateMatch(match);
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void update_nullMatchHomeTeam_ThrowsIllegalEntityException() {
         match.setHomeTeam(null);
         matchDao.updateMatch(match);
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void update_nullMatchVisitingTeam_ThrowsIllegalEntityException() {
         match.setVisitingTeam(null);
         matchDao.updateMatch(match);
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void update_nullMatchEventDate_ThrowsIllegalEntityException() {
         match.setEventDate(null);
         matchDao.updateMatch(match);
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void update_matchHomeTeamNullId_ThrowsIllegalEntityException() {
         Team testTeam = new Team();
         match.setHomeTeam(testTeam);
         matchDao.updateMatch(match);
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void update_matchVisitingTeamNullId_ThrowsIllegalEntityException() {
         Team testTeam = new Team();
         match.setVisitingTeam(testTeam);
         matchDao.updateMatch(match);
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void update_matchTeamPlayingAgainstItself_ThrowsIllegalEntityException() {
         match.setVisitingTeam(match.getHomeTeam());
         matchDao.updateMatch(match);
@@ -242,7 +241,7 @@ public class MatchDaoTest {
         matchDao.deleteMatch(match);
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void delete_matchNullId_throwsIllegalEntityException() {
         match.setId(null);
         matchDao.deleteMatch(match);

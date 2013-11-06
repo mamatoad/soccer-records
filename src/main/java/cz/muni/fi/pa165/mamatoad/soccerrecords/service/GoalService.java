@@ -15,6 +15,7 @@ public interface GoalService {
      * 
      * @param goal the goal being added
      * @throws IllegalArgumentException if goal is null
+     * @throws DataAccessException for errors on persistence layer
      */
     void add(GoalTO goal);
     
@@ -23,6 +24,7 @@ public interface GoalService {
      * 
      * @param goal the goal being updated
      * @throws IllegalArgumentException if goal is null
+     * @throws DataAccessException for errors on persistence layer
      */
     void update(GoalTO goal);
     
@@ -31,6 +33,7 @@ public interface GoalService {
      * 
      * @param goal the goal being removed
      * @throws IllegalArgumentException if goal is null
+     * @throws DataAccessException for errors on persistence layer
      */
     void remove(GoalTO goal);
     
@@ -40,6 +43,7 @@ public interface GoalService {
      * @param matchId id of the match
      * @return list of all goals from the match with the given id
      * @throws IllegalArgumentException if matchId is null
+     * @throws DataAccessException for errors on persistence layer
      */
     List<GoalTO> getGoalsByMatchId(Long matchId);
     

@@ -5,7 +5,6 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Goal;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Match;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Player;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Team;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -99,49 +98,49 @@ public class GoalDaoTest {
         goalDao.createGoal(null);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void createGoal_IdIsNotNull_ThrowIllegalEntityException() { 
         goal.setId(Long.MIN_VALUE);
         goalDao.createGoal(goal);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void createGoal_MatchIsNull_ThrowIllegalEntityException() { 
         goal.setMatch(null);
         goalDao.createGoal(goal);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void createGoal_PlayerIsNull_ThrowIllegalEntityException() { 
         goal.setPlayer(null);
         goalDao.createGoal(goal);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void createGoal_ShootingTimeIsNull_ThrowIllegalEntityException() { 
         goal.setShootingTime(null);
         goalDao.createGoal(goal);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void createGoal_TeamIsNull_ThrowIllegalEntityException() { 
         goal.setTeam(null);
         goalDao.createGoal(goal);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void createGoal_MatchIdIsNull_ThrowIllegalEntityException() { 
         goal.getMatch().setId(null);
         goalDao.createGoal(goal);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void createGoal_PlayerIdIsNull_ThrowIllegalEntityException() { 
         goal.getPlayer().setId(null);
         goalDao.createGoal(goal);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void createGoal_TeamIdIsNull_ThrowIllegalEntityException() { 
         goal.getTeam().setId(null);
         goalDao.createGoal(goal);
@@ -165,62 +164,62 @@ public class GoalDaoTest {
         goalDao.updateGoal(null);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void updateGoal_GoalDoesNotExist_ThrowIllegalEntityException() { 
         goal.setId(Long.MIN_VALUE);
         goalDao.updateGoal(goal);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void updateGoal_IdIsNull_ThrowIllegalEntityException() { 
         goalDao.createGoal(goal);
         goal.setId(null);
         goalDao.updateGoal(goal);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void updateGoal_MatchIsNull_ThrowIllegalEntityException() { 
         goalDao.createGoal(goal);
         goal.setMatch(null);
         goalDao.updateGoal(goal);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void updateGoal_PlayerIsNull_ThrowIllegalEntityException() { 
         goalDao.createGoal(goal);
         goal.setPlayer(null);
         goalDao.updateGoal(goal);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void updateGoal_ShootingTimeIsNull_ThrowIllegalEntityException() { 
         goalDao.createGoal(goal);
         goal.setShootingTime(null);
         goalDao.updateGoal(goal);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void updateGoal_TeamIsNull_ThrowIllegalEntityException() { 
         goalDao.createGoal(goal);
         goal.setTeam(null);
         goalDao.updateGoal(goal);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void updateGoal_MatchIdIsNull_ThrowIllegalEntityException() { 
         goalDao.createGoal(goal);
         goal.getMatch().setId(null);
         goalDao.updateGoal(goal);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void updateGoal_PlayerIdIsNull_ThrowIllegalEntityException() { 
         goalDao.createGoal(goal);
         goal.getPlayer().setId(null);
         goalDao.updateGoal(goal);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void updateGoal_TeamIdIsNull_ThrowIllegalEntityException() { 
         goalDao.createGoal(goal);
         goal.getTeam().setId(null);
@@ -274,13 +273,13 @@ public class GoalDaoTest {
         goalDao.deleteGoal(null);
     }
 
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void deleteGoal_GoalDoesNotExist_ThrowIllegalEntityException() { 
         goal.setId(Long.MAX_VALUE);
         goalDao.deleteGoal(goal);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void deleteGoal_GoalIdIsNull_ThrowIllegalEntityException() { 
         goal.setId(null);
         goalDao.deleteGoal(goal);
@@ -317,7 +316,7 @@ public class GoalDaoTest {
         goalDao.retrieveGoalsByMatch(null);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void retrieveGoalsByMatch_MatchIdIsNull_IllegalEntityException() { 
         goalDao.retrieveGoalsByMatch(new Match());
     }
@@ -344,7 +343,7 @@ public class GoalDaoTest {
         goalDao.retrieveGoalsByMatchAndTeam(null, team);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void retrieveGoalsByMatchAndTeam_MatchIdIsNull_IllegalEntityException() { 
         goalDao.retrieveGoalsByMatchAndTeam(new Match(), team);
     }
@@ -354,7 +353,7 @@ public class GoalDaoTest {
         goalDao.retrieveGoalsByMatchAndTeam(match, null);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void retrieveGoalsByMatchAndTeam_TeamIdIsNull_IllegalEntityException() { 
         goalDao.retrieveGoalsByMatchAndTeam(match, new Team());
     }
@@ -373,7 +372,7 @@ public class GoalDaoTest {
         goalDao.retrieveGoalsByPlayer(null);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void retrieveGoalsByPlayer_PlayerIdIsNull_IllegalEntityException() { 
         goalDao.retrieveGoalsByPlayer(new Player());
     }
@@ -400,7 +399,7 @@ public class GoalDaoTest {
         goalDao.retrieveGoalsByMatchAndPlayer(match, null);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void retrieveGoalsByMatchAndPlayer_PlayerIdIsNull_IllegalEntityException() { 
         goalDao.retrieveGoalsByMatchAndPlayer(match, new Player());
     }
@@ -410,7 +409,7 @@ public class GoalDaoTest {
         goalDao.retrieveGoalsByMatchAndPlayer(null, player);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void retrieveGoalsByMatchAndPlayer_MatchIdIsNull_IllegalEntityException() { 
         goalDao.retrieveGoalsByMatchAndPlayer(new Match(), player);
     }

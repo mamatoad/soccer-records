@@ -3,7 +3,6 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords.team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.TeamDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Player;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -53,21 +52,21 @@ public class TeamDaoTest {
         teamDao.createTeam(testTeam);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void createTeam_nullTeamName_exceptionThrow() {
         testTeam.setName(null);
         
         teamDao.createTeam(testTeam);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void createTeam_emptyTeamName_exceptionThrow() {
         testTeam.setName("");
         
         teamDao.createTeam(testTeam);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void createTeam_setTeamId_exceptionThrow() {
         testTeam.setId(Long.MIN_VALUE);
         
@@ -88,13 +87,13 @@ public class TeamDaoTest {
         teamDao.updateTeam(testTeam);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void updateTeam_teamNotInDatabaseWithId_exceptionThrow() {
         testTeam.setId(Long.MIN_VALUE);
         teamDao.updateTeam(testTeam);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void updateTeam_nullTeamName_exceptionThrow() {
         teamDao.createTeam(testTeam);
         
@@ -103,7 +102,7 @@ public class TeamDaoTest {
         teamDao.updateTeam(testTeam);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void updateTeam_emptyTeamName_exceptionThrow() {
         teamDao.createTeam(testTeam);
         
@@ -112,7 +111,7 @@ public class TeamDaoTest {
         teamDao.updateTeam(testTeam);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void updateTeam_teamIdNull_exceptionThrow() {
         teamDao.createTeam(testTeam);
         
@@ -137,19 +136,19 @@ public class TeamDaoTest {
     //Tests for deleteTeam() method
     
     @Test(expected = DataAccessException.class)
-    public void deleteTeam_teamNull_exceptionThrow() throws IllegalEntityException{
+    public void deleteTeam_teamNull_exceptionThrow() {
         testTeam = null;
         teamDao.deleteTeam(testTeam);
     }
     
-    @Test(expected = IllegalEntityException.class)
-    public void deleteTeam_teamNotInDatabase_exceptionThrow() throws IllegalEntityException{
+    @Test(expected = DataAccessException.class)
+    public void deleteTeam_teamNotInDatabase_exceptionThrow() {
         testTeam.setId(Long.MIN_VALUE);
         teamDao.deleteTeam(testTeam);
     }
     
     @Test
-    public void deleteTeam_correct_teamDeleted() throws IllegalEntityException{
+    public void deleteTeam_correct_teamDeleted() {
         teamDao.createTeam(testTeam);
         Long id = testTeam.getId();
         teamDao.deleteTeam(testTeam);
@@ -159,17 +158,17 @@ public class TeamDaoTest {
     //retrieve Team
     
     @Test(expected = DataAccessException.class)
-    public void retrieveTeamById_idNull_exceptionThrow() throws IllegalEntityException{
+    public void retrieveTeamById_idNull_exceptionThrow() {
         teamDao.retrieveTeamById(null);
     }
     
     @Test
-    public void retrieveTeamById_idNotIntDatabase_exceptionThrow() throws IllegalEntityException{
+    public void retrieveTeamById_idNotIntDatabase_exceptionThrow() {
         Assert.assertNull(teamDao.retrieveTeamById(Long.MIN_VALUE));
     }
     
     @Test
-    public void retrieveTeamById_correct_foundTeam() throws IllegalEntityException{
+    public void retrieveTeamById_correct_foundTeam() {
         teamDao.createTeam(testTeam);
         Assert.assertEquals(testTeam, teamDao.retrieveTeamById(testTeam.getId()));
     }
@@ -191,7 +190,7 @@ public class TeamDaoTest {
     }
    
     @Test
-    public void retrieveTeamsByName_find2of3_listOf2Teams() throws IllegalEntityException{
+    public void retrieveTeamsByName_find2of3_listOf2Teams() {
         testTeam.setName("specialName");
         teamDao.createTeam(testTeam);
         Team testTeam2 = new Team();

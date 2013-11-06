@@ -3,7 +3,6 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords.player;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.PlayerDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Player;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Team;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -64,19 +63,19 @@ public class PlayerDaoTest {
         assertNotNull(player.getId());
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void createPlayer_playerIdNotNull_exceptionThrown() {
         player.setId(Long.MIN_VALUE);
          playerDao.createPlayer(player);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void createPlayer_playerNameNull_exceptionThrown() {
         player.setName(null);
         playerDao.createPlayer(player);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void createPlayer_playerNameEmpty_exceptionThrown() {
         player.setName("");
         playerDao.createPlayer(player);
@@ -89,27 +88,27 @@ public class PlayerDaoTest {
         playerDao.updatePlayer(null);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void updatePlayer_playerIdNull_exceptionThrown() {
         playerDao.createPlayer(player);
         player.setId(null);
         playerDao.updatePlayer(player);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void updatePlayer_playerNotStored_exceptionThrown() {
         player.setId(Long.MIN_VALUE);
         playerDao.updatePlayer(player);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void updatePlayer_playerNameNull_exceptionThrown() {
         playerDao.createPlayer(player);
         player.setName(null);
         playerDao.updatePlayer(player);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void updatePlayer_playerNameEmpty_exceptionThrown() {
         playerDao.createPlayer(player);
         player.setName("");
@@ -144,14 +143,14 @@ public class PlayerDaoTest {
         playerDao.deletePlayer(null);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void deletePlayer_playerIdNull_exceptionThrown() {
         playerDao.createPlayer(player);
         player.setId(null);
         playerDao.deletePlayer(player);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void deletePlayer_playerNotStored_exceptionThrown() {
         player.setId(Long.MIN_VALUE);
         playerDao.deletePlayer(player);
@@ -230,12 +229,12 @@ public class PlayerDaoTest {
         playerDao.retrievePlayersByTeam(null);
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void retrievePlayersByTeam_teamIdNull_exceptionThrown() {
         playerDao.retrievePlayersByTeam(new Team());
     }
     
-    @Test(expected = IllegalEntityException.class)
+    @Test(expected = DataAccessException.class)
     public void retrievePlayersByTeam_teamNotExist_exceptionThrown() {
         Team team = new Team();
         team.setId(Long.MIN_VALUE);

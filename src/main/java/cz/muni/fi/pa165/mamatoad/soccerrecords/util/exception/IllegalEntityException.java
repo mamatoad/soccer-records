@@ -4,7 +4,7 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception;
  *
  * @author Matus Nemec
  */
-public class IllegalEntityException extends RuntimeException {
+public class IllegalEntityException extends IllegalArgumentException {
 
     public IllegalEntityException() {}
 

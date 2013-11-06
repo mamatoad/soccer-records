@@ -27,6 +27,7 @@ public interface MatchService {
      * 
      * @param match match to update
      * @exception IllegalArgumentException when match is null
+     * @throws DataAccessException for errors on persistence layer
      */
     public void update(MatchTO match);
     
@@ -35,6 +36,7 @@ public interface MatchService {
      * 
      * @param match  match to delete
      * @exception IllegalArgumentException when match is null
+     * @throws DataAccessException for errors on persistence layer
      */
     public void remove(MatchTO match);
     
@@ -44,6 +46,7 @@ public interface MatchService {
      * @param teamId if of the team
      * @return list of matchTO where played team with given id
      * @exception IllegalArgumentException when teamId is null
+     * @throws DataAccessException for errors on persistence layer
      */
     public List<MatchTO> getMatchesByTeamId(Long teamId);
     
@@ -51,6 +54,7 @@ public interface MatchService {
      * Returns all matches
      * 
      * @return list of matches
+     * @throws DataAccessException for errors on persistence layer
      */
     public List<MatchTO> getAllMatches();
 }
