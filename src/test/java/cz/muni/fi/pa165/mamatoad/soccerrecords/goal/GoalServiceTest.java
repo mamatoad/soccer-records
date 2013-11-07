@@ -112,14 +112,14 @@ public class GoalServiceTest {
     }
     
     @Test(expected = IllegalArgumentException.class)
-    public void  add_nullGoalTO_throwsIllegalArgumentException(){
+    public void test_add_nullGoalTO_throwsIllegalArgumentException(){
         goalTo = null;
         goalService.add(goalTo);
         
     }
     
     @Test
-    public void add_validGoalTO_addsGoal(){
+    public void test_add_validGoalTO_addsGoal(){
         
         goalService.add(goalTo);
         ArgumentCaptor<Goal> argument = ArgumentCaptor.forClass(Goal.class);
@@ -128,13 +128,13 @@ public class GoalServiceTest {
     }
     
     @Test(expected = IllegalArgumentException.class)
-    public void update_nullGoalTO_throwsIllegalArgumentException(){
+    public void test_update_nullGoalTO_throwsIllegalArgumentException(){
         goalTo = null;
         goalService.update(goalTo);
     }
     
     @Test
-    public void update_validGoalTO_updatesGoal(){
+    public void test_update_validGoalTO_updatesGoal(){
         goal.setTeam(otherTeam);
         goalTo.setTeamId(goal.getTeam().getId());
         goalTo.setTeamName(goal.getTeam().getName());
@@ -145,13 +145,13 @@ public class GoalServiceTest {
     }
     
     @Test(expected = IllegalArgumentException.class)
-    public void remove_nullGoalTO_throwsIllegalArgumentException(){
+    public void test_remove_nullGoalTO_throwsIllegalArgumentException(){
         goalTo = null;
         goalService.remove(goalTo);
     }
     
     @Test
-    public void remove_validGoalTO_removesGoal(){
+    public void test_remove_validGoalTO_removesGoal(){
         goalService.remove(goalTo);
         ArgumentCaptor<Goal> argument = ArgumentCaptor.forClass(Goal.class);
         Mockito.verify(goalDao).deleteGoal(argument.capture());
@@ -159,13 +159,13 @@ public class GoalServiceTest {
     }
     
     @Test(expected = IllegalArgumentException.class)
-    public void getGoalsByMatchId_nullId_throwsIllegalArgumentException(){
+    public void test_getGoalsByMatchId_nullId_throwsIllegalArgumentException(){
         Long id = null;
         goalService.getGoalsByMatchId(id);
     }
     
     @Test
-    public void getGoalsByMatchId_validId_returnsGoal(){
+    public void test_getGoalsByMatchId_validId_returnsGoal(){
         when(goalDao.retrieveGoalsByMatch(match)).thenAnswer(new Answer<List<Goal>>() {
              @Override
              public List<Goal> answer(InvocationOnMock invocation) throws Throwable {

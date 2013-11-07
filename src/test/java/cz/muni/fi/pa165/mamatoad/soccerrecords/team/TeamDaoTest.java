@@ -46,35 +46,35 @@ public class TeamDaoTest {
     //Tests for createTeam() method
     
     @Test(expected = DataAccessException.class)
-    public void createTeam_nullTeam_exceptionThrow() {
+    public void test_createTeam_nullTeam_exceptionThrow() {
         testTeam = null;
         
         teamDao.createTeam(testTeam);
     }
     
     @Test(expected = DataAccessException.class)
-    public void createTeam_nullTeamName_exceptionThrow() {
+    public void test_createTeam_nullTeamName_exceptionThrow() {
         testTeam.setName(null);
         
         teamDao.createTeam(testTeam);
     }
     
     @Test(expected = DataAccessException.class)
-    public void createTeam_emptyTeamName_exceptionThrow() {
+    public void test_createTeam_emptyTeamName_exceptionThrow() {
         testTeam.setName("");
         
         teamDao.createTeam(testTeam);
     }
     
     @Test(expected = DataAccessException.class)
-    public void createTeam_setTeamId_exceptionThrow() {
+    public void test_createTeam_setTeamId_exceptionThrow() {
         testTeam.setId(Long.MIN_VALUE);
         
         teamDao.createTeam(testTeam);
     }
     
     @Test
-    public void createTeam_correct_createTeam() {
+    public void test_createTeam_correct_createTeam() {
         teamDao.createTeam(testTeam);
         Assert.assertNotNull(testTeam.getId());
     }
@@ -82,19 +82,19 @@ public class TeamDaoTest {
     //Tests for updateTeam() method
     
     @Test(expected = DataAccessException.class)
-    public void updateTeam_nullTeam_exceptionThrow() {
+    public void test_updateTeam_nullTeam_exceptionThrow() {
         testTeam = null;
         teamDao.updateTeam(testTeam);
     }
     
     @Test(expected = DataAccessException.class)
-    public void updateTeam_teamNotInDatabaseWithId_exceptionThrow() {
+    public void test_updateTeam_teamNotInDatabaseWithId_exceptionThrow() {
         testTeam.setId(Long.MIN_VALUE);
         teamDao.updateTeam(testTeam);
     }
     
     @Test(expected = DataAccessException.class)
-    public void updateTeam_nullTeamName_exceptionThrow() {
+    public void test_updateTeam_nullTeamName_exceptionThrow() {
         teamDao.createTeam(testTeam);
         
         testTeam.setName(null);
@@ -103,7 +103,7 @@ public class TeamDaoTest {
     }
     
     @Test(expected = DataAccessException.class)
-    public void updateTeam_emptyTeamName_exceptionThrow() {
+    public void test_updateTeam_emptyTeamName_exceptionThrow() {
         teamDao.createTeam(testTeam);
         
         testTeam.setName("");
@@ -112,7 +112,7 @@ public class TeamDaoTest {
     }
     
     @Test(expected = DataAccessException.class)
-    public void updateTeam_teamIdNull_exceptionThrow() {
+    public void test_updateTeam_teamIdNull_exceptionThrow() {
         teamDao.createTeam(testTeam);
         
         testTeam.setId(null);
@@ -121,7 +121,7 @@ public class TeamDaoTest {
     }
     
     @Test
-    public void updateTeam_correct_updateTeam() {
+    public void test_updateTeam_correct_updateTeam() {
         teamDao.createTeam(testTeam);
         
         testTeam.setName("newName");
@@ -136,19 +136,19 @@ public class TeamDaoTest {
     //Tests for deleteTeam() method
     
     @Test(expected = DataAccessException.class)
-    public void deleteTeam_teamNull_exceptionThrow() {
+    public void test_deleteTeam_teamNull_exceptionThrow() {
         testTeam = null;
         teamDao.deleteTeam(testTeam);
     }
     
     @Test(expected = DataAccessException.class)
-    public void deleteTeam_teamNotInDatabase_exceptionThrow() {
+    public void test_deleteTeam_teamNotInDatabase_exceptionThrow() {
         testTeam.setId(Long.MIN_VALUE);
         teamDao.deleteTeam(testTeam);
     }
     
     @Test
-    public void deleteTeam_correct_teamDeleted() {
+    public void test_deleteTeam_correct_teamDeleted() {
         teamDao.createTeam(testTeam);
         Long id = testTeam.getId();
         teamDao.deleteTeam(testTeam);
@@ -158,39 +158,39 @@ public class TeamDaoTest {
     //retrieve Team
     
     @Test(expected = DataAccessException.class)
-    public void retrieveTeamById_idNull_exceptionThrow() {
+    public void test_retrieveTeamById_idNull_exceptionThrow() {
         teamDao.retrieveTeamById(null);
     }
     
     @Test
-    public void retrieveTeamById_idNotIntDatabase_exceptionThrow() {
+    public void test_retrieveTeamById_idNotIntDatabase_exceptionThrow() {
         Assert.assertNull(teamDao.retrieveTeamById(Long.MIN_VALUE));
     }
     
     @Test
-    public void retrieveTeamById_correct_foundTeam() {
+    public void test_retrieveTeamById_correct_foundTeam() {
         teamDao.createTeam(testTeam);
         Assert.assertEquals(testTeam, teamDao.retrieveTeamById(testTeam.getId()));
     }
     
     @Test(expected = DataAccessException.class)
-    public void retrieveTeamsByName_nullName_exceptionThrow(){
+    public void test_retrieveTeamsByName_nullName_exceptionThrow(){
         teamDao.retrieveTeamsByName(null);
     }
     
     @Test(expected = DataAccessException.class)
-    public void retrieveTeamsByName_emptyName_exceptionThrow(){
+    public void test_retrieveTeamsByName_emptyName_exceptionThrow(){
         teamDao.retrieveTeamsByName("");
     }
     
     @Test
-    public void retrieveTeamsByName_notInDatabase_emptyList(){
+    public void test_retrieveTeamsByName_notInDatabase_emptyList(){
         List<Team> teams = teamDao.retrieveTeamsByName("invalidName");
         Assert.assertTrue(teams.isEmpty());
     }
    
     @Test
-    public void retrieveTeamsByName_find2of3_listOf2Teams() {
+    public void test_retrieveTeamsByName_find2of3_listOf2Teams() {
         testTeam.setName("specialName");
         teamDao.createTeam(testTeam);
         Team testTeam2 = new Team();

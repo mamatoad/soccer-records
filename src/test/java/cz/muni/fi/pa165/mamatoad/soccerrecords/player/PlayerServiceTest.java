@@ -127,13 +127,13 @@ public class PlayerServiceTest {
     }
     //add
     @Test(expected = IllegalArgumentException.class)
-    public void add_nullPlayer_exceptionThrow() {
+    public void test_add_nullPlayer_exceptionThrow() {
         playerTo = null;
         playerService.add(playerTo);
     }
     
     @Test
-    public void add_correct_addPlayer(){
+    public void test_add_correct_addPlayer(){
         ArgumentCaptor<Player> argument = ArgumentCaptor.forClass(Player.class);
         playerService.add(playerTo);
         Mockito.verify(playerDao).createPlayer(argument.capture());
@@ -142,13 +142,13 @@ public class PlayerServiceTest {
     
     //update
     @Test(expected = IllegalArgumentException.class)
-    public void update_nullPlayer_exceptionThrow() {
+    public void test_update_nullPlayer_exceptionThrow() {
         playerTo = null;
         playerService.update(playerTo);
     }
     
     @Test
-    public void update_correct_updatePlayer(){
+    public void test_update_correct_updatePlayer(){
         //playerTo.setPlayerId(0L);
         ArgumentCaptor<Player> argument = ArgumentCaptor.forClass(Player.class);
         playerService.update(playerTo);
@@ -158,13 +158,13 @@ public class PlayerServiceTest {
     
     //remove
     @Test(expected = IllegalArgumentException.class)
-    public void remove_nullPlayer_exceptionThrow() {
+    public void test_remove_nullPlayer_exceptionThrow() {
         playerTo = null;
         playerService.remove(playerTo);
     }
     
     @Test
-    public void remove_correct_removePlayer(){
+    public void test_remove_correct_removePlayer(){
         ArgumentCaptor<Player> argument = ArgumentCaptor.forClass(Player.class);
         playerService.remove(playerTo);
         Mockito.verify(playerDao).deletePlayer(argument.capture());
@@ -173,24 +173,24 @@ public class PlayerServiceTest {
     
     //getPlayerById
     @Test(expected = IllegalArgumentException.class)
-    public void getPlayerById_nullId_exceptionThrow() {
+    public void test_getPlayerById_nullId_exceptionThrow() {
         playerService.getPlayerById(null);
     }
     
     @Test
-    public void getPlayerById_correct_getPlayer(){
+    public void test_getPlayerById_correct_getPlayer(){
         PlayerTO actual = playerService.getPlayerById(playerTo.getPlayerId());
         playerToEquals(playerTo, actual);
     }
     
     //getPlayersByTeamId
     @Test(expected = IllegalArgumentException.class)
-    public void getPlayersByTeamId_nullId_exceptionThrow() {
+    public void test_getPlayersByTeamId_nullId_exceptionThrow() {
         playerService.getPlayersByTeamId(null);
     }
     
     @Test
-    public void getPlayersByTeamId_correct_getListOfPlayers(){
+    public void test_getPlayersByTeamId_correct_getListOfPlayers(){
         
         List<PlayerTO> actual = playerService.getPlayersByTeamId(team.getId());
         
@@ -203,7 +203,7 @@ public class PlayerServiceTest {
     //getAllPlayers
     
     @Test
-    public void getAllPlayers_correct_getPlayers(){
+    public void test_getAllPlayers_correct_getPlayers(){
         
         List<PlayerTO> actual = playerService.getAllPlayers();
         

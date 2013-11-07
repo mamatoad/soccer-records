@@ -207,7 +207,7 @@ public class TeamServiceTest {
     }
 
     @Test
-    public void add_validTeamTO_addsTeam() {
+    public void test_add_validTeamTO_addsTeam() {
         teamService.add(teamTO);
 
         ArgumentCaptor<Team> argument = ArgumentCaptor.forClass(Team.class);
@@ -217,12 +217,12 @@ public class TeamServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void add_nullTeamTO_throwsInvalidArgumentException() {
+    public void test_add_nullTeamTO_throwsInvalidArgumentException() {
         teamService.add(null);
     }
 
     @Test
-    public void update_validTeamTO_updatesTeam() {
+    public void test_update_validTeamTO_updatesTeam() {
         team.setName("A very new name");
         teamTO.setTeamName(team.getName());
         
@@ -235,12 +235,12 @@ public class TeamServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void update_nullTeamTO_throwsInvalidArgumentException() {
+    public void test_update_nullTeamTO_throwsInvalidArgumentException() {
         teamService.update(null);
     }
 
     @Test
-    public void remove_validTeamTO_removesTeam() {
+    public void test_remove_validTeamTO_removesTeam() {
         teamService.remove(otherTeamTO);
         
         ArgumentCaptor<Team> argument = ArgumentCaptor.forClass(Team.class);
@@ -250,12 +250,12 @@ public class TeamServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void remove_nullTeamTO_throwsInvalidArgumentException() {
+    public void test_remove_nullTeamTO_throwsInvalidArgumentException() {
         teamService.remove(null);
     }
 
     @Test
-    public void getTeamById_validId_retrievesTeam() {
+    public void test_getTeamById_validId_retrievesTeam() {
         TeamTO retrieved = teamService.getTeamById(teamTO.getTeamId());
         equalsTeamTO(teamTO, retrieved);
         
@@ -264,12 +264,12 @@ public class TeamServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void getTeamById_nullId_throwsInvalidArgumentException() {
+    public void test_getTeamById_nullId_throwsInvalidArgumentException() {
         teamService.getTeamById(null);
     }
 
     @Test
-    public void getAllTeams_noArguments_retrievesTeams() {
+    public void test_getAllTeams_noArguments_retrievesTeams() {
         List<TeamTO> retrievedTeams = teamService.getAllTeams();
         equalsTeamTO(teamTO, retrievedTeams.get(0));
         equalsTeamTO(otherTeamTO, retrievedTeams.get(1));

@@ -53,30 +53,30 @@ public class PlayerDaoTest {
     // createPlayer()
     
     @Test(expected = DataAccessException.class)
-    public void createPlayer_playerNull_exceptionThrown() {
+    public void test_createPlayer_playerNull_exceptionThrown() {
         playerDao.createPlayer(null);
     }
     
     @Test
-    public void createPlayer_playerIdNull_idAssigned() {
+    public void test_createPlayer_playerIdNull_idAssigned() {
         playerDao.createPlayer(player);
         assertNotNull(player.getId());
     }
     
     @Test(expected = DataAccessException.class)
-    public void createPlayer_playerIdNotNull_exceptionThrown() {
+    public void test_createPlayer_playerIdNotNull_exceptionThrown() {
         player.setId(Long.MIN_VALUE);
          playerDao.createPlayer(player);
     }
     
     @Test(expected = DataAccessException.class)
-    public void createPlayer_playerNameNull_exceptionThrown() {
+    public void test_createPlayer_playerNameNull_exceptionThrown() {
         player.setName(null);
         playerDao.createPlayer(player);
     }
     
     @Test(expected = DataAccessException.class)
-    public void createPlayer_playerNameEmpty_exceptionThrown() {
+    public void test_createPlayer_playerNameEmpty_exceptionThrown() {
         player.setName("");
         playerDao.createPlayer(player);
     }
@@ -84,39 +84,39 @@ public class PlayerDaoTest {
     // updatePlayer()
     
     @Test(expected = DataAccessException.class)
-    public void updatePlayer_playerNull_exceptionThrown() {
+    public void test_updatePlayer_playerNull_exceptionThrown() {
         playerDao.updatePlayer(null);
     }
     
     @Test(expected = DataAccessException.class)
-    public void updatePlayer_playerIdNull_exceptionThrown() {
+    public void test_updatePlayer_playerIdNull_exceptionThrown() {
         playerDao.createPlayer(player);
         player.setId(null);
         playerDao.updatePlayer(player);
     }
     
     @Test(expected = DataAccessException.class)
-    public void updatePlayer_playerNotStored_exceptionThrown() {
+    public void test_updatePlayer_playerNotStored_exceptionThrown() {
         player.setId(Long.MIN_VALUE);
         playerDao.updatePlayer(player);
     }
     
     @Test(expected = DataAccessException.class)
-    public void updatePlayer_playerNameNull_exceptionThrown() {
+    public void test_updatePlayer_playerNameNull_exceptionThrown() {
         playerDao.createPlayer(player);
         player.setName(null);
         playerDao.updatePlayer(player);
     }
     
     @Test(expected = DataAccessException.class)
-    public void updatePlayer_playerNameEmpty_exceptionThrown() {
+    public void test_updatePlayer_playerNameEmpty_exceptionThrown() {
         playerDao.createPlayer(player);
         player.setName("");
         playerDao.updatePlayer(player);
     }
     
     @Test
-    public void updatePlayer_playerNameChanged_valueStored() {
+    public void test_updatePlayer_playerNameChanged_valueStored() {
         playerDao.createPlayer(player);
         String name = "John Van Doe";
         player.setName(name);
@@ -127,7 +127,7 @@ public class PlayerDaoTest {
     }
     
     @Test
-    public void updatePlayer_playerActiveChanged_valueStored() {
+    public void test_updatePlayer_playerActiveChanged_valueStored() {
         playerDao.createPlayer(player);
         player.setActive(false);
         playerDao.updatePlayer(player);
@@ -139,25 +139,25 @@ public class PlayerDaoTest {
     // deletePlayer()
     
     @Test(expected = DataAccessException.class)
-    public void deletePlayer_playerNull_exceptionThrown() {
+    public void test_deletePlayer_playerNull_exceptionThrown() {
         playerDao.deletePlayer(null);
     }
     
     @Test(expected = DataAccessException.class)
-    public void deletePlayer_playerIdNull_exceptionThrown() {
+    public void test_deletePlayer_playerIdNull_exceptionThrown() {
         playerDao.createPlayer(player);
         player.setId(null);
         playerDao.deletePlayer(player);
     }
     
     @Test(expected = DataAccessException.class)
-    public void deletePlayer_playerNotStored_exceptionThrown() {
+    public void test_deletePlayer_playerNotStored_exceptionThrown() {
         player.setId(Long.MIN_VALUE);
         playerDao.deletePlayer(player);
     }
     
     @Test
-    public void deletePlayer_playerDeleted_playerNotFound() {
+    public void test_deletePlayer_playerDeleted_playerNotFound() {
         playerDao.createPlayer(player);
         playerDao.deletePlayer(player);
         
@@ -168,17 +168,17 @@ public class PlayerDaoTest {
     // retrievePlayerById()
     
     @Test(expected = DataAccessException.class)
-    public void retrievePlayerById_idNull_exceptionThrown() {
+    public void test_retrievePlayerById_idNull_exceptionThrown() {
         playerDao.retrievePlayerById(null);
     }
     
     @Test
-    public void retrievePlayerById_notExistingId_playerNotFound() {
+    public void test_retrievePlayerById_notExistingId_playerNotFound() {
         assertNull(playerDao.retrievePlayerById(Long.MIN_VALUE));
     }
     
     @Test
-    public void retrievePlayerById_existingId_playerFound() {
+    public void test_retrievePlayerById_existingId_playerFound() {
         playerDao.createPlayer(player);
         Long id = player.getId();
         assertNotNull(playerDao.retrievePlayerById(id));
@@ -187,22 +187,22 @@ public class PlayerDaoTest {
     // retrievePlayersByName()
     
     @Test(expected = DataAccessException.class)
-    public void retrievePlayersByName_nameNull_exceptionThrown() {
+    public void test_retrievePlayersByName_nameNull_exceptionThrown() {
         playerDao.retrievePlayersByName(null);
     }
     
     @Test(expected = DataAccessException.class)
-    public void retrievePlayersByName_nameEmpty_exceptionThrown() {
+    public void test_retrievePlayersByName_nameEmpty_exceptionThrown() {
         playerDao.retrievePlayersByName("");
     }
     
     @Test
-    public void retrievePlayersByName_nameNotExist_playerNotFound() {
+    public void test_retrievePlayersByName_nameNotExist_playerNotFound() {
         assertTrue(playerDao.retrievePlayersByName(PLAYER_NAME).isEmpty());
     }
     
     @Test
-    public void retrievePlayersByName_nameExist_playerFound() {
+    public void test_retrievePlayersByName_nameExist_playerFound() {
         playerDao.createPlayer(player);
         Long id = player.getId();
         List<Player> players = playerDao.retrievePlayersByName(PLAYER_NAME);
@@ -212,7 +212,7 @@ public class PlayerDaoTest {
     }
     
     @Test
-    public void retrievePlayersByName_twoPlayersWithSameName_playersFound() {
+    public void test_retrievePlayersByName_twoPlayersWithSameName_playersFound() {
         playerDao.createPlayer(player);
         playerDao.createPlayer(player2);
         Long id = player.getId();
@@ -225,24 +225,24 @@ public class PlayerDaoTest {
     // retrievePlayersByTeam()
     
     @Test(expected = DataAccessException.class)
-    public void retrievePlayersByTeam_teamNull_exceptionThrown() {
+    public void test_retrievePlayersByTeam_teamNull_exceptionThrown() {
         playerDao.retrievePlayersByTeam(null);
     }
     
     @Test(expected = DataAccessException.class)
-    public void retrievePlayersByTeam_teamIdNull_exceptionThrown() {
+    public void test_retrievePlayersByTeam_teamIdNull_exceptionThrown() {
         playerDao.retrievePlayersByTeam(new Team());
     }
     
     @Test(expected = DataAccessException.class)
-    public void retrievePlayersByTeam_teamNotExist_exceptionThrown() {
+    public void test_retrievePlayersByTeam_teamNotExist_exceptionThrown() {
         Team team = new Team();
         team.setId(Long.MIN_VALUE);
         playerDao.retrievePlayersByTeam(team);
     }
     
     @Test
-    public void retrievePlayersByTeam_teamWithoutPlayers_playersNotFound() {
+    public void test_retrievePlayersByTeam_teamWithoutPlayers_playersNotFound() {
         Team team = new Team();
         team.setName("FCB");
         
@@ -253,7 +253,7 @@ public class PlayerDaoTest {
     }
     
     @Test
-    public void retrievePlayersByTeam_teamWithOnePlayer_playerFound() {
+    public void test_retrievePlayersByTeam_teamWithOnePlayer_playerFound() {
         Team team = new Team();
         team.setName("FCB");
         
@@ -272,7 +272,7 @@ public class PlayerDaoTest {
     // retrievePlayersByActivity()
     
     @Test
-    public void retrievePlayersByActivity_findActivePlayer_playerFound() {
+    public void test_retrievePlayersByActivity_findActivePlayer_playerFound() {
         playerDao.createPlayer(player);
         Long id = player.getId();
         List<Player> players = playerDao.retrievePlayersByActivity(true);

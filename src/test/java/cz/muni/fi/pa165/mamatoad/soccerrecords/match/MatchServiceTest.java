@@ -106,12 +106,12 @@ public class MatchServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void add_matchNull_exceptionThrown() {
+    public void test_add_matchNull_exceptionThrown() {
         matchService.add(null);
     }
 
     @Test
-    public void add_matchValid_matchAdded() {
+    public void test_add_matchValid_matchAdded() {
         match.setId(null);
         matchTo.setMatchId(null);
         matchService.add(matchTo);
@@ -121,12 +121,12 @@ public class MatchServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void update_matchNull_exceptionThrown() {
+    public void test_update_matchNull_exceptionThrown() {
         matchService.update(null);
     }
 
     @Test
-    public void update_matchValid_matchUpdated() {
+    public void test_update_matchValid_matchUpdated() {
         matchService.update(matchTo);
         ArgumentCaptor<Match> argument = ArgumentCaptor.forClass(Match.class);
         Mockito.verify(matchDao).updateMatch(argument.capture());
@@ -134,12 +134,12 @@ public class MatchServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void remove_matchNull_exceptionThrown() {
+    public void test_remove_matchNull_exceptionThrown() {
         matchService.remove(null);
     }
 
     @Test
-    public void remove_matchValid_matchRemoved() {
+    public void test_remove_matchValid_matchRemoved() {
         matchService.remove(matchTo);
         ArgumentCaptor<Match> argument = ArgumentCaptor.forClass(Match.class);
         Mockito.verify(matchDao).deleteMatch(argument.capture());
@@ -147,12 +147,12 @@ public class MatchServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void getMatchesByTeamId_matchNull_exceptionThrown() {
+    public void test_getMatchesByTeamId_matchNull_exceptionThrown() {
         matchService.getMatchesByTeamId(null);
     }
 
     @Test
-    public void getMatchesByTeamId_matchExist_matchFound() {
+    public void test_getMatchesByTeamId_matchExist_matchFound() {
         List<MatchTO> actual = matchService.getMatchesByTeamId(1L);
         List<MatchTO> expected = new ArrayList<>();
         expected.add(matchTo);
@@ -160,7 +160,7 @@ public class MatchServiceTest {
     }
 
     @Test
-    public void getAllMatches_matchExist_matchFound() {
+    public void test_getAllMatches_matchExist_matchFound() {
         List<MatchTO> actual = matchService.getAllMatches();
         List<MatchTO> expected = new ArrayList<>();
         expected.add(matchTo);
