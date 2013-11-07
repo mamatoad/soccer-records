@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.mamatoad.soccerrecords.team;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.dao;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.TeamDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Team;

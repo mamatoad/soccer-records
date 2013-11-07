@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.mamatoad.soccerrecords.match;
+package cz.muni.fi.pa165.mamatoad.soccerrecords.service;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.MatchTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.impl.MatchServiceImpl;
