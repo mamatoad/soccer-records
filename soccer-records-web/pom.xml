@@ -30,7 +30,7 @@
             <artifactId>soccer-records-logic</artifactId>
             <version>${project.version}</version>
         </dependency>
-		
+                
         <dependency>
             <groupId>taglibs</groupId>
             <artifactId>standard</artifactId>
@@ -47,7 +47,7 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
-		
+                
         <dependency>
             <groupId>net.sourceforge.stripes</groupId>
             <artifactId>stripes</artifactId>
