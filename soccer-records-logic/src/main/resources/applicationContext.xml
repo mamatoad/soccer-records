@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -13,12 +12,21 @@
 ">
     
     <context:component-scan base-package="cz.muni.fi.pa165.mamatoad.soccerrecords"/>    
-    
     <context:annotation-config/>
-    <import resource="classpath*:applicationContext.xml"/>
-    <bean name="playerService" class="cz.muni.fi.pa165.mamatoad.soccerrecords.service.impl.PlayerServiceImpl"/>
-	<bean name="teamService" class="cz.muni.fi.pa165.mamatoad.soccerrecords.service.impl.TeamServiceImpl"/>
-	<bean name="matchService" class="cz.muni.fi.pa165.mamatoad.soccerrecords.service.impl.MatchServiceImpl"/>
-	<bean name="goalService" class="cz.muni.fi.pa165.mamatoad.soccerrecords.service.impl.GoalServiceImpl"/>
+        
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    
+    <jdbc:embedded-database id="dataSource" type="DERBY" />
+    
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="TestPU"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+    
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
 
 </beans>
