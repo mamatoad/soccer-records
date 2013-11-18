@@ -11,7 +11,7 @@ public class TeamTO {
     private String teamName;
        
     private long numberOfWins;
-    private long numberOfLoses;
+    private long numberOfLosses;
     private long numberOfTies;
     
     private long numberOfGoalsShot;
@@ -44,12 +44,12 @@ public class TeamTO {
         this.numberOfWins = numberOfWins;
     }
 
-    public long getNumberOfLoses() {
-        return numberOfLoses;
+    public long getNumberOfLosses() {
+        return numberOfLosses;
     }
 
-    public void setNumberOfLoses(long numberOfLoses) {
-        this.numberOfLoses = numberOfLoses;
+    public void setNumberOfLosses(long numberOfLosses) {
+        this.numberOfLosses = numberOfLosses;
     }
 
     public long getNumberOfTies() {
@@ -82,7 +82,7 @@ public class TeamTO {
         hash = 83 * hash + Objects.hashCode(this.teamId);
         hash = 83 * hash + Objects.hashCode(this.teamName);
         hash = 83 * hash + Objects.hashCode(this.numberOfWins);
-        hash = 83 * hash + Objects.hashCode(this.numberOfLoses);
+        hash = 83 * hash + Objects.hashCode(this.numberOfLosses);
         hash = 83 * hash + Objects.hashCode(this.numberOfTies);
         hash = 83 * hash + Objects.hashCode(this.numberOfGoalsShot);
         hash = 83 * hash + Objects.hashCode(this.numberOfGoalsRecieved);
@@ -108,7 +108,7 @@ public class TeamTO {
         if (!Objects.equals(this.numberOfWins, other.numberOfWins)) {
             return false;
         }
-        if (!Objects.equals(this.numberOfLoses, other.numberOfLoses)) {
+        if (!Objects.equals(this.numberOfLosses, other.numberOfLosses)) {
             return false;
         }
         if (!Objects.equals(this.numberOfTies, other.numberOfTies)) {
@@ -125,7 +125,7 @@ public class TeamTO {
 
     @Override
     public String toString() {
-        return "TeamDetail{" + "teamId=" + teamId + ", teamName=" + teamName + ", numberOfWins=" + numberOfWins + ", numberOfLoses=" + numberOfLoses + ", numberOfTies=" + numberOfTies + ", numberOfGoalsShot=" + numberOfGoalsShot + ", numberOfGoalsRecieved=" + numberOfGoalsRecieved + '}';
+        return "TeamDetail{" + "teamId=" + teamId + ", teamName=" + teamName + ", numberOfWins=" + numberOfWins + ", numberOfLoses=" + numberOfLosses + ", numberOfTies=" + numberOfTies + ", numberOfGoalsShot=" + numberOfGoalsShot + ", numberOfGoalsRecieved=" + numberOfGoalsRecieved + '}';
     }
     
     

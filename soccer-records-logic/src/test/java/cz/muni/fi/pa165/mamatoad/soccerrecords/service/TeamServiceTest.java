@@ -177,7 +177,7 @@ public class TeamServiceTest {
         teamTO.setTeamId(team.getId());
         teamTO.setTeamName(team.getName());
         teamTO.setNumberOfWins(1);
-        teamTO.setNumberOfLoses(1);
+        teamTO.setNumberOfLosses(1);
         teamTO.setNumberOfTies(1);
         teamTO.setNumberOfGoalsShot(7);
         teamTO.setNumberOfGoalsRecieved(8);
@@ -186,7 +186,7 @@ public class TeamServiceTest {
         otherTeamTO.setTeamId(otherTeam.getId());
         otherTeamTO.setTeamName(otherTeam.getName());
         otherTeamTO.setNumberOfWins(1);
-        otherTeamTO.setNumberOfLoses(1);
+        otherTeamTO.setNumberOfLosses(1);
         otherTeamTO.setNumberOfTies(1);
         otherTeamTO.setNumberOfGoalsShot(8);
         otherTeamTO.setNumberOfGoalsRecieved(7);
@@ -286,7 +286,7 @@ public class TeamServiceTest {
         Assert.assertEquals("Names don't match", expected.getTeamName(), actual.getTeamName());
 
         Assert.assertEquals("Number of wins doesn't match", expected.getNumberOfWins(), actual.getNumberOfWins());
-        Assert.assertEquals("Number of losses doesn't match", expected.getNumberOfLoses(), actual.getNumberOfLoses());
+        Assert.assertEquals("Number of losses doesn't match", expected.getNumberOfLosses(), actual.getNumberOfLosses());
         Assert.assertEquals("Number of ties doesn't match", expected.getNumberOfTies(), actual.getNumberOfTies());
 
         Assert.assertEquals("Number of goals shot doesn't match", expected.getNumberOfGoalsShot(), actual.getNumberOfGoalsShot());

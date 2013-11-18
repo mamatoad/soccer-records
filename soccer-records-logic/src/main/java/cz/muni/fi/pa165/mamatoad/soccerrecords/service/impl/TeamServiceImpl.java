@@ -134,7 +134,7 @@ public class TeamServiceImpl implements TeamService{
         teamTo.setNumberOfGoalsShot(goalsShot);
         teamTo.setNumberOfGoalsRecieved(goalsRecieved);
         teamTo.setNumberOfWins(numberOfWins);
-        teamTo.setNumberOfLoses(numberOfLoses);
+        teamTo.setNumberOfLosses(numberOfLoses);
         teamTo.setNumberOfTies(numberOfTies);
        return teamTo;
     }
