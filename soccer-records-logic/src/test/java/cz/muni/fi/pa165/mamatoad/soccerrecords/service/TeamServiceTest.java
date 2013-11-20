@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords.service;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.impl.TeamServiceImpl;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.TeamTO;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.service.TeamService;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.TeamDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Goal;
@@ -41,7 +40,7 @@ public class TeamServiceTest {
     private TeamDao teamDao;
     @Autowired
     @InjectMocks
-    private TeamService teamService = new TeamServiceImpl();
+    private final TeamService teamService = new TeamServiceImpl();
     
     Team team;
     Team otherTeam;
@@ -180,7 +179,7 @@ public class TeamServiceTest {
         teamTO.setNumberOfLosses(1);
         teamTO.setNumberOfTies(1);
         teamTO.setNumberOfGoalsShot(7);
-        teamTO.setNumberOfGoalsRecieved(8);
+        teamTO.setNumberOfGoalsReceived(8);
         
         otherTeamTO = new TeamTO();
         otherTeamTO.setTeamId(otherTeam.getId());
@@ -189,7 +188,7 @@ public class TeamServiceTest {
         otherTeamTO.setNumberOfLosses(1);
         otherTeamTO.setNumberOfTies(1);
         otherTeamTO.setNumberOfGoalsShot(8);
-        otherTeamTO.setNumberOfGoalsRecieved(7);
+        otherTeamTO.setNumberOfGoalsReceived(7);
         
         stub(teamDao.retrieveTeamById(team.getId())).toReturn(team);
 
@@ -290,7 +289,7 @@ public class TeamServiceTest {
         Assert.assertEquals("Number of ties doesn't match", expected.getNumberOfTies(), actual.getNumberOfTies());
 
         Assert.assertEquals("Number of goals shot doesn't match", expected.getNumberOfGoalsShot(), actual.getNumberOfGoalsShot());
-        Assert.assertEquals("Number of goals received doesn't match", expected.getNumberOfGoalsRecieved(), actual.getNumberOfGoalsRecieved());
+        Assert.assertEquals("Number of goals received doesn't match", expected.getNumberOfGoalsReceived(), actual.getNumberOfGoalsReceived());
     }
     
     private Goal makeGoal(Long id, Match match, Player player, LocalTime time, Team shootingTeam) {
