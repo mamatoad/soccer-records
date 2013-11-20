@@ -79,6 +79,17 @@ public class MatchServiceImpl implements MatchService{
         return matchesTO;
     }
     
+    
+    @Transactional
+    @Override
+    public MatchTO getMatchById(Long matchId) {
+        if(matchId == null){
+            throw new IllegalArgumentException("MatchId is null");
+        }
+        return toTO(matchDao.retrieveMatchById(matchId));
+    }
+
+    
     private Match toEntity(MatchTO matchTO){
         if(matchTO.getMatchId() != null){
             return matchDao.retrieveMatchById(matchTO.getMatchId());

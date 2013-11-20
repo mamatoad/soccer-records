@@ -57,4 +57,14 @@ public interface MatchService {
      * @throws DataAccessException for errors on persistence layer
      */
     public List<MatchTO> getAllMatches();
+    
+    /**
+     * Returns matchTO
+     * 
+     * @param matchId id of match to find
+     * @return MatchTO of match id
+     * @throws IllegalArgumentException when id is null
+     * @throws DataAccessException for errors on persistence layer
+     */
+    public MatchTO getMatchById(Long matchId);
 }
