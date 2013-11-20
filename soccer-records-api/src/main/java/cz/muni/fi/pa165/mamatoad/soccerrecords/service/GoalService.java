@@ -38,6 +38,16 @@ public interface GoalService {
     void remove(GoalTO goal);
     
     /**
+     * Returns a goal with the given id
+     * 
+     * @param id goal id
+     * @return goal with the given id
+     * @throws IllegalArgumentException if id is null
+     * @throws DataAccessException for errors on persistence layer
+     */
+    GoalTO getGoalById(Long id);
+    
+    /**
      * Returns list of all goals from the match with the given id
      * 
      * @param matchId id of the match

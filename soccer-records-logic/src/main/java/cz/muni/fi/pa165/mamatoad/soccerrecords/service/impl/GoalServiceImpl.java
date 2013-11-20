@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("goalService")
 public class GoalServiceImpl implements GoalService {
+    
     @Autowired
     private GoalDao goalDao;
     @Autowired
@@ -58,6 +59,16 @@ public class GoalServiceImpl implements GoalService {
         }
         
         goalDao.deleteGoal(convertToEntity(goal));
+    }
+
+    @Override
+    public GoalTO getGoalById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("id is null");
+        }
+        
+        Goal goal = goalDao.retrieveGoalById(id);
+        return convertToTransferObject(goal);
     }
 
     @Transactional
