@@ -12,13 +12,6 @@
           http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
 ">
     
-    <context:component-scan base-package="cz.muni.fi.pa165.mamatoad.soccerrecords"/>    
-    
-    <context:annotation-config/>
     <import resource="classpath*:applicationContext.xml"/>
-    <bean name="playerService" class="cz.muni.fi.pa165.mamatoad.soccerrecords.service.impl.PlayerServiceImpl"/>
-	<bean name="teamService" class="cz.muni.fi.pa165.mamatoad.soccerrecords.service.impl.TeamServiceImpl"/>
-	<bean name="matchService" class="cz.muni.fi.pa165.mamatoad.soccerrecords.service.impl.MatchServiceImpl"/>
-	<bean name="goalService" class="cz.muni.fi.pa165.mamatoad.soccerrecords.service.impl.GoalServiceImpl"/>
-
+    
 </beans>
