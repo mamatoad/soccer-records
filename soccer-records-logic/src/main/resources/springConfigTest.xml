@@ -16,11 +16,8 @@
         
     <tx:annotation-driven transaction-manager="transactionManager"/>
     
-    <jdbc:embedded-database id="dataSource" type="DERBY" />
-    
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="TestPU"/>
-        <property name="dataSource" ref="dataSource"/>
     </bean>
     
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
