@@ -79,7 +79,10 @@ public class TeamServiceImpl implements TeamService{
         Team team = new Team();
         team.setId(teamTo.getTeamId());
         team.setName(teamTo.getTeamName());
-        team.setPlayers(playerDao.retrievePlayersByTeam(team));
+        if (teamTo.getTeamId() != null){
+            team.setPlayers(playerDao.retrievePlayersByTeam(team));
+        }
+        
         return team;
         
     }
