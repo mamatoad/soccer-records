@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Player;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.GoalDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.TeamDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.PlayerTO;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.PlayerService;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,13 @@ public class PlayerServiceImpl implements PlayerService {
         if (id == null) {
             throw new IllegalArgumentException("id is null");
         }
-        return convertToTransferObject(playerDao.retrievePlayerById(id));
+        Player returnedPlayer = playerDao.retrievePlayerById(id);
+        
+        if (returnedPlayer == null) {
+            return null;
+        }
+        
+        return convertToTransferObject(returnedPlayer);
     }
 
     @Transactional
@@ -69,7 +76,11 @@ public class PlayerServiceImpl implements PlayerService {
         if (id == null) {
             throw new IllegalArgumentException("id is null");
         }
-        return convertToListOfTransferObjects(playerDao.retrievePlayersByTeam(teamDao.retrieveTeamById(id)));
+        Team team = teamDao.retrieveTeamById(id);
+        if (team == null) {
+            return new ArrayList<>();
+        }
+        return convertToListOfTransferObjects(playerDao.retrievePlayersByTeam(team));
     }
 
     @Transactional
@@ -114,6 +125,16 @@ public class PlayerServiceImpl implements PlayerService {
             playerTOs.add(convertToTransferObject(player));
         }
         return playerTOs;
+    }
+
+    @Override
+    public List<PlayerTO> getPlayersByName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("name is null");
+        }
+        List<Player> returnedPlayers = playerDao.retrievePlayersByName(name);
+         
+        return convertToListOfTransferObjects(returnedPlayers);
     }
 
 }

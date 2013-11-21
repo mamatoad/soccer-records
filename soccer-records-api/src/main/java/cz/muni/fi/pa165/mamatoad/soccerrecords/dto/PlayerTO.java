@@ -7,7 +7,7 @@ import java.util.Objects;
  * @author Matus Nemec
  */
 public class PlayerTO {
-private Long playerId;
+    private Long playerId;
     private String playerName;
     private boolean playerActive;
     private Long playerGoalsScored; //derived

@@ -56,4 +56,13 @@ public interface PlayerService {
      * @throws DataAccessException for errors on persistence layer
      */
     public List<PlayerTO> getAllPlayers();
+    
+    /**
+     * This method returns players by name.
+     * @param name player's name
+     * @return List<PlayerTO> list of all players for given name
+     * @throws IllegalArgumentException if name is null
+     * @throws DataAccessException for errors on persistence layer
+     */
+    public List<PlayerTO> getPlayersByName(String name);
 }
