@@ -85,9 +85,9 @@ public class JpaMatchDao implements MatchDao {
     
     @Override
     public List<Match> retrieveAllMatches() {
-        TypedQuery<Match> matches = em.createQuery(
-                "SELECT m FROM Match", Match.class);
-        return matches.getResultList();
+        TypedQuery<Match> query = em.createQuery("Select m From Match m", Match.class);
+        List<Match> matches = query.getResultList();
+        return matches;
     }
     
     private void checkMatch(Match match, boolean idShouldBeEqualNull) {
