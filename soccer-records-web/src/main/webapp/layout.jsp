@@ -15,23 +15,23 @@
    <div id="navigation">
      <ul>
        <b>Player</b>
-       <li><s:link href="/players/list.jsp">List</s:link></li>
-       <li><s:link href="/players/new.jsp">New</s:link></li>
+       <li><s:link href="/players/list">List</s:link></li>
+       <li><s:link href="/players/create">New</s:link></li>
      </ul>
      <ul>
        <b>Team</b>
-       <li><s:link href="/teams/list.jsp">List</s:link></li>
-       <li><s:link href="/teams/new.jsp">New</s:link></li>
+       <li><s:link href="/teams/list">List</s:link></li>
+       <li><s:link href="/teams/create">New</s:link></li>
      </ul>
      <ul>
        <b>Match</b>
-       <li><s:link href="/matches/list.jsp">List</s:link></li>
-       <li><s:link href="/matches/new.jsp">New</s:link></li>
+       <li><s:link href="/matches/list">List</s:link></li>
+       <li><s:link href="/matches/create">New</s:link></li>
      </ul>
      <ul>
        <b>Goal</b>
-       <li><s:link href="/goals/list.jsp">List</s:link></li>
-       <li><s:link href="/goals/new.jsp">New</s:link></li>
+       <li><s:link href="/goals/list">List</s:link></li>
+       <li><s:link href="/goals/create">New</s:link></li>
      </ul>
    </div>
    <div id="content">
