@@ -91,10 +91,7 @@ public class MatchServiceImpl implements MatchService{
 
     
     private Match toEntity(MatchTO matchTO){
-        if(matchTO.getMatchId() != null){
-            return matchDao.retrieveMatchById(matchTO.getMatchId());
-        }
-        
+               
         Match match = new Match();
         
         match.setId(matchTO.getMatchId());
