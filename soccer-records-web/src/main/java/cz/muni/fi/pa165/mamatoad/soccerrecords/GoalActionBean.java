@@ -131,7 +131,8 @@ public class GoalActionBean extends BaseActionBean implements ValidationErrorHan
     @DefaultHandler
     public Resolution list() {
         log.debug("list()");
-        Long matchId = Long.parseLong(getContext().getRequest().getParameter("goal.id"));
+        matchIdUrl = getContext().getRequest().getParameter("goal.id");
+        Long matchId = Long.parseLong(matchIdUrl);
         goals = goalService.getGoalsByMatchId(matchId);
         return new ForwardResolution("/goal/list.jsp");
     }

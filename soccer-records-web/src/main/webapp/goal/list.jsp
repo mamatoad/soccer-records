@@ -6,7 +6,10 @@
 <s:layout-render name="/layout.jsp" titlekey="goal.list">
     <s:layout-component name="body">
         <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.GoalActionBean" var="actionBean"/>
-
+        <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.MatchActionBean" event="detail">
+            <s:param name="match.id" value="${actionBean.matchIdUrl}"/>
+            <f:message key="goal.list.backToMatch"/>
+       </s:link> 
         <p><f:message key="goal.list"/></p>
         <s:form beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.GoalActionBean">
             <s:hidden name="goal.id"/>
@@ -46,6 +49,6 @@
                 </tr>
             </c:forEach>
         </table>
-                
+                  
     </s:layout-component>
 </s:layout-render>
