@@ -10,11 +10,13 @@
 <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.MatchActionBean" var="actionBean"/>
 <s:layout-render name="/layout.jsp" titlekey="match.list">
     <s:layout-component name="body">
+        <h2><f:message key="match.list"/></h2>
+        <%@include file="filter.jsp"%>
         <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.MatchActionBean" event="add">
                           
-            <f:message key="match.list.newMatch"/>
+            <img src="${pageContext.request.contextPath}/images/add.png" alt=""/><f:message key="match.list.newMatch"/>
             </s:link>
-            <%@include file="filter.jsp"%>
+            
 <table  class="list">
     <tr>
         <th><f:message key="match.list.detail"/></th>
