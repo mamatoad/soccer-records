@@ -32,12 +32,14 @@
                     <td>
                         <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.GoalActionBean" event="edit">
                             <s:param name="goal.id" value="${goal.goalId}"/>
+                            <img src="${pageContext.request.contextPath}/images/pencil.png"/>
                             <f:message key="goal.list.edit"/>
                         </s:link>
                     </td>
                     <td>
                         <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.GoalActionBean" event="delete">
                             <s:param name="goal.id" value="${goal.goalId}"/>
+                            <img src="${pageContext.request.contextPath}/images/cross.png"/>
                             <f:message key="goal.list.delete"/>
                         </s:link>
                     </td>

@@ -86,6 +86,14 @@ public class GoalActionBean extends BaseActionBean implements ValidationErrorHan
         return minutes;
     }
 
+    public Integer getMinute() {
+        return minute;
+    }
+
+    public Integer getHour() {
+        return hour;
+    }
+
     public List<PlayerTO> getPlayers() {
         return players;
     }
