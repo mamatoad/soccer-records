@@ -8,11 +8,34 @@
 
         <s:form beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean">
             <s:hidden name="team.teamId"/>
-            <fieldset><legend><f:message key="team.edit.edit"/></legend>
-                <%@include file="form.jsp"%>
-                <s:submit name="save"><f:message key="team.edit.save"/></s:submit>
-                <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean"><f:message key="team.edit.cancel"/></s:link>
-            </fieldset>
+            <fieldset>
+                <legend>
+                    <f:message key="team.edit.legend"/>
+                </legend>
+                <s:errors/>
+                <table>
+                    <tr>
+                        <th class="text-right">
+                            <s:label for="name" name="team.name"/>:
+                        </th>
+                        <td class="text-left">
+                            <s:text id="name" name="team.teamName"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">
+                            <s:submit name="save">
+                                <f:message key="team.edit.save"/>
+                            </s:submit>
+                        </td>
+                        <td class="text-left">
+                            <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean">
+                                <f:message key="team.edit.cancel"/>
+                            </s:link>
+                        </td>
+                    </tr>
+                </table>
+                </fieldset>
         </s:form>
 
     </s:layout-component>

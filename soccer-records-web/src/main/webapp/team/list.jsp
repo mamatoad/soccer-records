@@ -8,9 +8,11 @@
 
         <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean" var="actionBean"/>
 
-        <p><f:message key="team.list.allteams"/></p>
+        <h2><f:message key="team.list.headline"/></h2>
+        
+        <p><s:link href="/teams/create"><img src="../images/add.png" alt=""/> <f:message key="team.list.add"/></s:link></p>
 
-        <table>
+        <table class="list">
             <tr>
                 <th>id</th>
                 <th><f:message key="team.list.name"/></th>
@@ -24,7 +26,7 @@
             <c:forEach items="${actionBean.teams}" var="team">
                 <tr>
                     <td>${team.teamId}</td>
-                    <td>
+                    <td class="name">
                         <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean" event="detail">
                             <s:param name="team.teamId" value="${team.teamId}"/>
                             <c:out value="${team.teamName}"/>
@@ -36,32 +38,20 @@
                     <td>
                         <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean" event="edit">
                             <s:param name="team.teamId" value="${team.teamId}"/>
+                            <img src="../images/pencil.png"/>
                             <f:message key="team.list.edit"/>
                         </s:link>
                     </td>
                     <td>
-                        <s:form beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean">
-                            <s:hidden name="team.teamId" value="${team.teamId}"/>
-                            <s:submit name="delete">
-                                <f:message key="team.list.delete"/>
-                            </s:submit>
-                        </s:form>
+                        <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean" event="delete">
+                            <s:param name="team.teamId" value="${team.teamId}"/>
+                            <img src="../images/cross.png"/>
+                            <f:message key="team.list.delete"/>
+                        </s:link>
                     </td>
                 </tr>
             </c:forEach>
         </table>
-
-        <s:form beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean">
-            <fieldset>
-                <legend>
-                    <f:message key="team.list.newteam"/>
-                </legend>
-                <%@include file="form.jsp"%>
-                <s:submit name="add">
-                    <f:message key="team.list.addbutton"/>
-                </s:submit>
-            </fieldset>
-        </s:form>
 
     </s:layout-component>
 </s:layout-render>

@@ -11,12 +11,31 @@
         <s:form beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean">
             <fieldset>
                 <legend>
-                    <f:message key="team.list.newteam"/>
+                    <f:message key="team.new.legend"/>
                 </legend>
-                <%@include file="form.jsp"%>
-                <s:submit name="add">
-                    <f:message key="team.list.addbutton"/>
-                </s:submit>
+                <s:errors/>
+                <table>
+                    <tr>
+                        <th class="text-right">
+                            <s:label for="name" name="team.name"/>:
+                        </th>
+                        <td class="text-left">
+                            <s:text id="name" name="team.teamName"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">
+                            <s:submit name="add">
+                                <f:message key="team.new.save"/>
+                            </s:submit>
+                        </td>
+                        <td class="text-left">
+                            <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean">
+                                <f:message key="team.edit.cancel"/>
+                            </s:link>
+                        </td>
+                    </tr>
+                </table>
             </fieldset>
         </s:form>
 

@@ -1,0 +1,233 @@
+body {
+    background-color: #ccc;
+    color: #1E1E1E;
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    margin: 0px;
+    padding: 0px;
+}
+
+div.page {
+    background-color: #fff;
+    margin: 0px auto;
+    width: 900px;
+}
+
+h1 {
+    background-color: #000;
+    color: #0a0;
+    margin: 0px;
+    padding: 10px 30px;
+}
+
+h2, h3 {
+    margin: 0px;
+    padding: 0px;
+}
+
+div.content {
+    padding: 20px;
+}
+
+a {
+    color: #00a;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #0a0;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* --- MENU --- */
+
+menu {
+    background-color: #000000;
+    background-image: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0, #212121),
+        color-stop(1, #000000)
+        );
+    background-image: -o-linear-gradient(bottom, #212121 0%, #000000 100%);
+    background-image: -moz-linear-gradient(bottom, #212121 0%, #000000 100%);
+    background-image: -webkit-linear-gradient(bottom, #212121 0%, #000000 100%);
+    background-image: -ms-linear-gradient(bottom, #212121 0%, #000000 100%);
+    background-image: linear-gradient(to bottom, #212121 0%, #000000 100%);
+    height: 40px;
+    line-height: 40px;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+}
+
+menu li {
+    float: left;
+}
+
+menu li a {
+    color: #fff;
+    display: block;
+    padding: 0px 20px;
+    text-decoration: none;
+}
+
+menu li a:hover {
+    background-color: #212121;
+    background-image: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0, #000000),
+        color-stop(1, #212121)
+        );
+    background-image: -o-linear-gradient(bottom, #000000 0%, #212121 100%);
+    background-image: -moz-linear-gradient(bottom, #000000 0%, #212121 100%);
+    background-image: -webkit-linear-gradient(bottom, #000000 0%, #212121 100%);
+    background-image: -ms-linear-gradient(bottom, #000000 0%, #212121 100%);
+    background-image: linear-gradient(to bottom, #000000 0%, #212121 100%);
+}
+
+/* --- LIST --- */
+
+div.messages {
+    background-color: #aaf;
+    border-radius: 10px;
+    margin: 10px;
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
+table.list {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 20px 0px;
+    width: 100%;
+}
+
+table.list th {
+    border: 1px solid #ccc;
+}
+
+table.list td {
+    border: 1px solid #ccc;
+    padding: 5px;
+    text-align: center;
+}
+
+table.list td.name {
+    text-align: left;
+}
+
+table form {
+    display: block;
+    float: left;
+}
+
+a.edit-button {
+    background: #fff url("images/pencil.png");
+    display: block;
+    font-size: 0px;
+    height: 16px;
+    width: 16px;
+}
+
+input.delete-button {
+    background: #fff url("images/cross.png");
+    border: 0px;
+    cursor: pointer;
+    font-size: 0px;
+    height: 16px;
+    width: 16px;
+}
+
+/* --- INFO --- */
+
+table.info {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 20px 0px;
+    width: 200px;
+}
+
+table.info th {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    text-align: right;
+    width: 50%;
+}
+
+table.info td {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    text-align: left;
+}
+
+/* --- FORM --- */
+
+div.errors {
+    background-color: #faa;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 20px;
+}
+
+fieldset {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin: 10px auto;
+    width: 400px;
+}
+
+form table {
+    width: 100%;
+}
+
+form th, form td {
+    padding: 5px 10px;
+    width: 50%;
+}
+
+input {
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    padding-left: 5px;
+}
+
+/* --- FOOTER --- */
+
+footer {
+    background-color: #000000;
+    background-image: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0, #212121),
+        color-stop(1, #000000)
+        );
+    background-image: -o-linear-gradient(bottom, #212121 0%, #000000 100%);
+    background-image: -moz-linear-gradient(bottom, #212121 0%, #000000 100%);
+    background-image: -webkit-linear-gradient(bottom, #212121 0%, #000000 100%);
+    background-image: -ms-linear-gradient(bottom, #212121 0%, #000000 100%);
+    background-image: linear-gradient(to bottom, #212121 0%, #000000 100%);
+    color: #ccc;
+    padding: 5px 15px;
+}
+
+footer a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+/*footer a:hover {
+    color: #fff;
+}*/

@@ -10,7 +10,7 @@
         
         <h2><c:out value="${actionBean.team.teamName}"/></h2>
         
-        <table>
+        <table class="info">
             <tr>
                 <th><f:message key="team.detail.wins"/>:</th>
                 <td>${actionBean.team.numberOfWins}</td>
@@ -31,7 +31,7 @@
 
         <h3><f:message key="team.detail.players"/></h3>
 
-        <table>
+        <table class="list">
             <tr>
                 <th>id</th>
                 <th><f:message key="team.detail.player.name"/></th>
@@ -40,7 +40,7 @@
             <c:forEach items="${actionBean.players}" var="player">
                 <tr>
                     <td>${player.playerId}</td>
-                    <td>
+                    <td class="name">
                         <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.PlayerActionBean" event="detail">
                             <s:param name="player.playerId" value="${player.playerId}"/>
                             <c:out value="${player.playerName}"/>
