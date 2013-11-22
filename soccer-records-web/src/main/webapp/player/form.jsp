@@ -1,6 +1,6 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
-<s:errors/>
-<table>
+
+<table class="list">
     <tr>
         <th><s:label for="name" name="player.name"/></th>
         <td><s:text id="name" name="player.playerName"/></td>

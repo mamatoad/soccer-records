@@ -3,12 +3,12 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<s:layout-render name="/layout.jsp" titlekey="player.detail.title">
+<s:layout-render name="/layout.jsp" titlekey="player.delete.title">
     <s:layout-component name="body">
 
         <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.PlayerActionBean" var="actionBean"/>
 
-        <h2><f:message key="player.detail.title"/></h2>
+        <h2><f:message key="player.delete.title"/></h2>
 
         <table class="list">
             <tr>
@@ -35,6 +35,15 @@
                 </td>
             </tr>   
         </table>
+
+        <s:form beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.PlayerActionBean">
+            <s:hidden name="player.playerId"/>
+            <fieldset>
+                <legend><f:message key="player.deleting"/></legend>
+                <s:submit name="remove"><f:message key="player.delete.save"/></s:submit>
+                <s:submit name="cancel"><f:message key="player.delete.cancel"/></s:submit>
+                </fieldset>
+        </s:form>
 
     </s:layout-component>
 </s:layout-render>
