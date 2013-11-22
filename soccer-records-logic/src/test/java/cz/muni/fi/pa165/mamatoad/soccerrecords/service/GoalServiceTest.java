@@ -135,13 +135,14 @@ public class GoalServiceTest {
     
     @Test
     public void test_update_validGoalTO_updatesGoal(){
-        goal.setTeam(otherTeam);
         goalTo.setTeamId(goal.getTeam().getId());
         goalTo.setTeamName(goal.getTeam().getName());
         goalService.update(goalTo);
         ArgumentCaptor<Goal> argument = ArgumentCaptor.forClass(Goal.class);
         Mockito.verify(goalDao).updateGoal(argument.capture());
-        goalEquals(goal,argument.getValue());
+        
+        Assert.assertEquals(otherTeam.getId(),argument.getValue().getTeam().getId());
+        
     }
     
     @Test(expected = IllegalArgumentException.class)
