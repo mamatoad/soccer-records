@@ -14,6 +14,7 @@
 
         <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.PlayerActionBean">
             <s:param name="$event" value="create"/>
+            <img src="${pageContext.request.contextPath}/images/add.png" alt=""/>
             <f:message key="player.new"/>
         </s:link>
 
@@ -40,7 +41,15 @@
                             </s:link>
                         </td>
                         <td><c:out value="${player.playerGoalsScored}"/></td>
-                        <td><a href="../teams/detail/${player.teamId}"><c:out value="${player.teamName}"/></a></td>
+                        <td>
+                            <c:if test="${player.teamId != null}">
+                                <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean">
+                                    <s:param name="$event" value="detail"/>
+                                    <s:param name="team.teamId" value="${player.teamId}"/>
+                                    <c:out value="${player.teamName}"/>
+                                </s:link>
+                            </c:if>
+                        </td>
                         <td>
                             <c:if test="${player.playerActive==true}">
                                 <f:message key="player.isActive"/>
@@ -53,11 +62,13 @@
                             <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.PlayerActionBean">
                                 <s:param name="$event" value="edit"/>
                                 <s:param name="player.playerId" value="${player.playerId}"/>
+                                <img src="${pageContext.request.contextPath}/images/pencil.png" alt=""/>
                                 <f:message key="player.edit"/>
                             </s:link>
                             <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.PlayerActionBean">
                                 <s:param name="$event" value="delete"/>
                                 <s:param name="player.playerId" value="${player.playerId}"/>
+                                <img src="${pageContext.request.contextPath}/images/cross.png" alt=""/>
                                 <f:message key="player.delete"/>
                             </s:link>
                         </td>

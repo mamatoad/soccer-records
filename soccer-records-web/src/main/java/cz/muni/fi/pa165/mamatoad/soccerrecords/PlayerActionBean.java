@@ -65,9 +65,7 @@ public class PlayerActionBean extends BaseActionBean implements ValidationErrorH
         
         logger.debug("list() " + ids);
         
-        if (ids == null) {
-            players = playerService.getAllPlayers();
-        } else {
+        if (ids != null) {
             players = playerService.getPlayersByTeamId(Long.parseLong(ids));
             if (players.isEmpty()) {
                 addMessageToContext("player.list.teamFilterNoPlayers", null);
@@ -75,6 +73,8 @@ public class PlayerActionBean extends BaseActionBean implements ValidationErrorH
             } else {
                 addMessageToContext("player.list.teamFilterOk", null);
             }
+        } else {
+            players = playerService.getAllPlayers();
         }
         return new ForwardResolution("/player/list.jsp");
     }
