@@ -48,7 +48,7 @@
         <h3><f:message key="team.detail.players"/></h3>
 
         <p>
-            <a href="../../players/list/${actionBean.team.teamId}"><f:message key="team.detail.platers.manage"/></a>
+            <a href="../../players/list/${actionBean.team.teamId}"><f:message key="team.detail.players.manage"/></a>
         </p>
 
         <table class="list">
@@ -70,7 +70,7 @@
                             <f:message key="team.detail.player.active"/>
                         </c:if>
                         <c:if test="${player.playerActive==false}">
-                            <f:message key="team.detail.player.notactive"/>
+                            <f:message key="team.detail.player.retired"/>
                         </c:if>
                     </td>
                 </tr>
