@@ -120,7 +120,7 @@ table.list th {
 
 table.list td {
     border: 1px solid #ccc;
-    padding: 5px;
+    padding: 5px 10px;
     text-align: center;
 }
 

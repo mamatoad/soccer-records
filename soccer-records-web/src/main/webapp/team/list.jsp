@@ -14,7 +14,6 @@
 
         <table class="list">
             <tr>
-                <th>id</th>
                 <th><f:message key="team.list.name"/></th>
                 <th><f:message key="team.list.wins"/></th>
                 <th><f:message key="team.list.ties"/></th>
@@ -24,7 +23,6 @@
             </tr>
             <c:forEach items="${actionBean.teams}" var="team">
                 <tr>
-                    <td>${team.teamId}</td>
                     <td class="name">
                         <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean" event="detail">
                             <s:param name="team.teamId" value="${team.teamId}"/>
