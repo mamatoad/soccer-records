@@ -1,3 +1,7 @@
+<%@page import="org.joda.time.format.DateTimeFormatter"%>
+<%@page import="cz.muni.fi.pa165.mamatoad.soccerrecords.dto.MatchTO"%>
+<%@page import="org.joda.time.format.DateTimeFormat"%>
+<%@page import="org.joda.time.format.DateTimeFormat"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -26,7 +30,8 @@
         </th>
         </tr>
         <tr>
-        <td><f:message key="match.detail.eventDate"/> <c:out value="${actionBean.match.eventDate}"/></td>
+        <td><f:message key="match.detail.eventDate"/>: 
+          <c:out value="${actionBean.formattedDate}"/></td>
        </tr>
     
     <tr>

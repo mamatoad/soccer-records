@@ -38,6 +38,7 @@ public class MatchActionBean extends BaseActionBean {
    final static Logger log = LoggerFactory.getLogger(MatchActionBean.class);
    
     private final DateTimeFormatter dtf = DateTimeFormat.forPattern("yy-MM-dd");
+    private final DateTimeFormatter fdtf = DateTimeFormat.forPattern("dd.MM.yyyy");
     
     @SpringBean("matchService")
     protected MatchService matchService;
@@ -57,7 +58,15 @@ public class MatchActionBean extends BaseActionBean {
     
     private Date currentDate;
 
-    
+    private String formattedDate;
+
+    public String getFormattedDate() {
+        return formattedDate;
+    }
+
+    public void setFormattedDate(String formattedDate) {
+        this.formattedDate = formattedDate;
+    }
     
     private MatchTO match;
     
@@ -165,6 +174,7 @@ public class MatchActionBean extends BaseActionBean {
         match = matchService.getMatchById(Long.parseLong(id));
         goals = goalService.getGoalsByMatchId(match.getMatchId());
         if (match == null) return new RedirectResolution("/match/list.jsp");
+        formattedDate = match.getEventDate().toString(fdtf);
         return new ForwardResolution("/match/detail.jsp");
     }
     
