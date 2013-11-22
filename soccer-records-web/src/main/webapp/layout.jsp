@@ -17,10 +17,10 @@
                 <header>
                     <h1>Soccer Records</h1>
                     <menu>
-                        <li><s:link href="/teams/list">Teams</s:link></li>
-                        <li><s:link href="/players/list">Players</s:link></li>
-                        <li><s:link href="/matches/list">Matches</s:link></li>
-                        <li><s:link href="/goals/list">Goals</s:link></li>
+                        <li><s:link href="/"><f:message key="menu.home"/></s:link></li>
+                        <li><s:link href="/teams/list"><f:message key="menu.teams"/></s:link></li>
+                        <li><s:link href="/players/list"><f:message key="menu.players"/></s:link></li>
+                        <li><s:link href="/matches/list"><f:message key="menu.matches"/></s:link></li>
                         </menu>
                     </header>
 

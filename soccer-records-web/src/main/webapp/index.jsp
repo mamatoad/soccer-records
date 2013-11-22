@@ -1,17 +1,14 @@
-<%-- 
-    Document   : index.jsp
-    Created on : Nov 18, 2013, 4:00:07 PM
-    Author     : Mros
---%>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+<s:layout-render name="/layout.jsp" titlekey="home.title">
+    <s:layout-component name="body">
+        
+        <h2><f:message key="home.headline"/></h2>
+        
+        <p>Some text introducing our project. Translated!</p>
+
+    </s:layout-component>
+</s:layout-render>

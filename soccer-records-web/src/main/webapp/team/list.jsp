@@ -10,7 +10,7 @@
 
         <h2><f:message key="team.list.headline"/></h2>
         
-        <p><s:link href="/teams/create"><img src="../images/add.png" alt=""/> <f:message key="team.list.add"/></s:link></p>
+        <p><s:link href="/teams/create"><img src="${pageContext.request.contextPath}/images/add.png" alt=""/> <f:message key="team.list.add"/></s:link></p>
 
         <table class="list">
             <tr>
@@ -20,8 +20,7 @@
                 <th><f:message key="team.list.ties"/></th>
                 <th><f:message key="team.list.losses"/></th>
                 <th><f:message key="team.list.score"/></th>
-                <th></th>
-                <th></th>
+                <th><f:message key="team.list.action"/></th>
             </tr>
             <c:forEach items="${actionBean.teams}" var="team">
                 <tr>
@@ -38,14 +37,12 @@
                     <td>
                         <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean" event="edit">
                             <s:param name="team.teamId" value="${team.teamId}"/>
-                            <img src="../images/pencil.png"/>
+                            <img src="${pageContext.request.contextPath}/images/pencil.png"/>
                             <f:message key="team.list.edit"/>
                         </s:link>
-                    </td>
-                    <td>
                         <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean" event="delete">
                             <s:param name="team.teamId" value="${team.teamId}"/>
-                            <img src="../images/cross.png"/>
+                            <img src="${pageContext.request.contextPath}/images/cross.png"/>
                             <f:message key="team.list.delete"/>
                         </s:link>
                     </td>
