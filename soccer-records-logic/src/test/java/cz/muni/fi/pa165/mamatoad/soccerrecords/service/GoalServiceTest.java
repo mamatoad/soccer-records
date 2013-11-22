@@ -135,8 +135,9 @@ public class GoalServiceTest {
     
     @Test
     public void test_update_validGoalTO_updatesGoal(){
-        goalTo.setTeamId(goal.getTeam().getId());
-        goalTo.setTeamName(goal.getTeam().getName());
+        goalTo.setGoalId(5L);
+        goalTo.setTeamId(otherTeam.getId());
+        goalTo.setTeamName(otherTeam.getName());
         goalService.update(goalTo);
         ArgumentCaptor<Goal> argument = ArgumentCaptor.forClass(Goal.class);
         Mockito.verify(goalDao).updateGoal(argument.capture());
