@@ -14,6 +14,7 @@ import java.util.List;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.LocalizableMessage;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
@@ -27,6 +28,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.taglibs.standard.functions.Functions;
 
 /**
  *
@@ -198,6 +200,10 @@ public class MatchActionBean extends BaseActionBean {
         eventDate = dtf.parseLocalDate(date);
         match.setEventDate(eventDate);
         matchService.add(match);
+         getContext().getMessages().add(new LocalizableMessage("match.add.message"
+                 ,Functions.escapeXml(match.getEventDate().toString(dtf)),Functions.escapeXml(
+                 teamService.getTeamById(match.getHomeTeamId()).getTeamName())
+                 ,Functions.escapeXml(teamService.getTeamById(match.getVisitingTeamId()).getTeamName())));
         return new RedirectResolution(this.getClass(), "list");
     }
    
@@ -232,6 +238,10 @@ public class MatchActionBean extends BaseActionBean {
         match.setEventDate(dtf.parseLocalDate(date));
         matchService.update(match);
             
+         getContext().getMessages().add(new LocalizableMessage("match.edit.message"
+                 ,Functions.escapeXml(match.getEventDate().toString(dtf)),Functions.escapeXml(
+                 teamService.getTeamById(match.getHomeTeamId()).getTeamName())
+                 ,Functions.escapeXml(teamService.getTeamById(match.getVisitingTeamId()).getTeamName())));
        return new RedirectResolution(this.getClass(), "list");
        
     }
@@ -244,7 +254,10 @@ public class MatchActionBean extends BaseActionBean {
          if (match == null) return new RedirectResolution(this.getClass(), "list");
                  
         matchService.remove(match);
-        
+         getContext().getMessages().add(new LocalizableMessage("match.delete.message"
+                 ,Functions.escapeXml(match.getEventDate().toString(dtf)),Functions.escapeXml(
+                 teamService.getTeamById(match.getHomeTeamId()).getTeamName())
+                 ,Functions.escapeXml(teamService.getTeamById(match.getVisitingTeamId()).getTeamName())));
         return new RedirectResolution(this.getClass(), "list");
     }
 
