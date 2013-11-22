@@ -35,13 +35,13 @@
        </tr>
     
     <tr>
-        <th><f:message key="match.detail.goals"/>
-        <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean" event="list">
+        <th>
+        <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.GoalActionBean" event="list">
                             <s:param name="goal.id" value="${actionBean.match.matchId}"/> 
         <f:message key="match.detail.manageGoals"/>
             </s:link>
-        
         </th>
+        
          <tr>
                     <td><f:message key="match.detail.goalsTime"/></td>
                     <td><f:message key="match.detail.goalsPlayerName"/></td>
