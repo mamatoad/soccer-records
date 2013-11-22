@@ -14,7 +14,7 @@
         <%@include file="filter.jsp"%>
         <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.MatchActionBean" event="add">
                           
-            <img src="${pageContext.request.contextPath}/images/add.png" alt=""/><f:message key="match.list.newMatch"/>
+            <img src="${pageContext.request.contextPath}/images/add.png" alt=""/> <f:message key="match.list.newMatch"/>
             </s:link>
             
 <table  class="list">
@@ -47,8 +47,7 @@
             <img src="${pageContext.request.contextPath}/images/pencil.png"/>
             <f:message key="match.list.edit"/>
             </s:link>
-            </td>
-            <td><s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.MatchActionBean" event="delete">
+            <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.MatchActionBean" event="delete">
             <s:param name="match.id" value="${match.matchId}"/>
             <img src="${pageContext.request.contextPath}/images/cross.png"/>
             <f:message key="match.list.delete"/>

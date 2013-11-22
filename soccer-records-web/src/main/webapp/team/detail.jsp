@@ -29,7 +29,27 @@
             </tr>
         </table>
 
+        <ul>
+            <li>
+                <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean" event="edit">
+                    <s:param name="team.teamId" value="${actionBean.team.teamId}"/>
+                    <img src="${pageContext.request.contextPath}/images/pencil.png"/>
+                    <f:message key="team.list.edit"/>
+                </s:link>
+            </li><li>
+                <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean" event="delete">
+                    <s:param name="team.teamId" value="${actionBean.team.teamId}"/>
+                    <img src="${pageContext.request.contextPath}/images/cross.png"/>
+                    <f:message key="team.list.delete"/>
+                </s:link>
+            </li>
+        </ul>
+
         <h3><f:message key="team.detail.players"/></h3>
+
+        <p>
+            <a href="../../players/list/${actionBean.team.teamId}"><f:message key="team.detail.platers.manage"/></a>
+        </p>
 
         <table class="list">
             <tr>
