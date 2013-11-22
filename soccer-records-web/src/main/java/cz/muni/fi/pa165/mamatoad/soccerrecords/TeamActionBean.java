@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.PlayerTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.TeamTO;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.service.GoalService;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.PlayerService;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.TeamService;
 import java.util.List;
@@ -21,6 +22,7 @@ import net.sourceforge.stripes.validation.ValidationErrors;
 import org.apache.taglibs.standard.functions.Functions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 
 /**
  * Stripes ActionBean for handling team operations.
@@ -37,6 +39,9 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
 
     @SpringBean
     protected PlayerService playerService;
+    
+    @SpringBean
+    protected GoalService goalService;
 
     // --- list teams ---
     
@@ -91,7 +96,14 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
     public Resolution delete() {
         log.debug("delete({})", team.getTeamId());
         team = teamService.getTeamById(team.getTeamId());
-        teamService.remove(team);
+        try{
+            teamService.remove(team);
+        }
+        catch(DataAccessException ex){
+            getContext().getMessages().add(new LocalizableMessage("team.delete.dependency"));
+        return new RedirectResolution(this.getClass(), "list");
+        }
+        
         getContext().getMessages().add(new LocalizableMessage("team.delete.message", 
                 Functions.escapeXml(team.getTeamName())));
         return new RedirectResolution(this.getClass(), "list");

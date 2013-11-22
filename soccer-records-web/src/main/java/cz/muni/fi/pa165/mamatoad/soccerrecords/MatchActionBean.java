@@ -1,11 +1,11 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords;
 
-import static cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean.log;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.GoalTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.MatchTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.TeamTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.GoalService;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.MatchService;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.service.PlayerService;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.TeamService;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -51,6 +51,9 @@ public class MatchActionBean extends BaseActionBean {
     @SpringBean("goalService")
     protected GoalService goalService;
     
+    @SpringBean("playerService")
+    protected PlayerService playerService;
+    
     private List<MatchTO> matches;
     
     private List<TeamTO> teams;
@@ -72,7 +75,6 @@ public class MatchActionBean extends BaseActionBean {
     
     private MatchTO match;
     
-    //@Validate(on = {"create","save"}, required = true, expression = "homeTeamId != visitingTeamId")
     private Long homeTeamId;
     
     private Long visitingTeamId;
@@ -252,20 +254,16 @@ public class MatchActionBean extends BaseActionBean {
          if (id == null) return new RedirectResolution(this.getClass(), "list");
          match = matchService.getMatchById(Long.parseLong(id));
          if (match == null) return new RedirectResolution(this.getClass(), "list");
-                 
-        matchService.remove(match);
+         if(!goalService.getGoalsByMatchId(match.getMatchId()).isEmpty()){
+             getContext().getMessages().add(new LocalizableMessage("match.delete.dependency.goal"));
+        return new RedirectResolution(this.getClass(), "list");
+         }
+         matchService.remove(match);
+      
          getContext().getMessages().add(new LocalizableMessage("match.delete.message"
                  ,Functions.escapeXml(match.getEventDate().toString(dtf)),Functions.escapeXml(
                  teamService.getTeamById(match.getHomeTeamId()).getTeamName())
                  ,Functions.escapeXml(teamService.getTeamById(match.getVisitingTeamId()).getTeamName())));
         return new RedirectResolution(this.getClass(), "list");
     }
-
-        
-       
-    
-
-
-     
-
 }
