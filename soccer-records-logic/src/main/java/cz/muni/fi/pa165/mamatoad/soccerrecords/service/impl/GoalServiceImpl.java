@@ -92,10 +92,6 @@ public class GoalServiceImpl implements GoalService {
     }
     
     private Goal convertToEntity(GoalTO goalTO) {
-        if (goalTO.getGoalId() != null) {
-            return goalDao.retrieveGoalById(goalTO.getGoalId());
-        }
-        
         Goal goal = new Goal();
         goal.setId(goalTO.getGoalId());
         goal.setMatch(matchDao.retrieveMatchById(goalTO.getMatchId()));
