@@ -65,4 +65,13 @@ public interface PlayerService {
      * @throws DataAccessException for errors on persistence layer
      */
     public List<PlayerTO> getPlayersByName(String name);
+    
+    /**
+     * This method returns players, if part of their name matches the search term.
+     * @param searchTerm search term
+     * @return List<PlayerTO> list of all players for given search term
+     * @throws IllegalArgumentException if search term is null
+     * @throws DataAccessException for errors on persistence layer
+     */
+    public List<PlayerTO> getFilteredPlayers(String searchTerm);
 }

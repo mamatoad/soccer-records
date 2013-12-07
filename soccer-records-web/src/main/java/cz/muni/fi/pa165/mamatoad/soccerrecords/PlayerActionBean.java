@@ -1,10 +1,16 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.PlayerTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.TeamTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.PlayerService;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.TeamService;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.LocalizableMessage;
@@ -217,7 +223,31 @@ public class PlayerActionBean extends BaseActionBean implements ValidationErrorH
         }
         return new RedirectResolution(this.getClass(), "list");
     }
-
+ 
+    private String term;
+ 
+    public void setTerm(String term) {
+        this.term = term;
+    }
+ 
+    public Resolution find() {
+        final List<Map> data = new ArrayList<>();
+        for(PlayerTO p : playerService.getFilteredPlayers(term)) {
+            HashMap<String, Object> m = new HashMap<>();
+            m.put("label", p.getPlayerName() + " (" + p.getTeamName() + ")");
+            m.put("value", p.getPlayerName());
+            m.put("player", p);
+            data.add(m);
+        }
+        return new Resolution() {
+            @Override
+            public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+                response.setContentType("application/json");
+                new ObjectMapper().writeValue(response.getOutputStream(), data);
+            }
+        };
+    }
+    
     @Override
     public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
         //fill up the data for the table if validation errors occured
