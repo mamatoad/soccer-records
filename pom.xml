@@ -10,5 +10,6 @@
         <module>soccer-records-logic</module>
         <module>soccer-records-api</module>
         <module>soccer-records-web</module>
+        <module>soccer-records-rest-client</module>
     </modules>
 </project>
