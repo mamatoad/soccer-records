@@ -6,6 +6,8 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.GoalDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.TeamDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.PlayerTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Team;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Acl;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Role;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.PlayerService;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Transactional
     @Override
+    @Acl(Role.ADMIN)
     public void add(PlayerTO playerTO) {
         if (playerTO == null) {
             throw new IllegalArgumentException("playerTO is null");
@@ -41,6 +44,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Transactional
     @Override
+    @Acl(Role.ADMIN)
     public void update(PlayerTO playerTO) {
         if (playerTO == null) {
             throw new IllegalArgumentException("playerTO is null");
@@ -50,6 +54,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Transactional
     @Override
+    @Acl(Role.ADMIN)
     public void remove(PlayerTO playerTO) {
         if (playerTO == null) {
             throw new IllegalArgumentException("playerTO is null");
