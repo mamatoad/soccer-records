@@ -21,7 +21,7 @@ public class AuthorizationInterceptor
     SecurityFacade securityFacade;
         
     @Around("bean(*Service)")
-    public void intercept(ProceedingJoinPoint joinPoint) throws Exception, Throwable {
+    public Object intercept(ProceedingJoinPoint joinPoint) throws Exception, Throwable {
       
        final String methodName = joinPoint.getSignature().getName();
        final MethodSignature methodSignature = (MethodSignature)joinPoint.getSignature();
@@ -38,6 +38,6 @@ public class AuthorizationInterceptor
                    + "' is not authorized for current user.");
        }
        
-       joinPoint.proceed();
+       return joinPoint.proceed();
     }
 }

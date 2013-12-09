@@ -19,6 +19,7 @@
     <tr>
         <th><s:label for="team" name="match.form.homeTeam"/></th>
         <td><s:select id="team" name="match.homeTeamId">
+        <s:option value=""><f:message key="match.noMatch"/></s:option>
         <c:forEach items="${actionBean.teams}" var="team">
         <c:set var="select" value=""/>
         <c:if test="${actionBean.homeTeamId == team.teamId}">
@@ -35,6 +36,7 @@
     <tr>
         <th><s:label for="b2" name="match.form.visitingTeam"/></th>
         <td><s:select id="b2" name="match.visitingTeamId">
+        <s:option value=""><f:message key="match.noMatch"/></s:option>
         <c:forEach items="${actionBean.teams}" var="team">
              <c:set var="select" value=""/>
         <c:if test="${actionBean.visitingTeamId == team.teamId}">
