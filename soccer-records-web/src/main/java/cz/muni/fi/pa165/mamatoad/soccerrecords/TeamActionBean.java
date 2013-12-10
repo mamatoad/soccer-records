@@ -80,8 +80,7 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
     public Resolution add() {
         log.debug("add() team={}", team);
         teamService.add(team);
-        getContext().getMessages().add(new LocalizableMessage("team.add.message", 
-                Functions.escapeXml(team.getTeamName())));
+        showMessage("team.add.message");
         return new RedirectResolution(this.getClass(), "list");
     }
 
@@ -96,16 +95,14 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
     public Resolution delete() {
         log.debug("delete({})", team.getTeamId());
         team = teamService.getTeamById(team.getTeamId());
-        try{
+        try {
             teamService.remove(team);
-        }
-        catch(DataAccessException ex){
-            getContext().getMessages().add(new LocalizableMessage("team.delete.dependency"));
-        return new RedirectResolution(this.getClass(), "list");
+        } catch (DataAccessException ex) {
+            showMessage("team.delete.dependency");
+            return new RedirectResolution(this.getClass(), "list");
         }
         
-        getContext().getMessages().add(new LocalizableMessage("team.delete.message", 
-                Functions.escapeXml(team.getTeamName())));
+        showMessage("team.delete.message");
         return new RedirectResolution(this.getClass(), "list");
     }
 
@@ -141,6 +138,10 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
         log.debug("detail({})", team.getTeamId());
         players = playerService.getPlayersByTeamId(team.getTeamId());
         return new ForwardResolution("/team/detail.jsp");
+    }
+    
+    private void showMessage(String messageKey) {
+        getContext().getMessages().add(new LocalizableMessage(messageKey, Functions.escapeXml(team.getTeamName())));
     }
 
 }
