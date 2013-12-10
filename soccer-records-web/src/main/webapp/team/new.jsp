@@ -38,6 +38,12 @@
                 </table>
             </fieldset>
         </s:form>
+        
+        <%-- Stripes URL bug workaround --%>
+        <script>
+            var form = document.getElementsByTagName("form")[0];
+            form.setAttribute("action", form.getAttribute("action").replace("/{$event}/{team.teamId}", ""));
+        </script>
 
     </s:layout-component>
 </s:layout-render>
