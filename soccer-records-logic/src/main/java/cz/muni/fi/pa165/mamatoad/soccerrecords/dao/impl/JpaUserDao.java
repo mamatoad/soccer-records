@@ -1,10 +1,13 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords.dao.impl;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.UserDao;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Player;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.User;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,19 +17,22 @@ import org.springframework.stereotype.Repository;
 @Repository("userDao")
 public class JpaUserDao implements UserDao {
 
-    
-    private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
     public void create(User user) {
         if (user == null) {
             throw new IllegalArgumentException("User is null.");
         }
+        if (user.getId() != null) {
+            throw new IllegalEntityException("user.id is already set ( " + user.getId() +" )");
+        }
         if(findByLogin(user.getLogin()) != null)
         {
             throw new IllegalEntityException("User login already exist.");
         }
-        entityManager.persist(user);
+        em.persist(user);
     }
 
     @Override
@@ -35,11 +41,11 @@ public class JpaUserDao implements UserDao {
             throw new IllegalArgumentException("User is null.");
         }
 
-        if (entityManager.find(User.class, user.getId()) == null) {
+        if (em.find(User.class, user.getId()) == null) {
             throw new IllegalEntityException("User does not exist.");
         }
 
-        entityManager.merge(user);
+        em.merge(user);
     }
 
     @Override
@@ -48,11 +54,11 @@ public class JpaUserDao implements UserDao {
             throw new IllegalArgumentException("User is null.");
         }
 
-        if (entityManager.find(User.class, user.getId()) == null) {
+        if (em.find(User.class, user.getId()) == null) {
             throw new IllegalEntityException("User does not exist.");
         }
 
-        entityManager.remove(entityManager.merge(user));
+        em.remove(em.merge(user));
     }
 
     @Override
@@ -61,7 +67,7 @@ public class JpaUserDao implements UserDao {
             throw new IllegalArgumentException("Id is null.");
         }
 
-        User user = entityManager.find(User.class, id);
+        User user = em.find(User.class, id);
         if (user == null) {
             throw new IllegalEntityException("user not in DB");
         }
@@ -77,16 +83,23 @@ public class JpaUserDao implements UserDao {
 
         User user = null;
 
-        user = entityManager.createQuery("select u from User u where u.login = :login", User.class)
-                    .setParameter("login", login)
-                    .getSingleResult();
+       // user = em.createQuery("select u from User u where u.login = :login", User.class)
+         //           .setParameter("login", login)
+         //           .getResultList();
+        TypedQuery<User> query = em.createQuery("Select u from User u where u.login = :login", User.class)
+                .setParameter("login", login);
+        List<User> users = query.getResultList();
+        if (! users.isEmpty()) {
+            user = users.get(0);
+        }
+        
         return user;
         
     }
 
     @Override
     public List<User> findAll() {
-        return entityManager.createQuery("select u from User u", User.class)
+        return em.createQuery("select u from User u", User.class)
                 .getResultList();
     }
 }

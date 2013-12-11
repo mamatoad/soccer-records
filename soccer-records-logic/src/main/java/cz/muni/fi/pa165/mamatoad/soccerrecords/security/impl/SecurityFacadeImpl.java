@@ -59,6 +59,7 @@ public class SecurityFacadeImpl implements SecurityFacade
             
             storage.setUser(user); 
             // save to DB
+            System.out.println("So far so gay");
             userService.add(user);
             return;
         }
@@ -97,7 +98,7 @@ public class SecurityFacadeImpl implements SecurityFacade
     @Override
     public boolean authorize(Method method)
     {  
-              
+        
         // get Acl annotations
         Acl acl = method.getAnnotation(Acl.class);
         Role role = null;

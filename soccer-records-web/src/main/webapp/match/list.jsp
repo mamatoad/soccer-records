@@ -16,8 +16,9 @@
                           
             <img src="${pageContext.request.contextPath}/images/add.png" alt=""/> <f:message key="match.list.newMatch"/>
             </s:link>
-            
-<table  class="list">
+            <c:choose>
+                <c:when test="${!empty actionBean.matches}">
+    <table  class="list">
     <tr>
         <th><f:message key="match.list.detail"/></th>
         <th><f:message key="match.list.date"/></th>
@@ -56,6 +57,11 @@
         </tr>
     </c:forEach>
 </table>
+        </c:when>
+        <c:otherwise>
+            <p><f:message key="player.list.noData"/></p>
+        </c:otherwise>
+         </c:choose>       
 </s:layout-component>
     </s:layout-render>
     

@@ -6,15 +6,15 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords.dto;
  */
 public class UserTO
 {
-    private long id;
+    private Long id;
     private String login;
     private String password;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

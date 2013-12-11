@@ -77,6 +77,9 @@ public class UserServiceImpl implements UserService
     }
 
     private UserTO convertToTransferObject(User user) {
+        if (user == null) {
+            return null;
+        }
         UserTO userTO = new UserTO();
         userTO.setId(user.getId());
         userTO.setLogin(user.getPassword());
