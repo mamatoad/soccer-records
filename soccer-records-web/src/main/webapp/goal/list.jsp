@@ -18,6 +18,10 @@
                 <s:submit name="confirm"><f:message key="goal.list.newGoal"/></s:submit>
             </fieldset>
         </s:form>
+        <c:if test="${empty actionBean.goals}">
+            <p><f:message key="goal.list.noData"/></p>
+        </c:if>
+        <c:if test="${not empty actionBean.goals}">
         <table class="list">
             <tr>
                 <th><f:message key="goal.teamName"/></th>
@@ -49,6 +53,6 @@
                 </tr>
             </c:forEach>
         </table>
-                  
+        </c:if>          
     </s:layout-component>
 </s:layout-render>

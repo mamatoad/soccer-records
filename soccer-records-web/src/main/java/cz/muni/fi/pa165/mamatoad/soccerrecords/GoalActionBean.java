@@ -17,6 +17,7 @@ import java.util.List;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.LocalizableMessage;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
@@ -24,6 +25,7 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.ValidationErrorHandler;
 import net.sourceforge.stripes.validation.ValidationErrors;
+import org.apache.taglibs.standard.functions.Functions;
 import org.joda.time.LocalTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -172,6 +174,8 @@ public class GoalActionBean extends BaseActionBean implements ValidationErrorHan
         
         log.debug("add() goal={}", goal);
         goalService.add(goal);
+        addMessageToContext("goal.add.ok", goal.getPlayerName());
+        
         return new RedirectResolution("/goals/list/"+matchIdUrl);
     }
     
@@ -195,6 +199,7 @@ public class GoalActionBean extends BaseActionBean implements ValidationErrorHan
         log.debug("delete({})", goal.getGoalId());
         
         goalService.remove(goal);
+        addMessageToContext("goal.remove.ok", goal.getPlayerName());
         
         return new RedirectResolution("/goals/list/"+urlId);
     }
@@ -236,7 +241,12 @@ public class GoalActionBean extends BaseActionBean implements ValidationErrorHan
         log.debug("save() goal={}", goal);
         
         goalService.update(goal);
+        addMessageToContext("goal.edit.ok", goal.getPlayerName());
+        
         return new RedirectResolution("/goals/list/"+goal.getMatchId().toString());
     }
     
+    private void addMessageToContext(String action, String params) {
+        getContext().getMessages().add(new LocalizableMessage(action, Functions.escapeXml(params)));
+    }
 }
