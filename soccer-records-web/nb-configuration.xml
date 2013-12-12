@@ -25,5 +25,6 @@ Any value defined here will override the pom.xml file value but is only applicab
         <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.tab-size>4</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.tab-size>
         <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.indent-shift-width>4</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.indent-shift-width>
         <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.text-limit-width>120</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.text-limit-width>
+        <org-netbeans-modules-maven-jaxws.rest_2e_config_2e_type>ide</org-netbeans-modules-maven-jaxws.rest_2e_config_2e_type>
     </properties>
 </project-shared-configuration>

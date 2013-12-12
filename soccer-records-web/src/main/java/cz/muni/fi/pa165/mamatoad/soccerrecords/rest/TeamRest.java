@@ -14,20 +14,22 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import net.sourceforge.stripes.integration.spring.SpringBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Maros Klimovsky
  */
-@Path("/team")
+@Service
+@Path("team")
 public class TeamRest {
 
-    @SpringBean
+    @Autowired
     private TeamService teamService;
     
-    @SpringBean
-    SecurityFacade securityFacade;
+    @Autowired
+    private SecurityFacade securityFacade;
 
     @GET
     @Produces(MediaType.TEXT_XML)

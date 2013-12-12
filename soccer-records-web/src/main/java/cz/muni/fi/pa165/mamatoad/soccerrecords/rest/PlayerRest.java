@@ -3,7 +3,6 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords.rest;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.PlayerTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.security.SecurityFacade;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.PlayerService;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.service.TeamService;
 import java.util.List;
 
 
@@ -18,20 +17,22 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import javax.ws.rs.core.Response;
-import net.sourceforge.stripes.integration.spring.SpringBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * REST interface for manipulation with player
  * @author Maros Klimovsky
  */
-@Path("/player")
+@Service
+@Path("player")
 public class PlayerRest {
 
-    @SpringBean
+    @Autowired
     private PlayerService playerService;
         
-    @SpringBean
-    SecurityFacade securityFacade;
+    @Autowired
+    private SecurityFacade securityFacade;
 
     @GET
     @Produces(MediaType.TEXT_XML)

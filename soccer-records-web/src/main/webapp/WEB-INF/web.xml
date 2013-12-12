@@ -3,25 +3,42 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
  
-	<!-- Spring -->
+    <!-- Spring -->
     <listener>
         <description>activates Spring IoC container during start</description>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
+    </listener>    
     <context-param>
         <description>config file for Spring</description>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/spring-context.xml</param-value>
     </context-param>
+       
+    <servlet>
+        <servlet-name>jersey-serlvet</servlet-name>
+        <servlet-class>
+            com.sun.jersey.spi.spring.container.servlet.SpringServlet
+        </servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>cz.muni.fi.pa165.mamatoad.soccerrecords.rest</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+ 
+    <servlet-mapping>
+        <servlet-name>jersey-serlvet</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
 
-	<!-- JSTL -->
+    <!-- JSTL -->
     <context-param>
         <description>JSTL tags will use localized string from the same source as Stripes</description>
         <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
         <param-value>StripesResources</param-value>
     </context-param>
  
-	<!-- Stripes -->
+    <!-- Stripes -->
     <filter>
         <description>Stripes main conf</description>
         <display-name>Stripes Filter</display-name>
