@@ -87,6 +87,7 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
     @Override
     public Resolution handleValidationErrors(ValidationErrors errors) throws Exception {
         teams = teamService.getAllTeams();
+       
         return null;
     }
 
@@ -108,7 +109,7 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
 
     // --- edit team ----
 
-    @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "save", "detail"})
+    @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit","detail"})
     public void loadTeamFromDatabase() {
         String ids = getContext().getRequest().getParameter("team.teamId");
         if (ids == null) return;

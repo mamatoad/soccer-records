@@ -8,7 +8,7 @@
 
         <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean" var="actionBean"/>
 
-        <s:form beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean">
+        <s:form beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean" action="add">
             <fieldset>
                 <legend>
                     <f:message key="team.new.legend"/>
@@ -39,11 +39,7 @@
             </fieldset>
         </s:form>
         
-        <%-- Stripes URL bug workaround --%>
-        <script>
-            var form = document.getElementsByTagName("form")[0];
-            form.setAttribute("action", form.getAttribute("action").replace("/{$event}/{team.teamId}", ""));
-        </script>
+       
 
     </s:layout-component>
 </s:layout-render>
