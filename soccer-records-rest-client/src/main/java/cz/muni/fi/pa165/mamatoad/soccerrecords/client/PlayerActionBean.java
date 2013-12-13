@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords.client;
 import static cz.muni.fi.pa165.mamatoad.soccerrecords.client.BaseActionBean.MEDIA_TYPE;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.PlayerTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.TeamTO;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -59,34 +60,58 @@ public class PlayerActionBean extends BaseActionBean implements ValidationErrorH
     
     private List<PlayerTO> retrieveAllPlayers() {
         Response response = playerWebTarget.request(MEDIA_TYPE).get();
-        return response.readEntity(new GenericType<List<PlayerTO>>() {});
+        if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+            return response.readEntity(new GenericType<List<PlayerTO>>() {});
+        }
+        return new ArrayList<>();
     }
     
     private List<PlayerTO> retrievePlayersByTeamId(long teamId) {
         WebTarget playersByTeamWebTarget = playerWebTarget.path("byTeam").queryParam("id", teamId);
         Response response = playersByTeamWebTarget.request(MEDIA_TYPE).get();
-        return response.readEntity(new GenericType<List<PlayerTO>>() {});
+        if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+            return response.readEntity(new GenericType<List<PlayerTO>>() {});
+        }
+        return new ArrayList<>();
     }
     
     private PlayerTO retrievePlayerById(long playerId) {
         WebTarget playersByTeamWebTarget = playerWebTarget.path("detail").queryParam("id", playerId);
         Response response = playersByTeamWebTarget.request(MEDIA_TYPE).get();
-        return response.readEntity(PlayerTO.class);
+        if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+            return response.readEntity(PlayerTO.class);
+        }
+        return null;
     }
     
     private void addPlayer(PlayerTO player) {
         Entity<PlayerTO> playerEntity = Entity.entity(player, MEDIA_TYPE);
         Response response = playerWebTarget.request(MEDIA_TYPE).post(playerEntity);
+        if (response.getStatus() == Response.Status.NO_CONTENT.getStatusCode()) {
+            addMessageToContext("player.add.ok", player.getPlayerName());
+        } else {
+            addMessageToContext("player.add.cannot", player.getPlayerName());
+        }
     }
     
     private void updatePlayer(PlayerTO player) {
         Entity<PlayerTO> playerEntity = Entity.entity(player, MEDIA_TYPE);
         Response response = playerWebTarget.request(MEDIA_TYPE).put(playerEntity);
+        if (response.getStatus() == Response.Status.NO_CONTENT.getStatusCode()) {
+            addMessageToContext("player.update.ok", player.getPlayerName());
+        } else {
+            addMessageToContext("player.update.cannot", player.getPlayerName());
+        }
     }
     
-    private void removePlayer(Long playerId) {
-        WebTarget deletePlayerWebTarget = playerWebTarget.path("delete").queryParam("id", playerId);
+    private void removePlayer(PlayerTO player) {
+        WebTarget deletePlayerWebTarget = playerWebTarget.path("delete").queryParam("id", player.getPlayerId());
         Response response = deletePlayerWebTarget.request(MEDIA_TYPE).delete();
+        if (response.getStatus() == Response.Status.NO_CONTENT.getStatusCode()) {
+            addMessageToContext("player.remove.ok");
+        } else {
+            addMessageToContext("player.remove.cannot");
+        }
     }
 
     // displaying methods
@@ -132,7 +157,6 @@ public class PlayerActionBean extends BaseActionBean implements ValidationErrorH
 
     public Resolution add() {
         addPlayer(player);
-        addMessageToContext("player.add.ok", player.getPlayerName());
         return new RedirectResolution(this.getClass(), "list");
     }
 
@@ -154,8 +178,14 @@ public class PlayerActionBean extends BaseActionBean implements ValidationErrorH
 
     public Resolution save() {
         updatePlayer(player);
-        addMessageToContext("player.save.ok", player.getPlayerName());
         return new RedirectResolution(this.getClass(), "list");
+    }
+
+    // cancel method
+    
+    public Resolution cancel() {
+        addMessageToContext("player.canceled");
+        return new RedirectResolution(this.getClass());
     }
     
     // deletion methods
@@ -175,13 +205,7 @@ public class PlayerActionBean extends BaseActionBean implements ValidationErrorH
     }
 
     public Resolution remove() {
-        player = retrievePlayerById(player.getPlayerId());
-        if (player.getPlayerGoalsScored() != 0) {
-            addMessageToContext("player.delete.constraints", player.getPlayerName());
-            return new RedirectResolution(this.getClass());
-        }
-        addMessageToContext("player.remove.ok", player.getPlayerName());
-        removePlayer(player.getPlayerId());
+        removePlayer(player);
         return new RedirectResolution(this.getClass(), "list");
     }
     
@@ -191,6 +215,10 @@ public class PlayerActionBean extends BaseActionBean implements ValidationErrorH
         players = retrieveAllPlayers();
         //return null to let the event handling continue
         return null;
+    }
+
+    private void addMessageToContext(String action) {
+        getContext().getMessages().add(new LocalizableMessage(action));
     }
 
     private void addMessageToContext(String action, String params) {

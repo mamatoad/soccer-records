@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords.client;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.PlayerTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.TeamTO;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -30,6 +31,64 @@ import org.apache.taglibs.standard.functions.Functions;
 public class TeamActionBean extends BaseActionBean implements ValidationErrorHandler {
     
     private final WebTarget teamWebTarget = webTarget.path("team");
+    
+    // --- rest calls ---
+    
+    private List<TeamTO> retrieveAllTeams() {
+        Response response = teamWebTarget.request(MEDIA_TYPE).get();
+        if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+            return response.readEntity(new GenericType<List<TeamTO>>() {});
+        }
+        return new ArrayList<>();
+    }
+    
+    private TeamTO retrieveTeamById(long teamId) {
+        WebTarget getTeamWebTarget = teamWebTarget.path("detail").queryParam("id", teamId);
+        Response response = getTeamWebTarget.request(MEDIA_TYPE).get();
+        if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+            return response.readEntity(TeamTO.class);
+        }
+        return null;
+    }
+    
+    private List<PlayerTO> retrievePlayersByTeam(long teamId) {
+        WebTarget playersWebTarget = webTarget.path("player").path("byTeam").queryParam("id", teamId);
+        Response response = playersWebTarget.request(MEDIA_TYPE).get();
+        if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+            return response.readEntity(new GenericType<List<PlayerTO>>() {});
+        }
+        return new ArrayList<>();
+    }
+    
+    private void addTeam(TeamTO team) {
+        Entity<TeamTO> teamEntity = Entity.entity(team, MEDIA_TYPE);
+        Response response = teamWebTarget.request(MEDIA_TYPE).post(teamEntity);
+        if (response.getStatus() == Response.Status.NO_CONTENT.getStatusCode()) {
+            showMessage("team.add.ok", team.getTeamName());
+        } else {
+            showMessage("team.add.cannot", team.getTeamName());
+        }
+    }
+    
+    private void updateTeam(TeamTO team) {
+        Entity<TeamTO> teamEntity = Entity.entity(team, MEDIA_TYPE);
+        Response response = teamWebTarget.request(MEDIA_TYPE).put(teamEntity);
+        if (response.getStatus() == Response.Status.NO_CONTENT.getStatusCode()) {
+            showMessage("team.update.ok", team.getTeamName());
+        } else {
+            showMessage("team.update.cannot", team.getTeamName());
+        }
+    }
+    
+    private void removeTeam(TeamTO team) {
+        WebTarget deleteTeamWebTarget = teamWebTarget.path("delete").queryParam("id", team.getTeamId());
+        Response response = deleteTeamWebTarget.request(MEDIA_TYPE).delete();
+        if (response.getStatus() == Response.Status.NO_CONTENT.getStatusCode()) {
+            showMessage("team.remove.ok");
+        } else {
+            showMessage("team.remove.cannot");
+        }
+    }
 
     // --- list teams ---
     
@@ -38,15 +97,10 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
     public List<TeamTO> getTeams() {
         return teams;
     }
-    
-    private void retrieveAllTeams() {
-        Response response = teamWebTarget.request(MEDIA_TYPE).get();
-        teams = response.readEntity(new GenericType<List<TeamTO>>() {});
-    }
 
     @DefaultHandler
     public Resolution list() {
-        retrieveAllTeams();
+        teams = retrieveAllTeams();
         return new ForwardResolution("/team/list.jsp");
     }
     
@@ -70,10 +124,7 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
     }
 
     public Resolution add() {
-        Entity<TeamTO> teamEntity = Entity.entity(team, MEDIA_TYPE);
-        Response response = teamWebTarget.request(MEDIA_TYPE).post(teamEntity);
-//        response.getStatus()
-        showMessage("team.add.message");
+        addTeam(team);
         return new RedirectResolution(this.getClass(), "list");
     }
 
@@ -86,24 +137,17 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
     // --- delete team ---
 
     public Resolution delete() {
-        WebTarget deleteTeamWebTarget = teamWebTarget.path("delete").queryParam("id", team.getTeamId());
-        Response response = deleteTeamWebTarget.request(MEDIA_TYPE).delete();
-//        response.getStatus()
-        showMessage("team.delete.message");
+        removeTeam(team);
         return new RedirectResolution(this.getClass(), "list");
     }
 
     // --- edit team ----
 
-    @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "save", "detail"})
+    @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "detail"})
     public void loadTeamFromDatabase() {
         String ids = getContext().getRequest().getParameter("team.teamId");
         if (ids == null) return;
-        
-        WebTarget getTeamWebTarget = teamWebTarget.path("detail").queryParam("id", ids);
-        Response response = getTeamWebTarget.request(MEDIA_TYPE).get();
-        team = response.readEntity(TeamTO.class);
-//        response.getStatus()
+        team = retrieveTeamById(Long.parseLong(ids));
     }
 
     public Resolution edit() {
@@ -111,8 +155,7 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
     }
 
     public Resolution save() {
-        Entity<TeamTO> teamEntity = Entity.entity(team, MEDIA_TYPE);
-        Response response = teamWebTarget.request(MEDIA_TYPE).put(teamEntity);
+        updateTeam(team);
         return new RedirectResolution(this.getClass(), "list");
     }
     
@@ -125,18 +168,16 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
     }
     
     public Resolution detail() {
-        WebTarget playersWebTarget = webTarget.path("player").path("byTeam").queryParam("id", team.getTeamId());
-        Response response = playersWebTarget.request(MEDIA_TYPE).get();
-        players = response.readEntity(new GenericType<List<PlayerTO>>() {});
+        players = retrievePlayersByTeam(team.getTeamId());
         return new ForwardResolution("/team/detail.jsp");
     }
     
-    private void showError(String messageKey) {
+    private void showMessage(String messageKey) {
         getContext().getMessages().add(new LocalizableMessage(messageKey));
     }
     
-    private void showMessage(String messageKey) {
-        getContext().getMessages().add(new LocalizableMessage(messageKey, Functions.escapeXml(team.getTeamName())));
+    private void showMessage(String messageKey, String parameter) {
+        getContext().getMessages().add(new LocalizableMessage(messageKey, Functions.escapeXml(parameter)));
     }
 
 }

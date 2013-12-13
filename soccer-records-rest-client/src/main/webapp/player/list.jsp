@@ -8,15 +8,19 @@
 
         <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.client.PlayerActionBean" var="actionBean"/>
 
+        <h2><f:message key="player.list"/></h2>
+
         <s:errors/>
 
         <%--<%@include file="search.jsp"%>--%>
 
-        <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.client.PlayerActionBean">
-            <s:param name="$event" value="create"/>
-            <img src="${pageContext.request.contextPath}/images/add.png" alt=""/>
-            <f:message key="player.new"/>
-        </s:link>
+        <p>
+            <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.client.PlayerActionBean">
+                <s:param name="$event" value="create"/>
+                <img src="${pageContext.request.contextPath}/images/add.png" alt=""/>
+                <f:message key="player.new"/>
+            </s:link>
+        </p>
 
         <c:if test="${empty actionBean.players}">
             <p><f:message key="player.list.noData"/></p>

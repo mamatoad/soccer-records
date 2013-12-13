@@ -64,7 +64,10 @@
             <c:forEach items="${actionBean.players}" var="player">
                 <tr>
                     <td class="name">
-                        <c:out value="${player.playerName}"/>
+                        <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.client.PlayerActionBean" event="detail">
+                            <s:param name="player.playerId" value="${player.playerId}"/>
+                            <c:out value="${player.playerName}"/>
+                        </s:link>
                     <td>
                         <c:out value="${player.playerGoalsScored}"/>
                     </td>
