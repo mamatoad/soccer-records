@@ -5,7 +5,6 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.service.PlayerService;
 import java.util.List;
 
 
-import javax.websocket.server.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import javax.ws.rs.core.Response;
@@ -37,16 +37,16 @@ public class PlayerRest {
     }
     
     @GET
-    @Path("teamId/{id}")
+    @Path("byTeam")
     @Produces(MediaType.TEXT_XML)
-    public List<PlayerTO> getPlayersByTeamId(@PathParam("id") Long id) {
+    public List<PlayerTO> getPlayersByTeamId(@QueryParam("id") Long id) {
         return playerService.getPlayersByTeamId(id);
     }
 
     @GET
-    @Path("{id}")
+    @Path("detail")
     @Produces(MediaType.TEXT_XML)
-    public PlayerTO getPlayerById(@PathParam("id") Long id) {
+    public PlayerTO getPlayerById(@QueryParam("id") Long id) {
         return playerService.getPlayerById(id);
     }
 
@@ -66,8 +66,8 @@ public class PlayerRest {
 
     @DELETE
     @Consumes(MediaType.TEXT_XML)
-    @Path("{id}")
-    public Response delete(@PathParam("id") long id) {
+    @Path("delete")
+    public Response delete(@QueryParam("id") long id) {
         playerService.remove(playerService.getPlayerById(id));
         return Response.ok().build();
     }

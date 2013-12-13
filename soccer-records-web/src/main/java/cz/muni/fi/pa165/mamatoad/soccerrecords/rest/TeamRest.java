@@ -3,7 +3,6 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords.rest;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.TeamTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.TeamService;
 import java.util.List;
-import javax.websocket.server.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -11,6 +10,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +36,8 @@ public class TeamRest {
 
     @GET
     @Produces(MediaType.TEXT_XML)
-    @Path("{id}")
-    public TeamTO getById(@PathParam("id") long id) {
+    @Path("detail")
+    public TeamTO getById(@QueryParam("id") Long id) {
         return teamService.getTeamById(id);
     }
 
@@ -57,8 +57,8 @@ public class TeamRest {
 
     @DELETE
     @Consumes(MediaType.TEXT_XML)
-    @Path("{id}")
-    public Response delete(@PathParam("id") long id) {
+    @Path("delete")
+    public Response delete(@QueryParam("id") Long id) {
        teamService.remove(teamService.getTeamById(id));
        return Response.ok().build();
     }
