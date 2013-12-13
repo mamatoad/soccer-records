@@ -19,7 +19,7 @@
                     <menu>
                         <li><s:link href="/"><f:message key="menu.home"/></s:link></li>
                         <li><s:link href="/teams/list"><f:message key="menu.teams"/></s:link></li>
-                        <li><s:link href="/matches/list"><f:message key="menu.matches"/></s:link></li>
+                        <li><s:link href="/players/list"><f:message key="menu.players"/></s:link></li>
                         </menu>
                     </header>
 
