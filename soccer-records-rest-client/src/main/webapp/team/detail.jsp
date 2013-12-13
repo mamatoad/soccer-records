@@ -50,7 +50,11 @@
         <p>
             <a href="../../players/list/${actionBean.team.teamId}"><f:message key="team.detail.players.manage"/></a>
         </p>
-
+<c:choose>
+    <c:when test="${empty actionBean.players}">
+        <p><f:message key="team.list.empty"/></p>
+    </c:when>
+    <c:otherwise>
         <table class="list">
             <tr>
                 <th><f:message key="team.detail.player.name"/></th>
@@ -75,6 +79,7 @@
                 </tr>
             </c:forEach>
         </table>
-
+        </c:otherwise>
+</c:choose>
     </s:layout-component>
 </s:layout-render>
