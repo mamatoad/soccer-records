@@ -111,7 +111,7 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
 
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit","detail"})
     public void loadTeamFromDatabase() {
-        String ids = getContext().getRequest().getParameter("team.teamId");
+         String ids = getContext().getRequest().getParameter("team.teamId");
         if (ids == null) return;
         team = teamService.getTeamById(Long.parseLong(ids));
     }

@@ -54,7 +54,11 @@
                 <f:message key="match.detail.manageGoals"/>
             </s:link>
         </p>
-
+  <c:choose>
+            <c:when test="${empty actionBean.matches}">
+                 <p><f:message key="player.list.noData"/></p>
+            </c:when>
+            <c:otherwise>
         <table class="list">
             <tr>
                 <th><f:message key="match.detail.goalsTime"/></th>
@@ -70,6 +74,7 @@
             </c:forEach>
         </tr>
     </table>
-
+    </c:otherwise>
+</c:choose>
 </s:layout-component>
 </s:layout-render>

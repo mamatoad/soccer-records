@@ -30,9 +30,9 @@
                             </s:submit>
                         </td>
                         <td class="text-left">
-                            <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean">
+                           <s:submit name="cancel">
                                 <f:message key="team.edit.cancel"/>
-                            </s:link>
+                            </s:submit>
                         </td>
                     </tr>
                 </table>
