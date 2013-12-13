@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords.rest;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.TeamTO;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.security.SecurityFacade;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.TeamService;
 import java.util.List;
 import javax.websocket.server.PathParam;
@@ -28,14 +27,10 @@ public class TeamRest {
     @Autowired
     private TeamService teamService;
     
-    @Autowired
-    private SecurityFacade securityFacade;
-
+    
     @GET
     @Produces(MediaType.TEXT_XML)
     public List<TeamTO> getAllTeams() {
-        securityFacade.setUser(null);
-        securityFacade.login("rest", "rest"); // to enable full access to services via rest
         return teamService.getAllTeams();
     }
 
@@ -43,16 +38,12 @@ public class TeamRest {
     @Produces(MediaType.TEXT_XML)
     @Path("{id}")
     public TeamTO getById(@PathParam("id") long id) {
-        securityFacade.setUser(null);
-        securityFacade.login("rest", "rest"); // to enable full access to services via rest
         return teamService.getTeamById(id);
     }
 
     @POST
     @Consumes(MediaType.TEXT_XML)
     public Response create(TeamTO teamTO) {
-        securityFacade.setUser(null);
-        securityFacade.login("rest", "rest"); // to enable full access to services via rest
         teamService.add(teamTO);
         return Response.ok().build();
     }
@@ -60,10 +51,7 @@ public class TeamRest {
     @PUT
     @Consumes(MediaType.TEXT_XML)
     public Response update(TeamTO teamTO) {
-        securityFacade.setUser(null);
-        securityFacade.login("rest", "rest"); // to enable full access to services via rest
         teamService.update(teamTO);
-
         return Response.ok().build();
     }
 
@@ -71,11 +59,7 @@ public class TeamRest {
     @Consumes(MediaType.TEXT_XML)
     @Path("{id}")
     public Response delete(@PathParam("id") long id) {
-        securityFacade.setUser(null);
-        securityFacade.login("rest", "rest"); // to enable full access to services via rest
-
-        teamService.remove(teamService.getTeamById(id));
-
-        return Response.ok().build();
+       teamService.remove(teamService.getTeamById(id));
+       return Response.ok().build();
     }
 }

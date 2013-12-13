@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords.rest;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.PlayerTO;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.security.SecurityFacade;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.PlayerService;
 import java.util.List;
 
@@ -31,14 +30,9 @@ public class PlayerRest {
     @Autowired
     private PlayerService playerService;
         
-    @Autowired
-    private SecurityFacade securityFacade;
-
     @GET
     @Produces(MediaType.TEXT_XML)
     public List<PlayerTO> getAllPlayers() {
-        securityFacade.setUser(null);
-        securityFacade.login("rest", "rest"); // to enable full access to services via rest
         return playerService.getAllPlayers();
     }
     
@@ -46,8 +40,6 @@ public class PlayerRest {
     @Path("teamId/{id}")
     @Produces(MediaType.TEXT_XML)
     public List<PlayerTO> getPlayersByTeamId(@PathParam("id") Long id) {
-        securityFacade.setUser(null);
-        securityFacade.login("rest", "rest"); // to enable full access to services via rest
         return playerService.getPlayersByTeamId(id);
     }
 
@@ -55,16 +47,12 @@ public class PlayerRest {
     @Path("{id}")
     @Produces(MediaType.TEXT_XML)
     public PlayerTO getPlayerById(@PathParam("id") Long id) {
-        securityFacade.setUser(null);
-        securityFacade.login("rest", "rest"); // to enable full access to services via rest
         return playerService.getPlayerById(id);
     }
 
     @POST
     @Consumes(MediaType.TEXT_XML)
     public Response create(PlayerTO playerTO) {
-        securityFacade.setUser(null);
-        securityFacade.login("rest", "rest"); // to enable full access to services via rest
         playerService.add(playerTO);
         return Response.ok().build();
     }
@@ -72,8 +60,6 @@ public class PlayerRest {
     @PUT
     @Consumes(MediaType.TEXT_XML)
     public Response update(PlayerTO playerTO) {
-        securityFacade.setUser(null);
-        securityFacade.login("rest", "rest"); // to enable full access to services via rest
         playerService.update(playerTO);
         return Response.ok().build();
     }
@@ -82,8 +68,6 @@ public class PlayerRest {
     @Consumes(MediaType.TEXT_XML)
     @Path("{id}")
     public Response delete(@PathParam("id") long id) {
-        securityFacade.setUser(null);
-        securityFacade.login("rest", "rest"); // to enable full access to services via rest
         playerService.remove(playerService.getPlayerById(id));
         return Response.ok().build();
     }

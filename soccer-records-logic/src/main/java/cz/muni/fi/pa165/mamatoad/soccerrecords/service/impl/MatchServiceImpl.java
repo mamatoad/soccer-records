@@ -6,8 +6,6 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.GoalDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.MatchTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Team;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.TeamDao;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Acl;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Role;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.MatchService;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +29,6 @@ public class MatchServiceImpl implements MatchService{
     
     @Transactional
     @Override
-    @Acl(Role.ADMIN)
     public void add(MatchTO match) {
         if(match == null){
             throw new IllegalArgumentException("Match is null");
@@ -41,7 +38,6 @@ public class MatchServiceImpl implements MatchService{
     
     @Transactional
     @Override
-    @Acl(Role.ADMIN)
     public void update(MatchTO match) {
         if(match == null){
             throw new IllegalArgumentException("Match is null");
@@ -51,7 +47,6 @@ public class MatchServiceImpl implements MatchService{
     
     @Transactional
     @Override
-    @Acl(Role.ADMIN)
     public void remove(MatchTO match) {
         if(match == null){
             throw new IllegalArgumentException("Match is null");

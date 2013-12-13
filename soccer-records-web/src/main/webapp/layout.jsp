@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <s:layout-definition>
-    <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" var="userActionBean"/>
     <!DOCTYPE html>
     <html lang="${pageContext.request.locale}">
         <head>
@@ -22,20 +21,7 @@
                         <li><s:link href="/teams/list"><f:message key="menu.teams"/></s:link></li>
                         <li><s:link href="/players/list"><f:message key="menu.players"/></s:link></li>
                         <li><s:link href="/matches/list"><f:message key="menu.matches"/></s:link></li>
-                        <div class="userInfo">
-                        <c:choose>
-                            <c:when test="${userActionBean.loggedInUser == 'none'}">
-                                <li><s:link href="/users"><f:message key="menu.login"/></s:link></li>
-                            </c:when>
-                            <c:otherwise>
-                                <c:out value="${userActionBean.loggedInUser} > "/>
-                                        <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" event="doLogout">
-                                            <f:message key="menu.logout"/>
-                                        </s:link>
-                            </c:otherwise>
-                        </c:choose>
-                        </div>
-                        </menu>
+                    </menu>
                         
                     </header>
 

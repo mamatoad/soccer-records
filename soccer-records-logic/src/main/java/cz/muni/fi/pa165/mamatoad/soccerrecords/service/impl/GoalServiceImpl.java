@@ -7,8 +7,6 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Match;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.MatchDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.PlayerDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.TeamDao;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Acl;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Role;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.GoalService;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +33,6 @@ public class GoalServiceImpl implements GoalService {
 
     @Transactional
     @Override
-    @Acl(Role.ADMIN)
     public void add(GoalTO goal) {
         if (goal == null) {
             throw new IllegalArgumentException("goal is null");
@@ -46,7 +43,6 @@ public class GoalServiceImpl implements GoalService {
 
     @Transactional
     @Override
-    @Acl(Role.ADMIN)
     public void update(GoalTO goal) {
         if (goal == null) {
             throw new IllegalArgumentException("goal is null");
@@ -57,7 +53,6 @@ public class GoalServiceImpl implements GoalService {
 
     @Transactional
     @Override
-    @Acl(Role.ADMIN)
     public void remove(GoalTO goal) {
         if (goal == null) {
             throw new IllegalArgumentException("goal is null");
