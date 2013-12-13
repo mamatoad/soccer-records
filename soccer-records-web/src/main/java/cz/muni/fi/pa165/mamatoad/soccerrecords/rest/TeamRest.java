@@ -11,9 +11,11 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -26,40 +28,70 @@ public class TeamRest {
 
     @Autowired
     private TeamService teamService;
-    
-    
+
     @GET
     @Produces(MediaType.TEXT_XML)
-    public List<TeamTO> getAllTeams() {
-        return teamService.getAllTeams();
+    public Response getAllTeams() {
+        List<TeamTO> teams;
+        try {
+            teams = teamService.getAllTeams();
+        } catch (DataAccessException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        if (teams.isEmpty()) {
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+        return Response.ok().entity(new GenericEntity<List<TeamTO>>(teams) {
+        }).build();
     }
 
     @GET
     @Produces(MediaType.TEXT_XML)
     @Path("detail")
-    public TeamTO getById(@QueryParam("id") Long id) {
-        return teamService.getTeamById(id);
+    public Response getById(@QueryParam("id") Long id) {
+        TeamTO team;
+        try {
+            team = teamService.getTeamById(id);
+        } catch (IllegalArgumentException | DataAccessException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        if (team == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(team).build();
     }
 
     @POST
     @Consumes(MediaType.TEXT_XML)
     public Response create(TeamTO teamTO) {
-        teamService.add(teamTO);
-        return Response.ok().build();
+        try {
+            teamService.add(teamTO);
+        } catch (IllegalArgumentException | DataAccessException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 
     @PUT
     @Consumes(MediaType.TEXT_XML)
     public Response update(TeamTO teamTO) {
-        teamService.update(teamTO);
-        return Response.ok().build();
+        try {
+            teamService.update(teamTO);
+        } catch (IllegalArgumentException | DataAccessException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 
     @DELETE
     @Consumes(MediaType.TEXT_XML)
     @Path("delete")
     public Response delete(@QueryParam("id") Long id) {
-       teamService.remove(teamService.getTeamById(id));
-       return Response.ok().build();
+        try {
+            teamService.remove(teamService.getTeamById(id));
+        } catch (IllegalArgumentException | DataAccessException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 }

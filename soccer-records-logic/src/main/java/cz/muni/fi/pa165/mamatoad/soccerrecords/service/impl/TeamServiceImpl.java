@@ -98,6 +98,9 @@ public class TeamServiceImpl implements TeamService {
     }
 
     private TeamTO convertToTransferObject(Team team) {
+        if (team == null) {
+            return null;
+        }
         TeamTO teamTo = new TeamTO();
         teamTo.setTeamId(team.getId());
         teamTo.setTeamName(team.getName());
