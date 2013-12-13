@@ -1,11 +1,13 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords.dto;
 
 import java.util.Objects;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Maros Klimovsky
  */
+@XmlRootElement
 public class TeamTO {
     private Long teamId;
     private String teamName;

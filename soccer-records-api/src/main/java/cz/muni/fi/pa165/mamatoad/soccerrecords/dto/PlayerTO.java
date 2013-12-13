@@ -1,11 +1,13 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords.dto;
 
 import java.util.Objects;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Player Data Transfer Object.
  * @author Matus Nemec
  */
+@XmlRootElement
 public class PlayerTO {
     private Long playerId;
     private String playerName;
