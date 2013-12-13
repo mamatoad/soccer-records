@@ -1,0 +1,80 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
+
+<s:layout-render name="/layout.jsp" titlekey="team.detail.title">
+    <s:layout-component name="body">
+
+        <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.client.TeamActionBean" var="actionBean"/>
+
+        <h2><c:out value="${actionBean.team.teamName}"/></h2>
+
+        <table class="info">
+            <tr>
+                <th><f:message key="team.detail.wins"/>:</th>
+                <td>${actionBean.team.numberOfWins}</td>
+            </tr>
+            <tr>
+                <th><f:message key="team.detail.ties"/>:</th>
+                <td>${actionBean.team.numberOfTies}</td>
+            </tr>
+            <tr>
+                <th><f:message key="team.detail.losses"/>:</th>
+                <td>${actionBean.team.numberOfLosses}</td>
+            </tr>
+            <tr>
+                <th><f:message key="team.detail.score"/>:</th>
+                <td>${actionBean.team.numberOfGoalsShot}:${actionBean.team.numberOfGoalsReceived}</td>
+            </tr>
+        </table>
+
+        <ul>
+            <li>
+                <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.client.TeamActionBean" event="edit">
+                    <s:param name="team.teamId" value="${actionBean.team.teamId}"/>
+                    <img src="${pageContext.request.contextPath}/images/pencil.png"/>
+                    <f:message key="team.list.edit"/>
+                </s:link>
+            </li><li>
+                <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.client.TeamActionBean" event="delete">
+                    <s:param name="team.teamId" value="${actionBean.team.teamId}"/>
+                    <img src="${pageContext.request.contextPath}/images/cross.png"/>
+                    <f:message key="team.list.delete"/>
+                </s:link>
+            </li>
+        </ul>
+
+        <h3><f:message key="team.detail.players"/></h3>
+
+        <p>
+            <a href="../../players/list/${actionBean.team.teamId}"><f:message key="team.detail.players.manage"/></a>
+        </p>
+
+        <table class="list">
+            <tr>
+                <th><f:message key="team.detail.player.name"/></th>
+                <th><f:message key="team.detail.player.goals"/></th>
+                <th><f:message key="team.detail.player.activity"/></th>
+            </tr>
+            <c:forEach items="${actionBean.players}" var="player">
+                <tr>
+                    <td class="name">
+                        <c:out value="${player.playerName}"/>
+                    <td>
+                        <c:out value="${player.playerGoalsScored}"/>
+                    </td>
+                    <td>
+                        <c:if test="${player.playerActive==true}">
+                            <f:message key="team.detail.player.active"/>
+                        </c:if>
+                        <c:if test="${player.playerActive==false}">
+                            <f:message key="team.detail.player.retired"/>
+                        </c:if>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+
+    </s:layout-component>
+</s:layout-render>
