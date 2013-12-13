@@ -3,14 +3,14 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
 
-	<!-- JSTL -->
+    <!-- JSTL -->
     <context-param>
         <description>JSTL tags will use localized string from the same source as Stripes</description>
         <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
         <param-value>StripesResources</param-value>
     </context-param>
  
-	<!-- Stripes -->
+    <!-- Stripes -->
     <filter>
         <description>Stripes main conf</description>
         <display-name>Stripes Filter</display-name>
@@ -25,6 +25,10 @@
             <description>locales and encodings in the app</description>
             <param-name>LocalePicker.Locales</param-name>
             <param-value>sk:utf-8,en:utf-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>ExceptionHandler.Class</param-name>
+            <param-value>cz.muni.fi.pa165.mamatoad.soccerrecords.client.ConnectionExceptionHandler</param-value>
         </init-param>
     </filter>
     <filter-mapping>
