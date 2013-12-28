@@ -72,7 +72,7 @@ public class SecurityFacadeImpl implements SecurityFacade
             UserTO user = new UserTO();
 
             user.setLogin("rest");
-            user.setRole(Role.USER);
+            user.setRole(Role.ADMIN);
             user.setPassword(DigestUtils.md5DigestAsHex("rest".getBytes()));
             
             storage.setUser(user); 
