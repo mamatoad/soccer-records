@@ -61,6 +61,7 @@ public class MatchServiceImpl implements MatchService{
     
     @Transactional
     @Override
+    @Acl(Role.USER)
     public List<MatchTO> getMatchesByTeamId(Long teamId) {
         if(teamId == null){
             throw new IllegalArgumentException("teamId is null");
@@ -75,6 +76,7 @@ public class MatchServiceImpl implements MatchService{
     
     @Transactional
     @Override
+    @Acl(Role.USER)
     public List<MatchTO> getAllMatches() {
         List<Match> matches = matchDao.retrieveAllMatches();
         List<MatchTO> matchesTO = new ArrayList<>();
@@ -87,6 +89,7 @@ public class MatchServiceImpl implements MatchService{
     
     @Transactional
     @Override
+    @Acl(Role.USER)
     public MatchTO getMatchById(Long matchId) {
         if(matchId == null){
             throw new IllegalArgumentException("MatchId is null");

@@ -67,6 +67,7 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
+    @Acl(Role.USER)
     public GoalTO getGoalById(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("id is null");
@@ -78,6 +79,7 @@ public class GoalServiceImpl implements GoalService {
 
     @Transactional
     @Override
+    @Acl(Role.USER)
     public List<GoalTO> getGoalsByMatchId(Long matchId) {
         if (matchId == null) {
             throw new IllegalArgumentException("matchId is null");

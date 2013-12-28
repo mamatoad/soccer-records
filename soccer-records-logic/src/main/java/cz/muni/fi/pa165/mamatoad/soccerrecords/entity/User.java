@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords.entity;
 
+import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Role;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +25,16 @@ public class User implements Serializable
     @Column(unique = true)
     private String login;
     private String password;
+    @Column(name = "userRole")
+    private Role role;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
     
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

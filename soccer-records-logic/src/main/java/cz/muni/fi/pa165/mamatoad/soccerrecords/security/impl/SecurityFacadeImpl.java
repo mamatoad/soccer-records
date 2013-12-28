@@ -55,6 +55,7 @@ public class SecurityFacadeImpl implements SecurityFacade
             UserTO user = new UserTO();
 
             user.setLogin("admin");
+            user.setRole(Role.ADMIN);
             user.setPassword(DigestUtils.md5DigestAsHex("password".getBytes()));
             
             storage.setUser(user); 
@@ -71,6 +72,7 @@ public class SecurityFacadeImpl implements SecurityFacade
             UserTO user = new UserTO();
 
             user.setLogin("rest");
+            user.setRole(Role.USER);
             user.setPassword(DigestUtils.md5DigestAsHex("rest".getBytes()));
             
             storage.setUser(user); 
@@ -125,15 +127,15 @@ public class SecurityFacadeImpl implements SecurityFacade
             role = acl.value();
             
         }
-        // instead of checking which role the user has (userRole),
-        // we'll assume that if he is logged in then he is an admin else none
+        
         Role userRole = Role.NONE;
         if(this.getCurrentLoggedInUser() != null)
         {
-            userRole = Role.ADMIN;
+            userRole = getCurrentLoggedInUser().getRole();
         }
         
-        if(role == userRole || role.hasParent(userRole))
+         
+        if(role == userRole || userRole.hasParent(role))
         {
             return true;
         }

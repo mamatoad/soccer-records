@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
-public class AuthorizationInterceptor
+public class AuthorizationAspect
 {
     @Autowired
     SecurityFacade securityFacade;
@@ -33,6 +33,9 @@ public class AuthorizationInterceptor
        
        if(!securityFacade.authorize(method))
        {
+           if (securityFacade.getCurrentLoggedInUser() == null) {
+               throw new AccessControlException("Not logged in.");
+           }
            throw new AccessControlException("Operation '" 
                    + method.getName()
                    + "' is not authorized for current user.");

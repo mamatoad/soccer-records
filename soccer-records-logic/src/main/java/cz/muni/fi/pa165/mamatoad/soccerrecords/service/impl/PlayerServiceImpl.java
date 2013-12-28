@@ -64,6 +64,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Transactional
     @Override
+    @Acl(Role.USER)
     public PlayerTO getPlayerById(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("id is null");
@@ -79,6 +80,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Transactional
     @Override
+    @Acl(Role.USER)
     public List<PlayerTO> getPlayersByTeamId(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("id is null");
@@ -92,6 +94,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Transactional
     @Override
+    @Acl(Role.USER)
     public List<PlayerTO> getAllPlayers() {
         return convertToListOfTransferObjects(playerDao.retrieveAllPlayers());
     }
@@ -135,6 +138,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
+    @Acl(Role.USER)
     public List<PlayerTO> getPlayersByName(String name) {
         if (name == null) {
             throw new IllegalArgumentException("name is null");
@@ -145,6 +149,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
+    @Acl(Role.USER)
     public List<PlayerTO> getFilteredPlayers(String searchTerm) {
         if (searchTerm == null) {
             throw new IllegalArgumentException("search term is null");

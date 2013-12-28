@@ -65,6 +65,7 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
+    @Acl(Role.ADMIN)
     public UserTO getByLogin(String login)
     {
         if (login == null)
@@ -84,6 +85,7 @@ public class UserServiceImpl implements UserService
         userTO.setId(user.getId());
         userTO.setLogin(user.getPassword());
         userTO.setPassword(user.getLogin());
+        userTO.setRole(user.getRole());
         return userTO;
     }
     
@@ -92,6 +94,7 @@ public class UserServiceImpl implements UserService
         user.setId(userTO.getId());
         user.setLogin(userTO.getLogin());
         user.setPassword(userTO.getPassword());
+        user.setRole(userTO.getRole());
         return user;
     }
    

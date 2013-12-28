@@ -72,6 +72,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Transactional
     @Override
+    @Acl(Role.USER)
     public List<TeamTO> getAllTeams() {
         List<TeamTO> teams = new ArrayList<>();
         for (Team team : teamDao.retrieveAllTeams()) {
@@ -83,6 +84,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Transactional
     @Override
+    @Acl(Role.USER)
     public TeamTO getTeamById(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("id cannot be null");

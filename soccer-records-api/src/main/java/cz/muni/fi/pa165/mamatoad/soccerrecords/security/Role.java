@@ -6,18 +6,19 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords.security;
  */
 public enum Role
 {
-    ADMIN(null),
-    
+    NONE(null), 
     /* this is the default role, it applies when no other role is specified
      * it can be for example used for user that is not logged in
      */ 
-    NONE(ADMIN); 
+    USER(NONE),
+    ADMIN(USER),
+    ; 
     
     private final Role parent;
     
     /**
      * 
-     * @param parent is a role that inherits all permissions of this role
+     * @param parent is a role that provides it's permissions to this role
      */
     Role(Role parent)
     {

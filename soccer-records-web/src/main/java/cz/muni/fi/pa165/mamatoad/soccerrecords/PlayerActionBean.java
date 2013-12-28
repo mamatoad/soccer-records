@@ -82,6 +82,7 @@ public class PlayerActionBean extends BaseActionBean implements ValidationErrorH
         } else {
             players = playerService.getAllPlayers();
         }
+        
         return new ForwardResolution("/player/list.jsp");
     }
 
@@ -108,7 +109,6 @@ public class PlayerActionBean extends BaseActionBean implements ValidationErrorH
 
     public Resolution create() {
         logger.debug("create()");
-        
         return new ForwardResolution("/player/new.jsp");
     }
 
