@@ -8,6 +8,8 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.MatchDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.PlayerDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.TeamTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Player;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Acl;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Role;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.TeamService;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Transactional
     @Override
+    @Acl(Role.ADMIN)
     public void add(TeamTO teamTO) {
         if (teamTO == null) {
             throw new IllegalArgumentException("teamTO cannot be null");
@@ -41,6 +44,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Transactional
     @Override
+    @Acl(Role.ADMIN)
     public void update(TeamTO teamTO) {
         if (teamTO == null) {
             throw new IllegalArgumentException("teamTO cannot be null");
@@ -51,6 +55,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Transactional
     @Override
+    @Acl(Role.ADMIN)
     public void remove(TeamTO teamTO) {
         if (teamTO == null) {
             throw new IllegalArgumentException("teamTO cannot be null");
