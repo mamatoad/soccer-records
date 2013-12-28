@@ -4,6 +4,8 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.UserTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.UserService;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.LocalizableMessage;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.integration.spring.SpringBean;
@@ -24,6 +26,9 @@ public class UserActionBean extends BaseActionBean {
     })
     private UserTO userTO;
     
+    public String getOriginPage(){
+        return getContext().getRequest().getHeader("Referer");
+    }
         
     @SpringBean
     protected UserService userService;
@@ -55,12 +60,12 @@ public class UserActionBean extends BaseActionBean {
         try {
             securityFacade.login(userTO.getLogin(), userTO.getPassword());
             saveUser();
-        } catch (IllegalStateException ex) {
-            return new ForwardResolution("/player/list.jsp");
-        } catch (IllegalArgumentException ex) {
-            return new ForwardResolution("/team/list.jsp");
+        } catch (IllegalStateException | IllegalArgumentException ex) {
+            getContext().getMessages().add(new LocalizableMessage("user.invalid"));
+            return new ForwardResolution("/user/login.jsp");
         }
-        return new ForwardResolution("/index.jsp");
+         String originalPage = getContext().getRequest().getHeader("Referer");
+        return new RedirectResolution(originalPage, false);
     }
 
     public Resolution logout() {
@@ -73,6 +78,15 @@ public class UserActionBean extends BaseActionBean {
         return new ForwardResolution("/index.jsp");
     }
 
+    public Resolution insufficientRights(){
+        while (!getContext().getMessages().isEmpty()) {
+            getContext().getMessages().remove(0);
+        }
+        
+        getContext().getMessages().add(new LocalizableMessage("user.insufficientRights"));
+        return new ForwardResolution("/user/insufficientRights.jsp");
+    }
+    
     public void saveUser()
     {
         getContext().getRequest().getSession().setAttribute("user", securityFacade.getUser());
