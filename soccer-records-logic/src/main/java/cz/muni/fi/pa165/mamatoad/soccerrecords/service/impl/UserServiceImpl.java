@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -23,6 +24,7 @@ public class UserServiceImpl implements UserService
     @Autowired
     private UserDao userDao;
     
+    @Transactional
     @Override
     @Acl(Role.ADMIN)
     public long add(UserTO userTO)
@@ -37,6 +39,7 @@ public class UserServiceImpl implements UserService
         return user.getId();
     } 
 
+    @Transactional
     @Override
     @Acl(Role.ADMIN)
     public void delete(UserTO userTO)
@@ -49,6 +52,7 @@ public class UserServiceImpl implements UserService
         userDao.delete(user);
     }
 
+    @Transactional
     @Override
     @Acl(Role.ADMIN)
     public List<UserTO> getAllUsers()
@@ -64,6 +68,7 @@ public class UserServiceImpl implements UserService
         return userTOs;
     }
 
+    @Transactional
     @Override
     @Acl(Role.ADMIN)
     public UserTO getByLogin(String login)
@@ -76,6 +81,28 @@ public class UserServiceImpl implements UserService
 
         return userTO;
     }
+    
+    @Transactional
+    @Override
+    @Acl(Role.ADMIN)
+    public UserTO getById(Long id) {
+        if(id == null)
+            throw new IllegalArgumentException("id cannot be null");
+        User user = userDao.getById(id);
+        UserTO userTO = convertToTransferObject(user);
+        
+        return userTO;
+    }
+   
+    
+    @Transactional
+    @Override
+    @Acl(Role.ADMIN)
+    public void update(UserTO userTO) {
+        if(userTO == null)
+            throw new IllegalArgumentException("userTO cannot be null");
+        userDao.update(convertToEntity(userTO));
+    }
 
     private UserTO convertToTransferObject(User user) {
         if (user == null) {
@@ -83,8 +110,8 @@ public class UserServiceImpl implements UserService
         }
         UserTO userTO = new UserTO();
         userTO.setId(user.getId());
-        userTO.setLogin(user.getPassword());
-        userTO.setPassword(user.getLogin());
+        userTO.setLogin(user.getLogin());
+        userTO.setPassword(user.getPassword());
         userTO.setRole(user.getRole());
         return userTO;
     }
@@ -97,6 +124,7 @@ public class UserServiceImpl implements UserService
         user.setRole(userTO.getRole());
         return user;
     }
-   
+
+
 
 }

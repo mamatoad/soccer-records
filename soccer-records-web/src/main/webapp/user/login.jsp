@@ -3,7 +3,7 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<s:layout-render name="/layout.jsp" titlekey="player.new">
+<s:layout-render name="/layout.jsp" titlekey="user.login">
     <s:layout-component name="body">
         <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" var="actionBean" />
 
@@ -11,11 +11,11 @@
             <s:errors />
             <p><f:message key="login.name"/>
             <br/>
-            <s:text id="login" name="userTO.login" />
+            <s:text id="login" name="user.login" />
             <br/>
             <f:message key="login.password"/>
             <br/>
-            <s:password id="password" name="userTO.password" />
+            <s:password id="password" name="user.password" />
             <br/>
             </p>
             <s:submit name="doLogin" value="Login"><f:message key="login.login"/></s:submit>

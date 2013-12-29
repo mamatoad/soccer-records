@@ -58,7 +58,9 @@ public class JpaUserDao implements UserDao {
             throw new IllegalEntityException("User does not exist.");
         }
 
-        em.remove(em.merge(user));
+        //em.remove(em.merge(user));
+        User target = em.merge(user);
+        em.remove(target);
     }
 
     @Override

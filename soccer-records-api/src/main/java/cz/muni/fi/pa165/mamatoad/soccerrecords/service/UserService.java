@@ -22,6 +22,8 @@ public interface UserService
      * @throws DataAccessException for errors on persistence layer
      */
     public void delete(UserTO userTO);
+    
+    public void update(UserTO teamTO);
 
     /**
      * This method returns all users
@@ -31,4 +33,6 @@ public interface UserService
     public List<UserTO> getAllUsers();
 
     public UserTO getByLogin(String login);
+    
+    public UserTO getById(Long id);
 }
