@@ -19,9 +19,14 @@
                     <h1>Soccer Records</h1>
                     <menu>
                         <li><s:link href="/"><f:message key="menu.home"/></s:link></li>
-                        <li><s:link href="/teams/list"><f:message key="menu.teams"/></s:link></li>
-                        <li><s:link href="/players/list"><f:message key="menu.players"/></s:link></li>
-                        <li><s:link href="/matches/list"><f:message key="menu.matches"/></s:link></li>
+                        <c:if test="${userActionBean.getUserRole() != 'none'}">
+                            <li><s:link href="/teams/list"><f:message key="menu.teams"/></s:link></li>
+                            <li><s:link href="/players/list"><f:message key="menu.players"/></s:link></li>
+                            <li><s:link href="/matches/list"><f:message key="menu.matches"/></s:link></li>
+                        </c:if>
+                        <c:if test="${userActionBean.getUserRole() == 'admin'}">
+                            <li><s:link href="/users/list"><f:message key="menu.users"/></s:link></li>
+                        </c:if>
                         <div class="userInfo">
                         <c:choose>
                             <c:when test="${userActionBean.loggedInUser == 'none'}">

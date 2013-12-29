@@ -40,11 +40,23 @@ public class UserActionBean extends BaseActionBean {
     
          
     public String getLoggedInUser(){
+       loadUser();
        UserTO u = securityFacade.getCurrentLoggedInUser();
        if(u == null){
            return "none";
        }
           return u.getLogin();
+    }
+    
+    public String getUserRole(){
+       loadUser();
+       UserTO u = securityFacade.getCurrentLoggedInUser();
+       if(u == null){
+           return "none";
+       }
+       if(u.getLogin().equals("admin") )
+          return u.getLogin();
+       return "user";
     }
     
     public void setUserTO(UserTO userTO) {
@@ -53,8 +65,12 @@ public class UserActionBean extends BaseActionBean {
     
     @DefaultHandler
     public Resolution login() {
+        if (securityFacade.getCurrentLoggedInUser() != null) {
+            return new RedirectResolution("/");
+        }
         return new ForwardResolution("/user/login.jsp");
     }
+
 
     public Resolution doLogin() {
         try {
@@ -91,4 +107,5 @@ public class UserActionBean extends BaseActionBean {
     {
         getContext().getRequest().getSession().setAttribute("user", securityFacade.getUser());
     }
+
 }
