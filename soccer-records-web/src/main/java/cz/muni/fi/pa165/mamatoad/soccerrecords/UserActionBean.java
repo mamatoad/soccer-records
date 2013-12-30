@@ -33,7 +33,7 @@ public class UserActionBean extends BaseActionBean {
    
     @ValidateNestedProperties(value = {
         @Validate(on = {"add", "doLogin", "save"}, field = "login", required = true),
-        @Validate(on = {"add", "doLogin", "save"}, field = "password", required = true)
+        @Validate(on = {"add", "doLogin"}, field = "password", required = true)
     })
     private UserTO user;
     
@@ -48,7 +48,7 @@ public class UserActionBean extends BaseActionBean {
 
     private boolean isAdmin;
 
-    public boolean isIsActive() {
+    public boolean isIsAdmin() {
         return isAdmin;
     }
 
@@ -203,13 +203,15 @@ public class UserActionBean extends BaseActionBean {
         logger.debug("saveUser() ");
         getContext().getRequest().getSession().setAttribute("user", securityFacade.getUser());
     }
-    
+   /* 
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit"})
-    public void loadMatchFromDatabase() {
+    public void loadUserFromDatabase() {
         String ids = getContext().getRequest().getParameter("user.id");
+        
         if(ids == null) return;
         user = userService.getById(Long.parseLong(ids));
-    }
+        isAdmin = (user.getRole() == Role.ADMIN);
+    }*/
    
     @Acl(Role.USER)
     public Resolution edit() {
@@ -217,6 +219,13 @@ public class UserActionBean extends BaseActionBean {
         String ids = getContext().getRequest().getParameter("user.id");
         logger.debug("edit() "+ids);
         user = userService.getById(Long.parseLong(ids));
+        //isAdmin = (user.getRole() == Role.ADMIN);
+        if(user.getRole() == Role.ADMIN){
+            isAdmin = true;
+        }else{
+            isAdmin = false;
+        }
+            
         return new ForwardResolution("/user/edit.jsp");
     }
     
@@ -226,6 +235,12 @@ public class UserActionBean extends BaseActionBean {
             user.setRole(Role.ADMIN);
         }else{
             user.setRole(Role.USER);
+        }
+        if(passwordConfirmation=="" && user.getPassword()=="" ||
+             passwordConfirmation==null && user.getPassword()==null )
+        {
+            UserTO userTO = userService.getById(Long.parseLong(getContext().getRequest().getParameter("user.id")));
+            user.setPassword(userTO.getPassword());
         }
         try
         {
