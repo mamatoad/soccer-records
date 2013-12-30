@@ -3,6 +3,8 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.PlayerTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.TeamTO;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Acl;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Role;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.PlayerService;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.TeamService;
 import java.util.ArrayList;
@@ -66,6 +68,7 @@ public class PlayerActionBean extends BaseActionBean implements ValidationErrorH
     // displaying methods
     
     @DefaultHandler
+    @Acl(Role.USER)
     public Resolution list() {
         String ids = getContext().getRequest().getParameter("player.playerId");
         
@@ -86,6 +89,7 @@ public class PlayerActionBean extends BaseActionBean implements ValidationErrorH
         return new ForwardResolution("/player/list.jsp");
     }
 
+    @Acl(Role.USER)
     public Resolution detail() {
         String ids = getContext().getRequest().getParameter("player.playerId");
         
@@ -106,7 +110,7 @@ public class PlayerActionBean extends BaseActionBean implements ValidationErrorH
     }
     
     // inserting methods
-
+    @Acl(Role.ADMIN)
     public Resolution create() {
         logger.debug("create()");
         return new ForwardResolution("/player/new.jsp");
@@ -122,6 +126,7 @@ public class PlayerActionBean extends BaseActionBean implements ValidationErrorH
 
     // editing methods
     
+    @Acl(Role.ADMIN)
     public Resolution edit() {
         String ids = getContext().getRequest().getParameter("player.playerId");
         logger.debug("edit() " + ids);
@@ -155,7 +160,7 @@ public class PlayerActionBean extends BaseActionBean implements ValidationErrorH
     }
     
     // deletion methods
-
+    @Acl(Role.ADMIN)
     public Resolution delete() {
         String ids = getContext().getRequest().getParameter("player.playerId");
         logger.debug("delete() " + ids);
@@ -206,6 +211,7 @@ public class PlayerActionBean extends BaseActionBean implements ValidationErrorH
         return searchTeamId;
     }
 
+    @Acl(Role.USER)
     public Resolution search() {
         if (searchPlayerName != null) {
             players = playerService.getPlayersByName(searchPlayerName);

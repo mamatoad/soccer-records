@@ -2,6 +2,8 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.PlayerTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.TeamTO;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Acl;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Role;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.GoalService;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.PlayerService;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.TeamService;
@@ -48,6 +50,7 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
     private List<TeamTO> teams;
 
     @DefaultHandler
+    @Acl(Role.USER)
     public Resolution list() {
         log.debug("list()");
         teams = teamService.getAllTeams();
@@ -73,6 +76,7 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
         this.team = team;
     }
     
+    @Acl(Role.ADMIN)
     public Resolution create() {
         return new ForwardResolution("/team/new.jsp");
     }
@@ -92,7 +96,7 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
     }
 
     // --- delete team ---
-
+    @Acl(Role.ADMIN)
     public Resolution delete() {
         log.debug("delete({})", team.getTeamId());
         team = teamService.getTeamById(team.getTeamId());
@@ -116,6 +120,7 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
         team = teamService.getTeamById(Long.parseLong(ids));
     }
 
+    @Acl(Role.ADMIN)
     public Resolution edit() {
         log.debug("edit() team={}", team);
         return new ForwardResolution("/team/edit.jsp");
@@ -135,6 +140,7 @@ public class TeamActionBean extends BaseActionBean implements ValidationErrorHan
         return players;
     }
     
+    @Acl(Role.USER)
     public Resolution detail() {
         log.debug("detail({})", team.getTeamId());
         players = playerService.getPlayersByTeamId(team.getTeamId());

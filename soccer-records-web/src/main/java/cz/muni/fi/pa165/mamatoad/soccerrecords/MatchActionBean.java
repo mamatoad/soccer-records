@@ -3,6 +3,8 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.GoalTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.MatchTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.TeamTO;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Acl;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Role;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.GoalService;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.MatchService;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.PlayerService;
@@ -137,6 +139,7 @@ public class MatchActionBean extends BaseActionBean {
      }
     
     @DefaultHandler
+    @Acl(Role.USER)
     public Resolution list() {
         log.debug("list()");
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -170,7 +173,7 @@ public class MatchActionBean extends BaseActionBean {
     }
     
    
-    
+    @Acl(Role.USER)
     public Resolution detail() {
         log.debug("detail()");
         String id = getContext().getRequest().getParameter("match.id");
@@ -181,7 +184,7 @@ public class MatchActionBean extends BaseActionBean {
         formattedDate = match.getEventDate().toString(fdtf);
         return new ForwardResolution("/match/detail.jsp");
     }
-    
+    @Acl(Role.ADMIN)
     public Resolution add() {
         log.debug("add()");
         
@@ -216,7 +219,7 @@ public class MatchActionBean extends BaseActionBean {
         if (id == null) return;
         match = matchService.getMatchById(Long.parseLong(id));
     }
-
+    @Acl(Role.ADMIN)
     public Resolution edit() {
         log.debug("edit()");
         String ids = getContext().getRequest().getParameter("match.id");
@@ -247,7 +250,7 @@ public class MatchActionBean extends BaseActionBean {
        return new RedirectResolution(this.getClass(), "list");
        
     }
-    
+     @Acl(Role.ADMIN)
      public Resolution delete() {
         log.debug("delete");
         String id = getContext().getRequest().getParameter("match.id");

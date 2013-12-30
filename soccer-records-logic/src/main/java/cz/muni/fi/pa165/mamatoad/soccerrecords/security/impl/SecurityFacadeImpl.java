@@ -59,7 +59,7 @@ public class SecurityFacadeImpl implements SecurityFacade
             user.setPassword(DigestUtils.md5DigestAsHex("password".getBytes()));
             
             storage.setUser(user); 
-            
+            userService.add(user);
             return;
         }
 		
@@ -72,11 +72,11 @@ public class SecurityFacadeImpl implements SecurityFacade
             UserTO user = new UserTO();
 
             user.setLogin("rest");
-            user.setRole(Role.ADMIN);
+            user.setRole(Role.USER);
             user.setPassword(DigestUtils.md5DigestAsHex("rest".getBytes()));
             
             storage.setUser(user); 
-            
+            userService.add(user);
             return;
         }
         

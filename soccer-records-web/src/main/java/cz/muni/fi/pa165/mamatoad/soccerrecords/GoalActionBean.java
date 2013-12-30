@@ -8,6 +8,8 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.GoalTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.MatchTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.PlayerTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.TeamTO;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Acl;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Role;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.GoalService;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.MatchService;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.PlayerService;
@@ -131,6 +133,7 @@ public class GoalActionBean extends BaseActionBean implements ValidationErrorHan
     }
     
     @DefaultHandler
+    @Acl(Role.USER)
     public Resolution list() {
         log.debug("list()");
         matchIdUrl = getContext().getRequest().getParameter("goal.id");
@@ -190,7 +193,7 @@ public class GoalActionBean extends BaseActionBean implements ValidationErrorHan
         goals = goalService.getGoalsByMatchId(id);
         return null;
     }
-    
+     @Acl(Role.ADMIN)
      public Resolution delete() {
         Long id = Long.parseLong(getContext().getRequest().getParameter("goal.id"));
         goal = goalService.getGoalById(id);
@@ -222,7 +225,7 @@ public class GoalActionBean extends BaseActionBean implements ValidationErrorHan
         minute = goal.getTime().getMinuteOfHour();
         hour = goal.getTime().getHourOfDay();
     }
-
+    @Acl(Role.ADMIN)
     public Resolution edit() {
         log.debug("edit() goal={}", goal);
         return new ForwardResolution("/goal/edit.jsp");

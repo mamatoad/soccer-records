@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.UserTO;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Acl;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Role;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.UserService;
 import java.util.List;
@@ -13,8 +14,10 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
+import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
+import net.sourceforge.stripes.validation.ValidationErrors;
 import org.apache.taglibs.standard.functions.Functions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,17 +100,24 @@ public class UserActionBean extends BaseActionBean {
 
     public Resolution doLogin() {
         logger.debug("doLogin() ");
+         
         try {
             securityFacade.login(user.getLogin(), user.getPassword());
             saveUser();
         } catch (IllegalStateException | IllegalArgumentException ex) {
-            getContext().getMessages().add(new LocalizableMessage("user.invalid"));
-            return new ForwardResolution("/user/login.jsp");
+            ValidationErrors errors = new ValidationErrors();
+            errors.add( "Same teams", new LocalizableError("user.invalid") );
+            getContext().setValidationErrors(errors);
+            return getContext().getSourcePageResolution();
         }
          String originalPage = getContext().getRequest().getHeader("Referer");
+         if (originalPage.endsWith("doLogin")) {
+            return new RedirectResolution("/");
+        }
         return new RedirectResolution(originalPage, false);
     }
 
+    @Acl(Role.USER)
     public Resolution logout() {
         logger.debug("logout() ");
         return new ForwardResolution("/user/logout.jsp");
@@ -130,7 +140,7 @@ public class UserActionBean extends BaseActionBean {
         return new ForwardResolution("/user/insufficientRights.jsp");
     }
     
- 
+    @Acl(Role.ADMIN)
     public Resolution add(){
         logger.debug("add() ");
         user.setRole(Role.USER);
@@ -146,6 +156,7 @@ public class UserActionBean extends BaseActionBean {
         return new RedirectResolution("/users/list");
     }
     
+    @Acl(Role.USER)
     public Resolution delete() {
         user = userService.getById(Long.parseLong(getContext().getRequest().getParameter("user.id")));
         logger.debug("delete() "+user.getId().toString());
@@ -167,6 +178,7 @@ public class UserActionBean extends BaseActionBean {
         user = userService.getById(Long.parseLong(ids));
     }
    
+    @Acl(Role.USER)
     public Resolution edit() {
         
         String ids = getContext().getRequest().getParameter("user.id");

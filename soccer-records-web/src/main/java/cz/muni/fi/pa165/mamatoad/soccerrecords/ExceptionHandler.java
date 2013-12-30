@@ -4,6 +4,7 @@ import java.security.AccessControlException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.exception.DefaultExceptionHandler;
 
@@ -18,7 +19,7 @@ public class ExceptionHandler extends DefaultExceptionHandler {
             
             return new ForwardResolution("/user/login.jsp");
         }
-        return new ForwardResolution("/users/insufficientRights");
+        return new RedirectResolution("/users/insufficientRights");
         
     }
     
