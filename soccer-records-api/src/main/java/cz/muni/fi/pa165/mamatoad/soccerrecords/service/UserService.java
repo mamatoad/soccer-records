@@ -23,7 +23,7 @@ public interface UserService
      */
     public void delete(UserTO userTO);
     
-    public void update(UserTO teamTO);
+    public void update(UserTO userTO);
 
     /**
      * This method returns all users

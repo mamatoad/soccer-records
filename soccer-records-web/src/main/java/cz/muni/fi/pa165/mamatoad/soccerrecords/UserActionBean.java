@@ -39,6 +39,7 @@ public class UserActionBean extends BaseActionBean {
 
     final static Logger logger = LoggerFactory.getLogger(UserActionBean.class);
     
+    @Validate(on={"savePassword"}, required = true)
     private String passwordConfirmation;
     public String getPasswordConfirmation() {
         return passwordConfirmation;
@@ -54,9 +55,30 @@ public class UserActionBean extends BaseActionBean {
         this.isAdmin = isAdmin;
     }
     
+    @Validate(on={"savePassword"}, required = true)
+    private String oldPassword;
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
     
     public void setPasswordConfirmation(String passwordConfirmation) {
         this.passwordConfirmation = passwordConfirmation;
+    }
+    
+    @Validate(on={"savePassword"}, required = true)
+    private String newPassword;
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
     
     public List<UserTO> getUsers() {
@@ -158,6 +180,13 @@ public class UserActionBean extends BaseActionBean {
         return new ForwardResolution("/user/insufficientRights.jsp");
     }
     
+    @Acl(Role.USER)
+    public Resolution userDetail() {
+        logger.debug("detail()");
+        user = securityFacade.getCurrentLoggedInUser();
+        return new ForwardResolution("/user/detail.jsp");
+    }
+    
     @Acl(Role.ADMIN)
     public Resolution add(){
         logger.debug("add() ");
@@ -248,6 +277,58 @@ public class UserActionBean extends BaseActionBean {
         return new RedirectResolution("/users/list");
     }
     
+    public Resolution editPassword(){
+        System.out.println("SOM TU");
+        String ids = getContext().getRequest().getParameter("user.id");
+        logger.debug("edit() "+ids);
+        user = userService.getById(Long.parseLong(ids));
+        
+        return new ForwardResolution("/user/changePassword.jsp");
+    }
+    
+    public Resolution deleteUser(){
+        user = securityFacade.getUser();
+        securityFacade.logout();
+        saveUser();
+        userService.delete(user);
+        return new RedirectResolution("/");
+    }
+    
+    public Resolution savePassword(){
+        logger.debug("save() "+user.getId().toString());
+        System.out.println(oldPassword);
+        user = userService.getById(Long.parseLong(getContext().getRequest().getParameter("user.id")));
+        if(user.getPassword().equals(securityFacade.createHash(oldPassword)) 
+                && newPassword.equals(passwordConfirmation)){
+            
+            user.setPassword(securityFacade.createHash(newPassword));
+            userService.update(user);
+        }else{
+            if(!newPassword.equals(passwordConfirmation))
+            addMessageToContext("user.notSamePass",user.getLogin());
+            if(!user.getPassword().equals(securityFacade.createHash(oldPassword)))
+                 addMessageToContext("user.password.wrong",user.getLogin());
+            
+            return new ForwardResolution("/user/changePassword.jsp");
+        }
+        
+        try
+        {
+            userService.update(user);
+        }catch(DataAccessException ex)
+        {
+            addMessageToContext("user.edited.wrong",user.getLogin());
+            return new RedirectResolution("/users/detail");
+        }
+        addMessageToContext("user.password.edited",user.getLogin());
+        
+        return new RedirectResolution("/users/userDetail");
+    }
+    
+    public Resolution cancelPassword(){
+        logger.debug("cancel() "+user.getId().toString());
+        return new RedirectResolution("/users/userDetail");
+    }
     
     private void addMessageToContext(String action, String params) {
         getContext().getMessages().add(new LocalizableMessage(action, Functions.escapeXml(params)));

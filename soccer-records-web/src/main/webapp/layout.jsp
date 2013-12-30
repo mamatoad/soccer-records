@@ -33,11 +33,15 @@
                                 <li><s:link href="/users"><f:message key="menu.login"/></s:link></li>
                             </c:when>
                             <c:otherwise>
-                                <c:out value="${userActionBean.loggedInUser} > "/>
-                                        <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" event="doLogout">
-                                            <f:message key="menu.logout"/>
-                                        </s:link>
-                            </c:otherwise>
+                                
+                                    <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" event="userDetail">
+                                        <f:message key="menu.account"/>
+                                    </s:link>
+                                    <c:out value="${userActionBean.loggedInUser} > "/>
+                                    <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" event="doLogout">
+                                        <f:message key="menu.logout"/>
+                                    </s:link>
+                                </c:otherwise>
                         </c:choose>
                         </div>
                     </menu>
