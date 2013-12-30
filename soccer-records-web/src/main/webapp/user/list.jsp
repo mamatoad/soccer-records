@@ -24,13 +24,13 @@
         <table class="list">
             <tr>
                 <th><f:message key="login.name"/></th>
-                <th><f:message key="login.password"/></th>
+                <th><f:message key="login.role"/></th>
             </tr>
+            
             <c:forEach items="${actionBean.users}" var="user">
                 <tr>
                     <td><c:out value="${user.login}"/></td>
-                    <td><c:out value="${user.password}"/></td>
-                    
+                    <td><c:out value="${user.role.toString()}"/></td>
                     <td>
                         <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" event="edit">
                             <s:param name="user.id" value="${user.id}"/>

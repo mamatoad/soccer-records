@@ -7,7 +7,14 @@
     </tr>
     <tr>
         <th><s:label for="password" name="user.pass"/></th>
-        <td><s:text id="password" name="user.password"/></td>
-    </tr>  
-    
+        <td><s:password id="password" name="user.password"/></td>
+    </tr>
+    <tr>
+        <th><s:label for="passwordConfirmation" name="user.pass.confirm"/></th>
+        <td><s:password id="passwordConfirmation" name="passwordConfirmation"/></td>
+    </tr> 
+    <tr>
+        <th><s:label for="isAdmin" name="user.isAdmin"/></th>
+        <td><s:checkbox id="isAdmin" name="isAdmin"/></td>
+    </tr>
 </table>

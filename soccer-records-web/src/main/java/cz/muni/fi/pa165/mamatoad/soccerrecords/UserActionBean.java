@@ -41,6 +41,26 @@ public class UserActionBean extends BaseActionBean {
 
     final static Logger logger = LoggerFactory.getLogger(UserActionBean.class);
     
+    private String passwordConfirmation;
+    public String getPasswordConfirmation() {
+        return passwordConfirmation;
+    }
+
+    private boolean isAdmin;
+
+    public boolean isIsActive() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+    
+    
+    public void setPasswordConfirmation(String passwordConfirmation) {
+        this.passwordConfirmation = passwordConfirmation;
+    }
+    
     public List<UserTO> getUsers() {
         return users;
     }
@@ -143,7 +163,19 @@ public class UserActionBean extends BaseActionBean {
     @Acl(Role.ADMIN)
     public Resolution add(){
         logger.debug("add() ");
-        user.setRole(Role.USER);
+        
+        if (!user.getPassword().equals(passwordConfirmation)) {
+         ValidationErrors errors = new ValidationErrors();
+        errors.add( "Different passwords", new LocalizableError("user.notSamePass") );
+        getContext().setValidationErrors(errors);
+        return getContext().getSourcePageResolution();   
+        }
+        
+        if(isAdmin){
+            user.setRole(Role.ADMIN);
+        }else{
+            user.setRole(Role.USER);
+        }
         try
         {
         userService.add(user);
@@ -155,6 +187,7 @@ public class UserActionBean extends BaseActionBean {
         addMessageToContext("user.added",user.getLogin());
         return new RedirectResolution("/users/list");
     }
+
     
     @Acl(Role.USER)
     public Resolution delete() {
@@ -189,6 +222,11 @@ public class UserActionBean extends BaseActionBean {
     
     public Resolution save() {
         logger.debug("save() "+user.getId().toString());
+        if(isAdmin){
+            user.setRole(Role.ADMIN);
+        }else{
+            user.setRole(Role.USER);
+        }
         try
         {
         userService.update(user);
