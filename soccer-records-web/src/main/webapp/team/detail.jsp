@@ -7,6 +7,7 @@
     <s:layout-component name="body">
 
         <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean" var="actionBean"/>
+        <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" var="userActionBean"/>
 
         <h2><c:out value="${actionBean.team.teamName}"/></h2>
 
@@ -29,6 +30,7 @@
             </tr>
         </table>
 
+        <c:if test="${userActionBean.getUserRole() == 'admin'}">    
         <ul>
             <li>
                 <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean" event="edit">
@@ -44,15 +46,19 @@
                 </s:link>
             </li>
         </ul>
-
+        </c:if>
+            
         <h3><f:message key="team.detail.players"/></h3>
-
+        
+        <c:if test="${userActionBean.getUserRole() == 'admin'}">
         <p>
             <a href="../../players/list/${actionBean.team.teamId}"><f:message key="team.detail.players.manage"/></a>
         </p>
+        </c:if>
+        
         <c:choose>
             <c:when test="${empty actionBean.players}">
-                 <p><f:message key="team.list.empty"/></p>
+                 <p><f:message key="team.players.empty"/></p>
             </c:when>
             <c:otherwise>
         <table class="list">

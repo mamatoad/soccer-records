@@ -5,14 +5,12 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Acl;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Role;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.UserService;
 import java.util.List;
-import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.LocalizableMessage;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.Validate;
@@ -176,6 +174,7 @@ public class UserActionBean extends BaseActionBean {
         }else{
             user.setRole(Role.USER);
         }
+        user.setPassword(securityFacade.createHash(user.getPassword()));
         try
         {
         userService.add(user);
@@ -203,15 +202,6 @@ public class UserActionBean extends BaseActionBean {
         logger.debug("saveUser() ");
         getContext().getRequest().getSession().setAttribute("user", securityFacade.getUser());
     }
-   /* 
-    @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit"})
-    public void loadUserFromDatabase() {
-        String ids = getContext().getRequest().getParameter("user.id");
-        
-        if(ids == null) return;
-        user = userService.getById(Long.parseLong(ids));
-        isAdmin = (user.getRole() == Role.ADMIN);
-    }*/
    
     @Acl(Role.USER)
     public Resolution edit() {
@@ -219,13 +209,8 @@ public class UserActionBean extends BaseActionBean {
         String ids = getContext().getRequest().getParameter("user.id");
         logger.debug("edit() "+ids);
         user = userService.getById(Long.parseLong(ids));
-        //isAdmin = (user.getRole() == Role.ADMIN);
-        if(user.getRole() == Role.ADMIN){
-            isAdmin = true;
-        }else{
-            isAdmin = false;
-        }
-            
+        isAdmin = (user.getRole() == Role.ADMIN);
+        
         return new ForwardResolution("/user/edit.jsp");
     }
     
@@ -236,11 +221,13 @@ public class UserActionBean extends BaseActionBean {
         }else{
             user.setRole(Role.USER);
         }
-        if(passwordConfirmation=="" && user.getPassword()=="" ||
-             passwordConfirmation==null && user.getPassword()==null )
+        if(passwordConfirmation==null && user.getPassword()==null  ||
+                passwordConfirmation.equals("") && user.getPassword().equals(""))
         {
             UserTO userTO = userService.getById(Long.parseLong(getContext().getRequest().getParameter("user.id")));
             user.setPassword(userTO.getPassword());
+        }else{
+            user.setPassword(securityFacade.createHash(user.getPassword()));
         }
         try
         {

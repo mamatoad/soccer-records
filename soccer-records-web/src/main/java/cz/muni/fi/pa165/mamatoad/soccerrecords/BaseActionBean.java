@@ -2,11 +2,10 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.UserTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.security.SecurityFacade;
+import java.security.AccessControlException;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.Before;
-import net.sourceforge.stripes.action.RedirectResolution;
-import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 
@@ -21,23 +20,24 @@ public abstract class BaseActionBean implements ActionBean {
     @SpringBean
     protected SecurityFacade securityFacade;
     
-    @Before(stages = LifecycleStage.EventHandling)
     public void loadUser()
     {
         securityFacade.setUser((UserTO)getContext().getRequest().getSession().getAttribute("user"));
     }
     
     @Before(stages = LifecycleStage.EventHandling)
-    protected Resolution isUserAuthorized() throws NoSuchMethodException{
-        
+    protected void isUserAuthorized() throws NoSuchMethodException{
+        loadUser();
         if (securityFacade.authorize(this.getClass().getDeclaredMethod(getContext().getEventName()))) {
-            return null;
+            return;
         }
         if (securityFacade.getCurrentLoggedInUser() == null) {
-            return new RedirectResolution("/users/login");
+            throw new AccessControlException("Not logged in.");
         }
-        return new RedirectResolution("/users/insufficientRights");
+        
+        throw new AccessControlException("Unauthorized");
     }
+
     
     @Override
     public void setContext(ActionBeanContext context) {

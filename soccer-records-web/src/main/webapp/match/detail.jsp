@@ -11,6 +11,7 @@
     <s:layout-component name="body">
 
         <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.MatchActionBean" var="actionBean"/>
+        <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" var="userActionBean"/>
 
         <table class="list">
             <tr>
@@ -31,7 +32,8 @@
         </table>
 
         <p><b><f:message key="match.detail.eventDate"/></b>: <c:out value="${actionBean.formattedDate}"/></p>
-
+        
+        <c:if test="${userActionBean.getUserRole() == 'admin'}">
         <ul>
             <li><s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.MatchActionBean" event="edit">
                     <s:param name="match.id" value="${actionBean.match.matchId}"/> 
@@ -45,17 +47,21 @@
                     <f:message key="match.list.delete"/>
                 </s:link></li>
         </ul>
-
+        </c:if>
+        
         <h3><f:message key="match.detail.goalsList"/></h3>
 
+        <c:if test="${userActionBean.getUserRole() == 'admin'}">
         <p>
             <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.GoalActionBean" event="list">
                 <s:param name="goal.id" value="${actionBean.match.matchId}"/> 
                 <f:message key="match.detail.manageGoals"/>
             </s:link>
         </p>
+        </c:if>
+        
   <c:choose>
-            <c:when test="${empty actionBean.matches}">
+            <c:when test="${empty actionBean.goals}">
                  <p><f:message key="player.list.noData"/></p>
             </c:when>
             <c:otherwise>

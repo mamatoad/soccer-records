@@ -8,14 +8,16 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.MatchActionBean" var="actionBean"/>
+<s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" var="userActionBean"/>
 <s:layout-render name="/layout.jsp" titlekey="match.list">
     <s:layout-component name="body">
         <h2><f:message key="match.list"/></h2>
         <%@include file="filter.jsp"%>
-        <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.MatchActionBean" event="add">
-                          
-            <img src="${pageContext.request.contextPath}/images/add.png" alt=""/> <f:message key="match.list.newMatch"/>
+        <c:if test="${userActionBean.getUserRole() == 'admin'}">
+            <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.MatchActionBean" event="add">
+                <img src="${pageContext.request.contextPath}/images/add.png" alt=""/> <f:message key="match.list.newMatch"/>
             </s:link>
+         </c:if>
             <c:choose>
                 <c:when test="${!empty actionBean.matches}">
     <table  class="list">
@@ -23,7 +25,9 @@
         <th><f:message key="match.list.detail"/></th>
         <th><f:message key="match.list.date"/></th>
         <th><f:message key="match.list.score"/></th>
-        <th><f:message key="match.list.action"/></th>
+        <c:if test="${userActionBean.getUserRole() == 'admin'}">
+            <th><f:message key="match.list.action"/></th>
+        </c:if>
         
     </tr>
     <c:forEach items="${actionBean.matches}" var="match">
@@ -43,6 +47,7 @@
                 <td>_ : _ </td>
             </c:otherwise>
             </c:choose>
+            <c:if test="${userActionBean.getUserRole() == 'admin'}">
            <td><s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.MatchActionBean" event="edit">
             <s:param name="match.id" value="${match.matchId}"/> 
             <img src="${pageContext.request.contextPath}/images/pencil.png"/>
@@ -54,6 +59,7 @@
             <f:message key="match.list.delete"/>
             </s:link>
             </td>
+            </c:if>
         </tr>
     </c:forEach>
 </table>

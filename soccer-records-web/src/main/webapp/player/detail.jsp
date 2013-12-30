@@ -7,6 +7,7 @@
     <s:layout-component name="body">
 
         <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.PlayerActionBean" var="actionBean"/>
+        <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" var="userActionBean"/>
 
         <h2><f:message key="player.detail.title"/></h2>
 
@@ -35,6 +36,8 @@
                 </td>
             </tr>   
         </table>
+        
+                <c:if test="${userActionBean.getUserRole() == 'admin'}">       
         <p>
 
             <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.PlayerActionBean">
@@ -50,6 +53,8 @@
                 <f:message key="player.delete"/>
             </s:link>
         </p>
+        </c:if> 
+        
         <p>
             <a href="../../players/list/${actionBean.player.teamId}"><f:message key="player.teammates"/></a>
         </p>

@@ -51,4 +51,12 @@ public interface SecurityFacade
      * @return
      */
     public boolean authorize(Method method);
+    
+    /**
+     * create hash from given plaintext
+     * 
+     * @param plaintext
+     * @return hash od plaintext
+     */
+    public String createHash(String plaintext);
 }

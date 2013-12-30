@@ -141,4 +141,9 @@ public class SecurityFacadeImpl implements SecurityFacade
         }
         return false;
     }
+
+    @Override
+    public String createHash(String plaintext) {
+        return DigestUtils.md5DigestAsHex(plaintext.getBytes());
+    }
 }

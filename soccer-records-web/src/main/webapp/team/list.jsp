@@ -7,11 +7,14 @@
     <s:layout-component name="body">
 
         <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean" var="actionBean"/>
+        <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" var="userActionBean"/>
 
         <h2><f:message key="team.list.headline"/></h2>
 
+        <c:if test="${userActionBean.getUserRole() == 'admin'}">
         <p><s:link href="/teams/create"><img src="${pageContext.request.contextPath}/images/add.png" alt=""/> <f:message key="team.list.add"/></s:link></p>
-
+        </c:if>
+        
         <c:if test="${empty actionBean.teams}">
             <p><f:message key="team.list.empty"/></p>
         </c:if>
@@ -24,7 +27,9 @@
                     <th><f:message key="team.list.ties"/></th>
                     <th><f:message key="team.list.losses"/></th>
                     <th><f:message key="team.list.score"/></th>
-                    <th><f:message key="team.list.action"/></th>
+                    <c:if test="${userActionBean.getUserRole() == 'admin'}">
+                        <th><f:message key="team.list.action"/></th>
+                    </c:if>
                 </tr>
                 <c:forEach items="${actionBean.teams}" var="team">
                     <tr>
@@ -37,6 +42,8 @@
                         <td><c:out value="${team.numberOfTies}"/></td>
                         <td><c:out value="${team.numberOfLosses}"/></td>
                         <td><c:out value="${team.numberOfGoalsShot}"/>:<c:out value="${team.numberOfGoalsReceived}"/></td>
+                        
+                        <c:if test="${userActionBean.getUserRole() == 'admin'}">
                         <td>
                             <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.TeamActionBean" event="edit">
                                 <s:param name="team.teamId" value="${team.teamId}"/>
@@ -49,6 +56,8 @@
                                 <f:message key="team.list.delete"/>
                             </s:link>
                         </td>
+                        </c:if>
+                        
                     </tr>
                 </c:forEach>
             </table>
