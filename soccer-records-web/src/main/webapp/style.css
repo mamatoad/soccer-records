@@ -71,33 +71,6 @@ menu {
     width: 100%;
 }
 
-div.userInfo {
-    
-    color: #fff;
-}
-
-div.userInfo a {
-    
-    color: #fff;
-      
-    text-decoration: none;
-}
-
-div.userInfo a:hover {
-    background-color: #212121;
-    background-image: -webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #000000),
-        color-stop(1, #212121)
-        );
-    background-image: -o-linear-gradient(bottom, #000000 0%, #212121 100%);
-    background-image: -moz-linear-gradient(bottom, #000000 0%, #212121 100%);
-    background-image: -webkit-linear-gradient(bottom, #000000 0%, #212121 100%);
-    background-image: -ms-linear-gradient(bottom, #000000 0%, #212121 100%);
-    background-image: linear-gradient(to bottom, #000000 0%, #212121 100%);
-}
 menu li {
     float: left;
 }
@@ -123,6 +96,10 @@ menu li a:hover {
     background-image: -webkit-linear-gradient(bottom, #000000 0%, #212121 100%);
     background-image: -ms-linear-gradient(bottom, #000000 0%, #212121 100%);
     background-image: linear-gradient(to bottom, #000000 0%, #212121 100%);
+}
+
+.user-panel {
+    float: right;
 }
 
 /* --- LIST --- */

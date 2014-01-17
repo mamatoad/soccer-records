@@ -27,23 +27,23 @@
                         <c:if test="${userActionBean.getUserRole() == 'admin'}">
                             <li><s:link href="/users/list"><f:message key="menu.users"/></s:link></li>
                         </c:if>
-                        <div class="userInfo">
                         <c:choose>
                             <c:when test="${userActionBean.loggedInUser == ''}">
-                                <li><s:link href="/users"><f:message key="menu.login"/></s:link></li>
+                                <li class="user-panel"><s:link href="/users"><f:message key="menu.login"/></s:link></li>
                             </c:when>
                             <c:otherwise>
-                                
-                                    <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" event="userDetail">
-                                        <f:message key="menu.account"/>
-                                    </s:link>
-                                    <c:out value="${userActionBean.loggedInUser} > "/>
+                                <li class="user-panel">
                                     <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" event="doLogout">
                                         <f:message key="menu.logout"/>
                                     </s:link>
-                                </c:otherwise>
+                                </li>
+                                <li class="user-panel">
+                                    <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" event="userDetail">
+                                        <f:message key="menu.account"/> <c:out value="${userActionBean.loggedInUser}"/>
+                                    </s:link>
+                                </li>
+                            </c:otherwise>
                         </c:choose>
-                        </div>
                     </menu>
                         
                     </header>

@@ -37,8 +37,6 @@
                             <img src="${pageContext.request.contextPath}/images/pencil.png"/>
                             <f:message key="user.list.edit"/>
                         </s:link>
-                    </td>
-                    <td>
                         <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" event="delete">
                             <s:param name="user.id" value="${user.id}"/>
                             <img src="${pageContext.request.contextPath}/images/cross.png"/>
