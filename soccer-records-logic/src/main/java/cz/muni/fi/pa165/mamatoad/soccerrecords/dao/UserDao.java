@@ -11,21 +11,42 @@ import java.util.List;
 public interface UserDao
 {
     /**
-     * Finds User by login
-     * 
-     * @param login login name
-     * @return User with assoctiated login
+     * Creates new user
+     * @param user 
      */
     public void create(User user);
     
+    /**
+     * Updates user
+     * @param user 
+     */
     public void update(User user);
     
+    /**
+     * Deletes user
+     * @param user 
+     */
     public void delete(User user);
     
+    /**
+     * Retrieves user by id
+     * @param id
+     * @return user with associated id
+     */
     public User getById(Long id);
     
+    /**
+     * Finds User by login
+     * 
+     * @param login
+     * @return user with associated login
+     */
     public User findByLogin(String login);
      
+    /**
+     *  Retrieves all users
+     * @return list of all users 
+     */
     public List<User> findAll();
     
 }

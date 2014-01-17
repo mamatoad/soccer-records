@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords.dao.impl;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.UserDao;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Player;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.User;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.util.exception.IllegalEntityException;
 import java.util.List;
@@ -58,7 +57,6 @@ public class JpaUserDao implements UserDao {
             throw new IllegalEntityException("User does not exist.");
         }
 
-        //em.remove(em.merge(user));
         User target = em.merge(user);
         em.remove(target);
     }
@@ -85,9 +83,6 @@ public class JpaUserDao implements UserDao {
 
         User user = null;
 
-       // user = em.createQuery("select u from User u where u.login = :login", User.class)
-         //           .setParameter("login", login)
-         //           .getResultList();
         TypedQuery<User> query = em.createQuery("Select u from User u where u.login = :login", User.class)
                 .setParameter("login", login);
         List<User> users = query.getResultList();

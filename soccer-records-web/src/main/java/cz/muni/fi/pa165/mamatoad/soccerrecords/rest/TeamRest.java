@@ -20,6 +20,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 /**
+ * REST interface for manipulation with team
  *
  * @author Maros Klimovsky
  */

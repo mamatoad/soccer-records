@@ -95,13 +95,12 @@ public class UserActionBean extends BaseActionBean {
     public UserTO getUser() {
         return user;
     }
-    private String loggedInUser;
-    
+        
     public String getLoggedInUser(){
        loadUser();
        UserTO u = securityFacade.getCurrentLoggedInUser();
        if(u == null){
-           return "none";
+           return "";
        }
           return u.getLogin();
     }

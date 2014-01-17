@@ -29,7 +29,7 @@
                         </c:if>
                         <div class="userInfo">
                         <c:choose>
-                            <c:when test="${userActionBean.loggedInUser == 'none'}">
+                            <c:when test="${userActionBean.loggedInUser == ''}">
                                 <li><s:link href="/users"><f:message key="menu.login"/></s:link></li>
                             </c:when>
                             <c:otherwise>
