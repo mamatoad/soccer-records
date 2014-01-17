@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords.rest;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.PlayerTO;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.security.SecurityFacade;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.PlayerService;
 import java.util.List;
 
@@ -32,11 +33,15 @@ public class PlayerRest {
 
     @Autowired
     private PlayerService playerService;
+    
+    @Autowired
+    private SecurityFacade securityFacade;
 
     @GET
     @Produces(MediaType.TEXT_XML)
     public Response getAllPlayers() {
         List<PlayerTO> players;
+        restAuthentication();
         try {
             players = playerService.getAllPlayers();
         } catch (DataAccessException ex) {
@@ -54,6 +59,7 @@ public class PlayerRest {
     @Produces(MediaType.TEXT_XML)
     public Response getPlayersByTeamId(@QueryParam("id") Long id) {
         List<PlayerTO> players;
+        restAuthentication();
         try {
             players = playerService.getPlayersByTeamId(id);
         } catch (IllegalArgumentException | DataAccessException ex) {
@@ -71,6 +77,7 @@ public class PlayerRest {
     @Path("detail")
     public Response getById(@QueryParam("id") Long id) {
         PlayerTO player;
+        restAuthentication();
         try {
             player = playerService.getPlayerById(id);
         } catch (IllegalArgumentException | DataAccessException ex) {
@@ -85,6 +92,7 @@ public class PlayerRest {
     @POST
     @Consumes(MediaType.TEXT_XML)
     public Response create(PlayerTO playerTO) {
+        restAuthentication();
         try {
             playerService.add(playerTO);
         } catch (IllegalArgumentException | DataAccessException ex) {
@@ -96,6 +104,7 @@ public class PlayerRest {
     @PUT
     @Consumes(MediaType.TEXT_XML)
     public Response update(PlayerTO playerTO) {
+        restAuthentication();
         try {
             playerService.update(playerTO);
         } catch (IllegalArgumentException | DataAccessException ex) {
@@ -108,11 +117,18 @@ public class PlayerRest {
     @Consumes(MediaType.TEXT_XML)
     @Path("delete")
     public Response delete(@QueryParam("id") long id) {
+        restAuthentication();
         try {
             playerService.remove(playerService.getPlayerById(id));
         } catch (IllegalArgumentException | DataAccessException ex) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         } 
         return Response.status(Response.Status.NO_CONTENT).build();
+    }
+    
+    private void restAuthentication() {
+        securityFacade.setUser(null);
+        securityFacade.login("rest", "rest");
+        
     }
 }

@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords.rest;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.TeamTO;
+import cz.muni.fi.pa165.mamatoad.soccerrecords.security.SecurityFacade;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.TeamService;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -29,10 +30,16 @@ public class TeamRest {
     @Autowired
     private TeamService teamService;
 
+    @Autowired
+    private SecurityFacade securityFacade;
+    
     @GET
     @Produces(MediaType.TEXT_XML)
     public Response getAllTeams() {
         List<TeamTO> teams;
+        
+        restAuthentication();
+        
         try {
             teams = teamService.getAllTeams();
         } catch (DataAccessException ex) {
@@ -50,6 +57,9 @@ public class TeamRest {
     @Path("detail")
     public Response getById(@QueryParam("id") Long id) {
         TeamTO team;
+        
+        restAuthentication();
+        
         try {
             team = teamService.getTeamById(id);
         } catch (IllegalArgumentException | DataAccessException ex) {
@@ -64,6 +74,9 @@ public class TeamRest {
     @POST
     @Consumes(MediaType.TEXT_XML)
     public Response create(TeamTO teamTO) {
+        
+        restAuthentication();
+        
         try {
             teamService.add(teamTO);
         } catch (IllegalArgumentException | DataAccessException ex) {
@@ -75,6 +88,8 @@ public class TeamRest {
     @PUT
     @Consumes(MediaType.TEXT_XML)
     public Response update(TeamTO teamTO) {
+        
+        restAuthentication();
         try {
             teamService.update(teamTO);
         } catch (IllegalArgumentException | DataAccessException ex) {
@@ -87,11 +102,19 @@ public class TeamRest {
     @Consumes(MediaType.TEXT_XML)
     @Path("delete")
     public Response delete(@QueryParam("id") Long id) {
+        
+        restAuthentication();
         try {
             teamService.remove(teamService.getTeamById(id));
         } catch (IllegalArgumentException | DataAccessException ex) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         return Response.status(Response.Status.NO_CONTENT).build();
+    }
+    
+    private void restAuthentication() {
+        securityFacade.setUser(null);
+        securityFacade.login("rest", "rest");
+        
     }
 }
