@@ -199,10 +199,7 @@ public class MatchActionBean extends BaseActionBean {
         getContext().setValidationErrors(errors);
         return getContext().getSourcePageResolution();   
         }
-        LocalDate eventDate = null;
-        
-        
-        eventDate = dtf.parseLocalDate(date);
+        LocalDate eventDate = dtf.parseLocalDate(date);
         match.setEventDate(eventDate);
         matchService.add(match);
          getContext().getMessages().add(new LocalizableMessage("match.add.message"

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pa165.mamatoad.soccerrecords;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.GoalTO;
@@ -31,8 +27,6 @@ import org.apache.taglibs.standard.functions.Functions;
 import org.joda.time.LocalTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -61,11 +55,11 @@ public class GoalActionBean extends BaseActionBean implements ValidationErrorHan
     
     private List<PlayerTO> players;
     
-    private List<Integer> minutes = new ArrayList<>();
+    private final List<Integer> minutes = new ArrayList<>();
     
     private Integer minute;
     
-    private List<Integer> hours = new ArrayList<>();
+    private final List<Integer> hours = new ArrayList<>();
     
     private Integer hour;
     

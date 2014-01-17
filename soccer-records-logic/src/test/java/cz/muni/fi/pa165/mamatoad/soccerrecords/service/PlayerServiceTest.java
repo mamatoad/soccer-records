@@ -1,12 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pa165.mamatoad.soccerrecords.service;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.impl.PlayerServiceImpl;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.PlayerTO;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.service.PlayerService;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.PlayerDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Player;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Goal;
@@ -41,7 +36,7 @@ public class PlayerServiceTest {
     
     @Autowired
     @InjectMocks
-    private PlayerService playerService = new PlayerServiceImpl();
+    private final PlayerService playerService = new PlayerServiceImpl();
     @Mock
     private PlayerDao playerDao;
     @Mock
@@ -66,11 +61,6 @@ public class PlayerServiceTest {
     
     @Before
     public void setUp() {
-        //playerDao = mock(PlayerDao.class);
-        //teamDao = mock(TeamDao.class);
-        //goalDao = mock(GoalDao.class);
-        //playerService = new PlayerServiceImpl(playerDao, teamDao, goalDao);
-        
         playerTo2 = new PlayerTO(50L,"José" , true, 1L, 12L, "Zero");
         playerTo = new PlayerTO(2L, "Pedro", true, 0L, 12L, "Zero");
         
@@ -148,8 +138,7 @@ public class PlayerServiceTest {
     }
     
     @Test
-    public void test_update_correct_updatePlayer(){
-        //playerTo.setPlayerId(0L);
+    public void test_update_correct_updatePlayer() {
         ArgumentCaptor<Player> argument = ArgumentCaptor.forClass(Player.class);
         playerService.update(playerTo);
         Mockito.verify(playerDao).updatePlayer(argument.capture());
@@ -222,11 +211,11 @@ public class PlayerServiceTest {
         player.setId(playerTO.getPlayerId());
         player.setName(playerTO.getPlayerName());
         
-        Team team = new Team();
-        team.setId(playerTO.getTeamId());
-        team.setName(playerTO.getTeamName());
+        Team otherTeam = new Team();
+        otherTeam.setId(playerTO.getTeamId());
+        otherTeam.setName(playerTO.getTeamName());
         
-        player.setTeam(team);
+        player.setTeam(otherTeam);
         return player;
     }
     

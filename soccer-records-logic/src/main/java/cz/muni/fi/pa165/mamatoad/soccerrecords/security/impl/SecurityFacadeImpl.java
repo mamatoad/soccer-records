@@ -15,42 +15,34 @@ import org.springframework.util.DigestUtils;
  * @author Maros Klimovsky
  */
 @Component
-public class SecurityFacadeImpl implements SecurityFacade
-{    
-    @Autowired
-    UserStorage storage;
+public class SecurityFacadeImpl implements SecurityFacade {
     
     @Autowired
-    UserService userService;
+    private UserStorage storage;
+    
+    @Autowired
+    private UserService userService;
     
     
     @Override
-    public void setUser(UserTO user)
-    {
+    public void setUser(UserTO user) {
         storage.setUser(user);
     }
     
     @Override
-    public UserTO getUser()
-    {
+    public UserTO getUser() {
         return storage.getUser();
     }
     
     @Override
-    public void login(String login, String password)
-    {
+    public void login(String login, String password) {
         
-        
-        if(storage.getUser() != null)
-        {
+        if(storage.getUser() != null) {
             throw new IllegalStateException("Some user is already logged in.");
         }
         
         // create defaut root admin
-        if( userService.getByLogin("admin") == null
-                && "admin".equals(login)
-                && "password".equals(password))
-        {
+        if (userService.getByLogin("admin") == null && "admin".equals(login) && "password".equals(password)) {
             //quick admin authentication
             UserTO user = new UserTO();
 
@@ -64,10 +56,7 @@ public class SecurityFacadeImpl implements SecurityFacade
         }
 		
 		// create rest user
-        if( userService.getByLogin("rest") == null
-                && "rest".equals(login)
-                && "rest".equals(password))
-        {
+        if( userService.getByLogin("rest") == null && "rest".equals(login) && "rest".equals(password)) {
             //quick admin authentication
             UserTO user = new UserTO();
 
@@ -83,12 +72,10 @@ public class SecurityFacadeImpl implements SecurityFacade
         //authenticate
         UserTO user = userService.getByLogin(login);
         String hashedPassword = DigestUtils.md5DigestAsHex(password.getBytes());
-        if(user == null || !hashedPassword.equals(user.getPassword()))
-        {
+        if (user == null || !hashedPassword.equals(user.getPassword())) {
             //failure
             throw new
-            IllegalArgumentException("Invalid user login ("+login
-                    +") or password.");
+            IllegalArgumentException("Invalid user login (" + login + ") or password.");
         }
         // ok
 
@@ -97,49 +84,32 @@ public class SecurityFacadeImpl implements SecurityFacade
 
     
     @Override
-    public void logout()
-    {
-        
+    public void logout() {
         storage.setUser(null);    
     }
 
     @Override
-    public UserTO getCurrentLoggedInUser()
-    {
-        return storage
-                .getUser();
-                
+    public UserTO getCurrentLoggedInUser() {
+        return storage.getUser();
     }
 
     @Override
-    public boolean authorize(Method method)
-    {  
+    public boolean authorize(Method method) {  
         
         // get Acl annotations
         Acl acl = method.getAnnotation(Acl.class);
         Role role = null;
-        if(acl == null)
-        {
+        if (acl == null) {
             role = Role.NONE;
-        }
-        else
-        {
+        } else {
             role = acl.value();
-            
         }
         
         Role userRole = Role.NONE;
-        if(this.getCurrentLoggedInUser() != null)
-        {
+        if (this.getCurrentLoggedInUser() != null) {
             userRole = getCurrentLoggedInUser().getRole();
         }
-        
-         
-        if(role == userRole || userRole.hasParent(role))
-        {
-            return true;
-        }
-        return false;
+        return role == userRole || userRole.hasParent(role);
     }
 
     @Override

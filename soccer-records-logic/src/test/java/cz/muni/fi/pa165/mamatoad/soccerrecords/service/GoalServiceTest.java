@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.mamatoad.soccerrecords.service;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.impl.GoalServiceImpl;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.GoalTO;
-import cz.muni.fi.pa165.mamatoad.soccerrecords.service.GoalService;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.GoalDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Goal;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Match;
@@ -46,7 +45,7 @@ public class GoalServiceTest {
     private TeamDao teamDao;
     @Autowired
     @InjectMocks
-    private GoalService goalService = new GoalServiceImpl();
+    private final GoalService goalService = new GoalServiceImpl();
     private Match match;
     private Team team;
     private Team otherTeam;

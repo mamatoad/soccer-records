@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords.dao;
 
-import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.MatchDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Match;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Goal;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Player;
@@ -210,18 +209,6 @@ public class MatchDaoTest {
         Assert.assertEquals("visiting team didn't update correctly", thirdTeam, 
                 em.find(Match.class, match.getId()).getVisitingTeam());
     }
-
-//    @Test
-//    public void test_update_validGoals_UpdatesGoals() {
-//
-//        matchDao.createMatch(match);
-//        Long id = match.getId();
-//        Goal g = em.find(Goal.class, goal.getId());
-//        g.setMatch(match);
-//        em.merge(g);
-//
-//        Assert.assertTrue("goals didn't update correctly", em.find(Match.class, id).getGoals().contains(goal));
-//    }
 
     @Test
     public void test_update_validEventDate_UpdatesEventDate() {

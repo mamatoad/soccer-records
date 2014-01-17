@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pa165.mamatoad.soccerrecords.service;
 
 import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.MatchTO;
@@ -19,6 +15,7 @@ public interface MatchService {
      * 
      * @param match match to be created
      * @exception IllegalArgumentException when match is null
+     * @throws DataAccessException for errors on persistence layer
      */
     public void add(MatchTO match);
     

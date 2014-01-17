@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.mamatoad.soccerrecords.dao;
 
-import cz.muni.fi.pa165.mamatoad.soccerrecords.dao.PlayerDao;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Player;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.entity.Team;
 import java.util.List;

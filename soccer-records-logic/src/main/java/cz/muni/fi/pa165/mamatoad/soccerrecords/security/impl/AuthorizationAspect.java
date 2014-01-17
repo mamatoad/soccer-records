@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
-public class AuthorizationAspect
-{
+public class AuthorizationAspect {
+    
     @Autowired
-    SecurityFacade securityFacade;
+    private SecurityFacade securityFacade;
         
     @Around("bean(*Service)")
     public Object intercept(ProceedingJoinPoint joinPoint) throws Exception, Throwable {
@@ -31,8 +31,7 @@ public class AuthorizationAspect
             method = joinPoint.getTarget().getClass().getDeclaredMethod(methodName, method.getParameterTypes());    
         }
        
-       if(!securityFacade.authorize(method))
-       {
+       if (!securityFacade.authorize(method)) {
            if (securityFacade.getCurrentLoggedInUser() == null) {
                throw new AccessControlException("Not logged in.");
            }

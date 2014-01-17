@@ -76,8 +76,10 @@ public class Match implements Serializable {
         return goals;
     }
     
+    /**
+     * Only for testing purposes
+     */
     @Deprecated
-    // only for mocking in tests
     public void setGoals(List<Goal> goals) {
         this.goals = goals;
     }
@@ -106,7 +108,8 @@ public class Match implements Serializable {
 
     @Override
     public String toString() {
-        return "Match{" + "id=" + id + ", homeTeam=" + homeTeam + ", visitingTeam=" + visitingTeam + ", eventDate=" + eventDate + '}';
+        return "Match{" + "id=" + id + ", homeTeam=" + homeTeam + ", visitingTeam=" + visitingTeam + ", eventDate=" 
+                + eventDate + '}';
     }
     
     

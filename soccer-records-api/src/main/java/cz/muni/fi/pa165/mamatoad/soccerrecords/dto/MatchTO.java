@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pa165.mamatoad.soccerrecords.dto;
 
 import java.util.Objects;
@@ -138,7 +134,10 @@ public class MatchTO {
 
     @Override
     public String toString() {
-        return "MatchTO{" + "matchId=" + matchId + ", homeTeamId=" + homeTeamId + ", homeTeamName=" + homeTeamName + ", homeTeamScore=" + homeTeamScore + ", visitingTeamId=" + visitingTeamId + ", visitingTeamName=" + visitingTeamName + ", visitingTeamScore=" + visitingTeamScore + ", eventDate=" + eventDate + ", winnerTeamId=" + winnerTeamId + '}';
+        return "MatchTO{" + "matchId=" + matchId + ", homeTeamId=" + homeTeamId + ", homeTeamName=" + homeTeamName 
+                + ", homeTeamScore=" + homeTeamScore + ", visitingTeamId=" + visitingTeamId + ", visitingTeamName=" 
+                + visitingTeamName + ", visitingTeamScore=" + visitingTeamScore + ", eventDate=" + eventDate 
+                + ", winnerTeamId=" + winnerTeamId + '}';
     }
 
     

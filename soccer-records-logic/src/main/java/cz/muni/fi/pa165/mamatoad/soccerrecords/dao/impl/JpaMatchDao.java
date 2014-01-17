@@ -91,19 +91,36 @@ public class JpaMatchDao implements MatchDao {
     }
     
     private void checkMatch(Match match, boolean idShouldBeEqualNull) {
-        if (match == null) throw new IllegalArgumentException("match == null");
-        if ((match.getId() != null) && idShouldBeEqualNull) throw new IllegalEntityException("match.id != null");
-        if ((match.getId() == null) && !idShouldBeEqualNull) throw new IllegalEntityException("match.id == null");
-        if (match.getHomeTeam() == null) throw new IllegalEntityException("match.homeTeam == null");
-        if (match.getHomeTeam().getId() == null) 
+        if (match == null) {
+            throw new IllegalArgumentException("match == null");
+        }
+        if ((match.getId() != null) && idShouldBeEqualNull) {
+            throw new IllegalEntityException("match.id != null");
+        }
+        if ((match.getId() == null) && !idShouldBeEqualNull) {
+            throw new IllegalEntityException("match.id == null");
+        }
+        if (match.getHomeTeam() == null) {
+            throw new IllegalEntityException("match.homeTeam == null");
+        }
+        if (match.getHomeTeam().getId() == null) {
             throw new IllegalEntityException("match.homeTeam.id == null (homeTeam is not in the db)");
-        if (match.getVisitingTeam() == null) throw new IllegalEntityException("match.visitingTeam == null");
-        if (match.getVisitingTeam().getId() == null) 
+        }
+        if (match.getVisitingTeam() == null) {
+            throw new IllegalEntityException("match.visitingTeam == null");
+        }
+        if (match.getVisitingTeam().getId() == null) {
             throw new IllegalEntityException("match.visitingTeam.id == null (visitingTeam is not in the db)");
-        if (match.getHomeTeam().equals(match.getVisitingTeam())) 
+        }
+        if (match.getHomeTeam().equals(match.getVisitingTeam())) {
             throw new IllegalEntityException("match.visitingTeam == match.homeTeam");
-        if (match.getEventDate() == null) throw new IllegalEntityException("match.eventDate == null");
-        if (match.getGoals() == null) throw new IllegalEntityException("match.goals == null");
+        }
+        if (match.getEventDate() == null) {
+            throw new IllegalEntityException("match.eventDate == null");
+        }
+        if (match.getGoals() == null) {
+            throw new IllegalEntityException("match.goals == null");
+        }
     }
     
     private void checkIfMatchExists(Match match) {
