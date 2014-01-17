@@ -278,7 +278,6 @@ public class UserActionBean extends BaseActionBean {
     }
     
     public Resolution editPassword(){
-        System.out.println("SOM TU");
         String ids = getContext().getRequest().getParameter("user.id");
         logger.debug("edit() "+ids);
         user = userService.getById(Long.parseLong(ids));
