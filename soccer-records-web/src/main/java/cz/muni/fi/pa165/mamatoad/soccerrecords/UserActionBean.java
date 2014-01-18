@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.mamatoad.soccerrecords.dto.UserTO;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Acl;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.security.Role;
 import cz.muni.fi.pa165.mamatoad.soccerrecords.service.UserService;
+import java.security.AccessControlException;
 import java.util.List;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -120,6 +121,7 @@ public class UserActionBean extends BaseActionBean {
         this.user = user;
     }
     
+    @Acl(Role.ADMIN)
     public Resolution list() {
         logger.debug("list() ");
         
@@ -219,6 +221,10 @@ public class UserActionBean extends BaseActionBean {
     @Acl(Role.USER)
     public Resolution delete() {
         user = userService.getById(Long.parseLong(getContext().getRequest().getParameter("user.id")));
+        UserTO currentUser = securityFacade.getCurrentLoggedInUser();
+        if (user.getId().equals(currentUser.getId()) && currentUser.getRole()!= Role.ADMIN) {
+            throw new AccessControlException("Hacking attempt");
+        }
         logger.debug("delete() "+user.getId().toString());
         userService.delete(user);
         addMessageToContext("user.deleted",user.getLogin());
@@ -231,7 +237,7 @@ public class UserActionBean extends BaseActionBean {
         getContext().getRequest().getSession().setAttribute("user", securityFacade.getUser());
     }
    
-    @Acl(Role.USER)
+    @Acl(Role.ADMIN)
     public Resolution edit() {
         
         String ids = getContext().getRequest().getParameter("user.id");
@@ -276,6 +282,7 @@ public class UserActionBean extends BaseActionBean {
         return new RedirectResolution("/users/list");
     }
     
+    @Acl(Role.USER)
     public Resolution editPassword(){
         String ids = getContext().getRequest().getParameter("user.id");
         logger.debug("edit() "+ids);
@@ -292,10 +299,14 @@ public class UserActionBean extends BaseActionBean {
         return new RedirectResolution("/");
     }
     
+    @Acl(Role.USER)
     public Resolution savePassword(){
         logger.debug("save() "+user.getId().toString());
-        System.out.println(oldPassword);
         user = userService.getById(Long.parseLong(getContext().getRequest().getParameter("user.id")));
+        if (!user.getId().equals(securityFacade.getCurrentLoggedInUser().getId())) {
+            throw new AccessControlException("Hacking attempt");
+        }
+        
         if(user.getPassword().equals(securityFacade.createHash(oldPassword)) 
                 && newPassword.equals(passwordConfirmation)){
             
