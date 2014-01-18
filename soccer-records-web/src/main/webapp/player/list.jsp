@@ -5,6 +5,7 @@
 
 <s:layout-render name="/layout.jsp" titlekey="player.list">
     <s:layout-component name="body">
+        <h2><f:message key="player.list"/></h2>
 
         <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.PlayerActionBean" var="actionBean"/>
         <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" var="userActionBean"/>

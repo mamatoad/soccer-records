@@ -16,8 +16,9 @@
         <body>
             <div class="page">
                 <header>
-                    <h1>Soccer Records</h1>
-                    <menu>
+                    <h1 class="center">Soccer Records</h1>
+                    <div class="menu-panel">
+                    <menu class="center">
                         <li><s:link href="/"><f:message key="menu.home"/></s:link></li>
                         <c:if test="${userActionBean.getUserRole() != 'none'}">
                             <li><s:link href="/teams/list"><f:message key="menu.teams"/></s:link></li>
@@ -39,21 +40,25 @@
                                 </li>
                                 <li class="user-panel">
                                     <s:link beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" event="userDetail">
-                                        <f:message key="menu.account"/> <c:out value="${userActionBean.loggedInUser}"/>
+                                        <c:out value="${userActionBean.loggedInUser}"/>
                                     </s:link>
                                 </li>
                             </c:otherwise>
                         </c:choose>
                     </menu>
+                    </div>
                         
                     </header>
 
-                    <div class="content">
+                    <div class="content center">
                     <s:messages/>
                     <s:layout-component name="body"/>
+                    </div>
+                    <div class="push"></div>
                 </div>
-                <footer>&copy; <s:link href="https://github.com/mamatoad">MaMa ToAd</s:link> 2013</footer>
-                </div>
+                <footer>
+                    <div class="center">&copy; <s:link href="https://github.com/mamatoad">MaMa ToAd</s:link> 2013 - 2014</div>
+                </footer>
             </body>
         </html>
 </s:layout-definition>

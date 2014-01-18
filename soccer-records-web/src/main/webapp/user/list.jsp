@@ -5,10 +5,11 @@
 
 <s:layout-render name="/layout.jsp" titlekey="user.list">
     <s:layout-component name="body">
+        <h2><f:message key="user.list"/></h2>
+        
         <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" var="actionBean"/>
         <s:errors/>
         
-        <p><f:message key="user.list"/></p>
         <s:form beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean">
             <s:hidden name="user.id"/>
             <fieldset><legend><f:message key="user.list.newuser"/></legend>

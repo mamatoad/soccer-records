@@ -1,3 +1,7 @@
+html, body {
+    height: 100%;
+}
+
 body {
     background-color: #ccc;
     color: #1E1E1E;
@@ -9,12 +13,17 @@ body {
 
 div.page {
     background-color: #fff;
-    margin: 0px auto;
-    width: 900px;
+    min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -30px;
+}
+
+header {
+    background-color: #000;
 }
 
 h1 {
-    background-color: #000;
     color: #0a0;
     margin: 0px;
     padding: 10px 30px;
@@ -46,10 +55,14 @@ a:hover {
     text-align: right;
 }
 
+.center {
+    width: 900px;
+    margin: 0px auto;
+}
+
 /* --- MENU --- */
 
-menu {
-    
+div.menu-panel, menu {
     background-color: #000000;
     background-image: -webkit-gradient(
         linear,
@@ -65,6 +78,9 @@ menu {
     background-image: linear-gradient(to bottom, #212121 0%, #000000 100%);
     height: 40px;
     line-height: 40px;
+}
+
+menu {
     list-style-type: none;
     margin: 0px;
     padding: 0px;
@@ -210,6 +226,11 @@ input {
 
 /* --- FOOTER --- */
 
+footer, .push {
+    height: 30px;
+    line-height: 30px;
+}
+
 footer {
     background-color: #000000;
     background-image: -webkit-gradient(
@@ -224,15 +245,16 @@ footer {
     background-image: -webkit-linear-gradient(bottom, #212121 0%, #000000 100%);
     background-image: -ms-linear-gradient(bottom, #212121 0%, #000000 100%);
     background-image: linear-gradient(to bottom, #212121 0%, #000000 100%);
-    color: #ccc;
-    padding: 5px 15px;
+    color: #fff;
+    /*padding: 5px 15px;*/
 }
 
-footer a {
-    color: #ccc;
+footer div {
+    text-align: center;
+}
+
+footer div a {
+    color: #fff;
     text-decoration: none;
-}
-
- footer a:hover {
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }

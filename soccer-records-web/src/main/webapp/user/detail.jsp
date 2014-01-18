@@ -3,11 +3,11 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<s:layout-render name="/layout.jsp" titlekey="user.detail.title">
+<s:layout-render name="/layout.jsp" titlekey="user.detail">
     <s:layout-component name="body">
         <s:useActionBean beanclass="cz.muni.fi.pa165.mamatoad.soccerrecords.UserActionBean" var="actionBean"/>
         
-        <h3><f:message key="user.detail"/></h3>
+        <h2><f:message key="user.detail"/></h2>
         
         <div align="center">
         <table class="info">
@@ -32,7 +32,7 @@
                 <s:param name="$event" value="deleteUser"/>
                 <s:param name="user.id" value="${actionBean.user.id}"/>
                 <img src="${pageContext.request.contextPath}/images/cross.png" alt=""/>
-                <f:message key="user.list.delete"/>
+                <f:message key="user.detail.delete"/>
             </s:link>                   
     </s:layout-component>
 </s:layout-render>
