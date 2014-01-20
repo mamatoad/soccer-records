@@ -29,3 +29,7 @@ The web application will be accessible at http://localhost:8080/pa165
 To deploy the REST client, run "mvn tomcat7:run" from the soccer-records-rest-client directory.
 
 The REST client will be accessible at http://localhost:8088/soccer-records-rest-client/
+
+## Security:
+
+To login for the first time, use username "admin" and password "password". This account is created at the time of first login and its password can be changed subsequently. The admin creates new users in the system with admin or user privileges.
